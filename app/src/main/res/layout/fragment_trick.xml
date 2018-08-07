@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TrickFragment">
+
+    <TextView
+        android:id="@+id/fragment_trick_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="32dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/fragment_trick_description_text_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fragment_trick_description_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@id/fragment_trick_goal_text_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_trick_name_text_view" />
+
+    <TextView
+        android:id="@+id/fragment_trick_pr_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@id/fragment_trick_description_text_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_time_trained_text_view" />
+
+    <TextView
+        android:id="@+id/fragment_trick_goal_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@id/fragment_trick_description_text_view"
+        app:layout_constraintLeft_toRightOf="@id/fragment_trick_pr_text_view"
+        app:layout_constraintTop_toBottomOf="@id/fragment_time_trained_text_view" />
+
+
+    <TextView
+        android:id="@+id/fragment_time_trained_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@id/fragment_start_training_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_trick_pr_text_view" />
+
+
+    <Button
+        android:id="@+id/fragment_start_training_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Start Training!"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_time_trained_text_view" />
+
+    <TextView
+        android:id="@+id/fragment_timer_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_start_training_button"
+        app:layout_constraintTop_toTopOf="@id/fragment_start_training_button"
+        app:layout_constraintLeft_toRightOf="@id/fragment_start_training_button" />
+
+    <Chronometer
+        android:id="@+id/fragment_chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/fragment_start_training_button"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_time_trained_text_view" />
+
+</android.support.constraint.ConstraintLayout>
