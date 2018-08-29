@@ -37,11 +37,12 @@ public class AddTrick extends AppCompatActivity {
 
         // Fill content values with trick attributes
         ContentValues cv = new ContentValues();
-        cv.put(Contract.listEntry.COLUMN_PERSONAL_RECORD, "none recorded");
+        cv.put(Contract.listEntry.COLUMN_PERSONAL_RECORD, "0");
         cv.put(Contract.listEntry.COLUMN_TIME_TRAINED, "0");
         cv.put(Contract.listEntry.COLUMN_TRICK_DESCRIPTION, trickDescription);
         cv.put(Contract.listEntry.COLUMN_TRICK_NAME, trickName);
         cv.put(Contract.listEntry.COLUMN_IS_RECORD, "no");
+        cv.put(Contract.listEntry.COLUMN_RECORD, "0");
         cv.put(Contract.listEntry.COLUMN_GOAL, goal);
         // Insert the content values via a ContentResolver
         Uri uri = getContentResolver().insert(Contract.listEntry.CONTENT_URI, cv);

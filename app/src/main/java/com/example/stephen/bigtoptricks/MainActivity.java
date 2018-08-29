@@ -2,6 +2,7 @@ package com.example.stephen.bigtoptricks;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -26,9 +27,9 @@ public class MainActivity extends AppCompatActivity implements
 MyAdapter.ItemClickListener{
 
     // Create a string of json to pass around
-    public MyAdapter mAdapter;
-    public RecyclerView mRecyclerView;
-    public Cursor mCursor;
+    private MyAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private Cursor mCursor;
     public final int LOADER_ID = 42;
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -108,6 +109,18 @@ MyAdapter.ItemClickListener{
         if (itemThatWasClickedId == R.id.menu_add_trick) {
             Intent toAddNewTrickActivity = new Intent(this, AddTrick.class);
             startActivity(toAddNewTrickActivity);
+        }
+        if (itemThatWasClickedId == R.id.menu_add_routine) {
+            Intent toAddNewRoutineActivity = new Intent(this, AddRoutine.class);
+            startActivity(toAddNewRoutineActivity);
+        }
+        if (itemThatWasClickedId == R.id.menu_add_from_list) {
+            Intent toAddFromListActivity = new Intent(this, AddTrickFromList.class);
+            startActivity(toAddFromListActivity);
+        }
+        if (itemThatWasClickedId == R.id.menu_show_db) {
+            Intent toShowDb = new Intent(this, DisplayData.class);
+            startActivity(toShowDb);
         }
         if (itemThatWasClickedId == R.id.menu_help) Toast.makeText(this, "Menu help is not implemented yet.", Toast.LENGTH_SHORT).show();
         if (itemThatWasClickedId == R.id.menu_settings) Toast.makeText(this, "Menu settings is not implemented yet.", Toast.LENGTH_SHORT).show();

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.trickNameTextView.setText(mTrickNames.get(position));
         holder.prCatchesTextView.setText("PR: " + mPrs.get(position));
         holder.goalCatchesTextView.setText("Goal: " + mGoals.get(position));
+        Log.d("LOG", "asdf onBindViewHolder: " + mTrickNames.get(position));
     }
 
     @Override

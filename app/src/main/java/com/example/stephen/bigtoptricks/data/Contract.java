@@ -22,22 +22,7 @@ public class Contract {
         public static final String COLUMN_TIME_TRAINED = "time_trained";
         public static final String COLUMN_PERSONAL_RECORD = "personal_record";
         public static final String COLUMN_GOAL = "goal";
-        /*
-        * The database contains two very similar types of objects.
-        *
-        * The first type is the trick description type. This contains the name
-        * and some details about the trick that the user entered:
-        *     trick name
-        *     trick description
-        *     goal catches
-        *     is record: no
-        *
-        * The second type is the trick record. This type comes from when a user
-        * is training, and has some training data to record, so this contains:
-        *     time trained
-        *     catches achieved
-        *     is record: yes
-        * */
+        public static final String COLUMN_RECORD = "record";
         public static final String COLUMN_IS_RECORD = "is_record";
         public static final String COLUMN_TIMESTAMP = "timestamp";
     }

@@ -3,4 +3,31 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--list of juggling patterns-->
+    <string-array name="patterns">
+        <item>	One Ball	</item>
+        <item>	One Ball High Throws	</item>
+        <item>	Two Balls Straight Up	</item>
+        <item>	Two Balls Straight Up \nSync	</item>
+        <item>	Two Balls Crossing	</item>
+        <item>	Two Balls in Right Hand	</item>
+        <item>	Two Balls in Left Hand	</item>
+        <item>	Siteswap: 41122	</item>
+        <item>	Siteswap: 423	</item>
+        <item>	Siteswap: 441	</item>
+        <item>	Three Ball Cascade	</item>
+        <item>	Siteswap: 34012	</item>
+        <item>	Four Ball Fountain	</item>
+        <item>	Siteswap: 522	</item>
+        <item>	Siteswap: 501	</item>
+        <item>	Siteswap: 52512	</item>
+        <item>	Siteswap: 531	</item>
+        <item>	Siteswap: 552	</item>
+        <item>	Five Ball Cascade	</item>
+        <item>	Siteswap: 55514	</item>
+        <item>	Siteswap: 12345	</item>
+    </string-array>
+
+
 </resources>

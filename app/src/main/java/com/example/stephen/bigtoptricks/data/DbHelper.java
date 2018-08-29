@@ -8,7 +8,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     // Some of the code (like the onUpgrade method) is adapted from lesson T07.06 (guest list)
     private static final String DATABASE_NAME = "mydb.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 10;
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -25,6 +25,7 @@ public class DbHelper extends SQLiteOpenHelper {
                         Contract.listEntry.COLUMN_TRICK_NAME + " TEXT NOT NULL, " +
                         Contract.listEntry.COLUMN_GOAL + " TEXT NOT NULL, " +
                         Contract.listEntry.COLUMN_IS_RECORD + " TEXT NOT NULL, " +
+                        Contract.listEntry.COLUMN_RECORD + " TEXT NOT NULL, " +
                         Contract.listEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                         "); ";
 
