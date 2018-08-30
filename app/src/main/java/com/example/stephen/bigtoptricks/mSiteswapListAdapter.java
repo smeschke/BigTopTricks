@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class mAdapter extends RecyclerView.Adapter<mAdapter.mAdapterViewHolder> {
+public class mSiteswapListAdapter extends RecyclerView.Adapter<mSiteswapListAdapter.mAdapterViewHolder> {
 
     //get context
     private final Context mContext;
@@ -21,9 +21,9 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.mAdapterViewHolder> 
 
 
     //get stuff on list from Main Activity
-    public mAdapter(@NonNull Context context,
-                    mAdapterOnClickHandler clickHandler,
-                    ArrayList<String> ol) {
+    public mSiteswapListAdapter(@NonNull Context context,
+                                mAdapterOnClickHandler clickHandler,
+                                ArrayList<String> ol) {
         mContext = context;
         mClickHandler = clickHandler;
         output_list = ol;
@@ -31,7 +31,7 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.mAdapterViewHolder> 
 
     //when view holder is created, inflate the views
     @Override
-    public mAdapter.mAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public mSiteswapListAdapter.mAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         int layoutId;
         layoutId = R.layout.siteswap_list_item;
         View view = LayoutInflater.from(mContext).inflate(layoutId, parent, false);
@@ -41,7 +41,7 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.mAdapterViewHolder> 
 
     //bind data to view holder
     @Override
-    public void onBindViewHolder(mAdapter.mAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(mSiteswapListAdapter.mAdapterViewHolder holder, int position) {
         holder.textView.setText(output_list.get(position));
     }
 

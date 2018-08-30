@@ -18,16 +18,14 @@ import java.util.List;
 //TODO (3) extend RV View Holder (implement onCreate, onBind, and getItemCount)
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
+    private final LayoutInflater mInflater;
+    private final Context mContext;
     //TODO (4b) Create ItemClickListener
     private ItemClickListener mClickListener;
-
     //TODO (2) get data from constructor
     private List<String> mTrickNames;
     private List<String> mGoals;
     private List<String> mPrs;
-
-    private final LayoutInflater mInflater;
-    private final Context mContext;
 
     // Create MyRecyclerViewAdapter
     MyAdapter(Context context) {
@@ -51,7 +49,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.trickNameTextView.setText(mTrickNames.get(position));
         holder.prCatchesTextView.setText("PR: " + mPrs.get(position));
         holder.goalCatchesTextView.setText("Goal: " + mGoals.get(position));
-        Log.d("LOG", "asdf onBindViewHolder: " + mTrickNames.get(position));
     }
 
     @Override
@@ -67,27 +64,35 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         List<String> prs = new ArrayList<>();
         for (int i = 0; i < data.getCount(); i++) {
             data.moveToPosition(i);
+
             String name = data.getString(data.getColumnIndex(
                     Contract.listEntry.COLUMN_TRICK_NAME));
+            trickNames.add(name);
+
             String goal = data.getString(data.getColumnIndex(
                     Contract.listEntry.COLUMN_GOAL));
+            goals.add(goal);
+
             String pr = data.getString(data.getColumnIndex(
                     Contract.listEntry.COLUMN_PERSONAL_RECORD));
-            String is_record = data.getString(data.getColumnIndex(
-                    Contract.listEntry.COLUMN_IS_RECORD));
-            if (is_record.equals("no")) {
-                // Get the name of the trick
-                trickNames.add(name);
-                // Get the users goal for the trick
-                goals.add(goal);
-                // Get the users personal record
-                prs.add(pr);
-            }
+            prs.add(pr);
         }
+
         mTrickNames = trickNames;
         mGoals = goals;
         mPrs = prs;
+
+        //Log.d("LOG", "asdf prs: " + mTrickNames.toString());
         notifyDataSetChanged();
+    }
+
+    void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
+    //TODO (4a) Create interface for the click listener
+    public interface ItemClickListener {
+        void onItemClick(int position);
     }
 
     //TODO (1) create ViewHolder class - implement OnClickListener
@@ -111,14 +116,5 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public void onClick(View view) {
             mClickListener.onItemClick(getAdapterPosition());
         }
-    }
-
-    //TODO (4a) Create interface for the click listener
-    public interface ItemClickListener {
-        void onItemClick(int position);
-    }
-
-    void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
     }
 }

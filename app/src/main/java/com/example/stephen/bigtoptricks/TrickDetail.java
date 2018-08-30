@@ -15,8 +15,7 @@ import com.example.stephen.bigtoptricks.data.Contract;
 import java.util.ArrayList;
 
 public class TrickDetail extends AppCompatActivity {
-
-public static int mId;
+    public String mId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +29,7 @@ public static int mId;
             String trickGoal = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_GOAL);
             String trickDescription = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_DESCRIPTION);
             String timeTrained = getIntent().getExtras().getString(TrickFragment.ARG_TIME_TRAINED);
-            mId = getIntent().getExtras().getInt(TrickFragment.ARG_TRICK_ID);
+            mId = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_ID);
 
             Bundle arguments = new Bundle();
             arguments.putString(TrickFragment.ARG_TIME_TRAINED, timeTrained);
@@ -38,7 +37,7 @@ public static int mId;
             arguments.putString(TrickFragment.ARG_TRICK_GOAL, trickGoal);
             arguments.putString(TrickFragment.ARG_TRICK_PR, trickPr);
             arguments.putString(TrickFragment.ARG_TRICK_NAME, trickName);
-            arguments.putInt(TrickFragment.ARG_TRICK_ID, mId);
+            arguments.putString(TrickFragment.ARG_TRICK_ID, mId);
             TrickFragment fragment = new TrickFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -59,7 +58,7 @@ public static int mId;
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemThatWasClickedId = item.getItemId();
         if (itemThatWasClickedId == R.id.menu_remove_trick){
-            remove_trick(mId);
+            remove_trick(Integer.parseInt(mId));
             finish();
             Toast.makeText(this, "Trick Removed from DB", Toast.LENGTH_LONG).show();
         }

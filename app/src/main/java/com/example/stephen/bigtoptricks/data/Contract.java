@@ -23,7 +23,7 @@ public class Contract {
         public static final String COLUMN_PERSONAL_RECORD = "personal_record";
         public static final String COLUMN_GOAL = "goal";
         public static final String COLUMN_RECORD = "record";
-        public static final String COLUMN_IS_RECORD = "is_record";
+        public static final String COLUMN_IS_META = "is_meta";
         public static final String COLUMN_TIMESTAMP = "timestamp";
     }
 }

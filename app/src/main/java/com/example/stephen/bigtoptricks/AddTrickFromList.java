@@ -2,10 +2,7 @@ package com.example.stephen.bigtoptricks;
 
 import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,20 +12,19 @@ import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.stephen.bigtoptricks.data.Contract;
 
 import java.util.ArrayList;
 
-public class AddTrickFromList extends AppCompatActivity implements mAdapter.mAdapterOnClickHandler{
+public class AddTrickFromList extends AppCompatActivity implements mSiteswapListAdapter.mAdapterOnClickHandler{
 
     //initialize variables for resources from strings.xml
     private ArrayList<String> pattern_list = new ArrayList<>();
     private String[] patterns;
     //initialize an adapter and recyclerView
-    private mAdapter mAdapter;
+    private mSiteswapListAdapter mSiteswapListAdapter;
     private RecyclerView mList;
 
     @Override
@@ -52,8 +48,8 @@ public class AddTrickFromList extends AppCompatActivity implements mAdapter.mAda
                 LinearLayoutManager.VERTICAL, false);
         mList.setLayoutManager(layoutManager);
         mList.setHasFixedSize(true);
-        mAdapter = new mAdapter(this, this, pattern_list);
-        mList.setAdapter(mAdapter);
+        mSiteswapListAdapter = new mSiteswapListAdapter(this, this, pattern_list);
+        mList.setAdapter(mSiteswapListAdapter);
     }
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ START ONCLICK METHOD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -99,7 +95,7 @@ public class AddTrickFromList extends AppCompatActivity implements mAdapter.mAda
         cv.put(Contract.listEntry.COLUMN_TIME_TRAINED, "0");
         cv.put(Contract.listEntry.COLUMN_TRICK_DESCRIPTION, trickDescription);
         cv.put(Contract.listEntry.COLUMN_TRICK_NAME, trickName);
-        cv.put(Contract.listEntry.COLUMN_IS_RECORD, "no");
+        cv.put(Contract.listEntry.COLUMN_IS_META, "yes");
         cv.put(Contract.listEntry.COLUMN_GOAL, goal);
         cv.put(Contract.listEntry.COLUMN_RECORD, "0");
         // Insert the content values via a ContentResolver

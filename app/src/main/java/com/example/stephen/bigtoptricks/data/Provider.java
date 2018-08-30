@@ -89,9 +89,8 @@ public class Provider extends ContentProvider {
     public int update(@NonNull Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         final SQLiteDatabase db = mTaskDbHelper.getWritableDatabase();
-        long test = db.update(TABLE_NAME, values, "_id="+selection, null);
-        Log.d("LOG", "asdf id to be updated" + test);
-        return 420;
+        int testVal = db.update(TABLE_NAME, values, "_id="+selection, null);
+        return testVal;
     }
 
     // Not used
