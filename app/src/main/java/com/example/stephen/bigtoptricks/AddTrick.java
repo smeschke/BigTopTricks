@@ -1,9 +1,11 @@
 package com.example.stephen.bigtoptricks;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,10 +15,26 @@ import com.example.stephen.bigtoptricks.data.Contract;
 
 public class AddTrick extends AppCompatActivity {
 
+    private EditText mTrickNameEditText;
+    private EditText mTrickDescriptionEditText;
+    private EditText mGoalCatchesEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_trick);
+
+        mTrickNameEditText = (EditText) findViewById(R.id.edit_text_trick_name);
+        mTrickDescriptionEditText = (EditText) findViewById(R.id.edit_text_trick_description);
+        mGoalCatchesEditText = (EditText) findViewById(R.id.edit_text_goal_catches);
+        mGoalCatchesEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        // If the user has selected a trick from the list activity, there will be extras
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if (extras.containsKey("trickName")) mTrickNameEditText.setText(extras.getString("trickName"));
+            if (extras.containsKey("trickDesc")) mTrickDescriptionEditText.setText(extras.getString("trickDesc"));
+        }
 
         Button addTrickButton = (Button) findViewById(R.id.button_add_trick_to_database);
         addTrickButton.setOnClickListener(new View.OnClickListener() {
@@ -28,12 +46,9 @@ public class AddTrick extends AppCompatActivity {
     }
 
     public void add_to_db(){
-        EditText trickNameEditText = (EditText) findViewById(R.id.edit_text_trick_name);
-        EditText trickDescriptionEditText = (EditText) findViewById(R.id.edit_text_trick_description);
-        EditText goalCatchesEditText = (EditText) findViewById(R.id.edit_text_goal_catches);
-        String trickName = trickNameEditText.getText().toString();
-        String trickDescription = trickDescriptionEditText.getText().toString();
-        String goal = goalCatchesEditText.getText().toString();
+        String trickName = mTrickNameEditText.getText().toString();
+        String trickDescription = mTrickDescriptionEditText.getText().toString();
+        String goal = mGoalCatchesEditText.getText().toString();
 
         // Fill content values with trick attributes
         ContentValues cv = new ContentValues();
@@ -51,8 +66,8 @@ public class AddTrick extends AppCompatActivity {
         Toast.makeText(this, "add to db "+ uri.toString(), Toast.LENGTH_SHORT).show();
 
         // Reset the hints on the edittext boxes
-        trickNameEditText.setHint("Enter Trick Name...");
-        trickDescriptionEditText.setHint("Enter Trick Description (optional)...");
-        goalCatchesEditText.setHint("Goal (#catches, #reps, time, etc...");
+        mTrickNameEditText.setHint("Enter Trick Name...");
+        mTrickDescriptionEditText.setHint("Enter Trick Description (optional)...");
+        mGoalCatchesEditText.setHint("Goal (#catches, #reps, time, etc...");
     }
 }

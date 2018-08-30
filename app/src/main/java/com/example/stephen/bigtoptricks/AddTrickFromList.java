@@ -2,6 +2,7 @@ package com.example.stephen.bigtoptricks;
 
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
@@ -55,7 +56,7 @@ public class AddTrickFromList extends AppCompatActivity implements mSiteswapList
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ START ONCLICK METHOD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     @Override
     public void onClick(final int position) {
-        Log.d("LOG", "asdf ID: " + position + " " + patterns[position]);
+        /*Log.d("LOG", "asdf ID: " + position + " " + patterns[position]);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Enter Goal for Trick:");
         // Set up the input
@@ -83,11 +84,15 @@ public class AddTrickFromList extends AppCompatActivity implements mSiteswapList
                 dialog.cancel();
             }
         });
-        builder.show();
+        builder.show();*/
+        Intent toAddTrick = new Intent(this, AddTrick.class);
+        toAddTrick.putExtra("trickName", pattern_list.get(position));
+        toAddTrick.putExtra("trickDesc", "There is no description for this trick. This trick was part of the siteswap list.");
+        startActivity(toAddTrick);
     }
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ END ONCLICK METHOD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-    public void add_to_db(String trickName, String trickDescription, String goal){
+/*    public void add_to_db(String trickName, String trickDescription, String goal){
         Log.d("LOG", "asdf Goal: " + goal);
         // Fill content values with trick attributes
         ContentValues cv = new ContentValues();
@@ -100,5 +105,5 @@ public class AddTrickFromList extends AppCompatActivity implements mSiteswapList
         cv.put(Contract.listEntry.COLUMN_RECORD, "0");
         // Insert the content values via a ContentResolver
         Uri uri = getContentResolver().insert(Contract.listEntry.CONTENT_URI, cv);
-    }
+    }*/
 }
