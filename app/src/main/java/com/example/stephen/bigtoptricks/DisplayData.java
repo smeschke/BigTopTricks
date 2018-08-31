@@ -12,6 +12,9 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.example.stephen.bigtoptricks.data.Contract;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
 
 public class DisplayData extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -25,8 +28,28 @@ public class DisplayData extends AppCompatActivity implements
 
         setContentView(R.layout.activity_display_data);
 
+
+        //GraphView graph = (GraphView) findViewById(R.id.graph);
+        //initGraph(graph);
+
         // Initialize loader
         getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+    }
+
+    public void initGraph(GraphView graph) {
+        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
+                new DataPoint(1, 5),
+                new DataPoint(2, -3),
+                new DataPoint(3, 2)
+        });
+        series.setSpacing(50); // 50% spacing between bars
+        series.setAnimated(true);
+        graph.addSeries(series);
+
+        // set the viewport wider than the data, to have a nice view
+        graph.getViewport().setMinX(0d);
+        graph.getViewport().setMaxX(4d);
+        graph.getViewport().setXAxisBoundsManual(true);
     }
 
     ///////////////////////////////////START CURSOR LOADER METHODS /////////////////////////////////

@@ -18,6 +18,7 @@ public class AddTrick extends AppCompatActivity {
     private EditText mTrickNameEditText;
     private EditText mTrickDescriptionEditText;
     private EditText mGoalCatchesEditText;
+    private EditText mPropTypeEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class AddTrick extends AppCompatActivity {
         mTrickDescriptionEditText = (EditText) findViewById(R.id.edit_text_trick_description);
         mGoalCatchesEditText = (EditText) findViewById(R.id.edit_text_goal_catches);
         mGoalCatchesEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        mPropTypeEditText = (EditText) findViewById(R.id.edit_text_prop_type);
 
         // If the user has selected a trick from the list activity, there will be extras
         Bundle extras = getIntent().getExtras();
@@ -49,6 +51,7 @@ public class AddTrick extends AppCompatActivity {
         String trickName = mTrickNameEditText.getText().toString();
         String trickDescription = mTrickDescriptionEditText.getText().toString();
         String goal = mGoalCatchesEditText.getText().toString();
+        String propType = mPropTypeEditText.getText().toString();
 
         // Fill content values with trick attributes
         ContentValues cv = new ContentValues();
@@ -57,7 +60,10 @@ public class AddTrick extends AppCompatActivity {
         cv.put(Contract.listEntry.COLUMN_TRICK_DESCRIPTION, trickDescription);
         cv.put(Contract.listEntry.COLUMN_TRICK_NAME, trickName);
         cv.put(Contract.listEntry.COLUMN_IS_META, "yes");
+        cv.put(Contract.listEntry.COLUMN_HIT, "0");
+        cv.put(Contract.listEntry.COLUMN_MISS, "0");
         cv.put(Contract.listEntry.COLUMN_RECORD, "0");
+        cv.put(Contract.listEntry.COLUMN_PROP_TYPE, propType);
         cv.put(Contract.listEntry.COLUMN_GOAL, goal);
         // Insert the content values via a ContentResolver
         Uri uri = getContentResolver().insert(Contract.listEntry.CONTENT_URI, cv);

@@ -19,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.stephen.bigtoptricks.data.Contract;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 
 public class TrickFragment extends Fragment implements View.OnClickListener {
@@ -28,18 +31,30 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
     public static final String ARG_TIME_TRAINED = "time_trained";
     public static final String ARG_TRICK_DESCRIPTION = "trick_description";
     public static final String ARG_TRICK_ID = "id";
-    public String mTrickName;
-    public String mTrickPr;
-    public String mTrickGoal;
-    public String mTrickDescription;
-    public String mTimeTrained;
-    public String mId;
-    public String mCatchCount;
+    public static final String ARG_TRICK_PROP_TYPE = "prop";
+    public static final String ARG_RECORD_ID = "records";
+    public static final String ARG_HITS = "hits";
+    public static final String ARG_MISSES = "misses";
+    private String mTrickName;
+    private String mTrickPr;
+    private String mTrickGoal;
+    private String mTrickDescription;
+    private String mTimeTrained;
+    private String mId;
+    private String mHits;
+    private String mMisses;
+    private String mPropType;
+    private String mRecords;
     Chronometer mChronometer;
     public long mStartTime;
     public boolean mTraining;
     public Button mTrainingButton;
-    TextView trainingTimeTextView;
+    Button mHitButton;
+    Button mMissButton;
+    TextView mTrainingTimeTextView;
+    TextView mPrTextView;
+    GraphView mGraphView;
+    TextView mHitMissTextView;
 
     public TrickFragment() {
         // Required empty public constructor
@@ -70,7 +85,11 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
         mTrickGoal = getArguments().getString(ARG_TRICK_GOAL);
         mTrickPr = getArguments().getString(ARG_TRICK_PR);
         mId = getArguments().getString(ARG_TRICK_ID);
-        Log.d("LOG", "asdf mID: " + mId);
+        mHits = getArguments().getString(ARG_HITS);
+        mMisses = getArguments().getString(ARG_MISSES);
+        mPropType = getArguments().getString(ARG_TRICK_PROP_TYPE);
+        mRecords = getArguments().getString(ARG_RECORD_ID);
+        Log.d("LOG", "asdf mID: " + mHits + " " + mMisses);
     }
 
     @Override
@@ -78,23 +97,52 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         //Log.d("LOG", "asdf mId onCreateView" + mId);
-
+        // Get references to all of the text views
         View rootView = inflater.inflate(R.layout.fragment_trick, container, false);
-        trainingTimeTextView = rootView.findViewById(R.id.fragment_time_trained_text_view);
-        trainingTimeTextView.setText("Time spent training this trick: " + mTimeTrained);
-        ((TextView) rootView.findViewById(R.id.fragment_trick_description_text_view)).setText("Description: " + mTrickDescription);
+        mTrainingTimeTextView = rootView.findViewById(R.id.fragment_time_trained_text_view);
+        mTrainingTimeTextView.setText("Time spent training this trick: " + mTimeTrained);
+        //((TextView) rootView.findViewById(R.id.fragment_trick_description_text_view)).setText("Records: " + mRecords);
         ((TextView) rootView.findViewById(R.id.fragment_trick_goal_text_view)).setText("Goal: " + mTrickGoal);
-        ((TextView) rootView.findViewById(R.id.fragment_trick_name_text_view)).setText(mTrickName);
-        ((TextView) rootView.findViewById(R.id.fragment_trick_pr_text_view)).setText("PR: " + mTrickPr);
+        ((TextView) rootView.findViewById(R.id.fragment_trick_name_text_view)).setText(mTrickName + " " + mPropType);
+        mPrTextView = (TextView) rootView.findViewById(R.id.fragment_trick_pr_text_view);
+        mPrTextView.setText("PR: " + mTrickPr);
+
+        // Now the buttons
         mTrainingButton = (Button) rootView.findViewById(R.id.fragment_start_training_button);
         mTrainingButton.setOnClickListener(this);
-        mChronometer = ((Chronometer) rootView.findViewById(R.id.fragment_chronometer));
-        return rootView;
+        mHitButton = (Button) rootView.findViewById(R.id.hit_button);
+        mHitButton.setOnClickListener(this);
+        mMissButton = (Button) rootView.findViewById(R.id.miss_button);
+        mMissButton.setOnClickListener(this);
 
+        mChronometer = ((Chronometer) rootView.findViewById(R.id.fragment_chronometer));
+        mHitMissTextView = (TextView) rootView.findViewById(R.id.hitMissTextView);
+        mHitMissTextView.setText(mHits + " / " + mMisses);
+        mGraphView = (GraphView) rootView.findViewById(R.id.fragment_trick_description_text_view);
+        initGraph(mGraphView, mRecords);
+
+        return rootView;
     }
 
-    @Override
-    public void onClick(View v) {
+    public void initGraph(GraphView graph, String records) {
+        String[] items = records.split(",");
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{});
+        for (int i = 0; i < items.length; i++) {
+            Log.d("LOG", "asdf record item: " + items[i]);
+            series.appendData(new DataPoint(i, Integer.parseInt(items[i])), true, 40);
+        }
+
+        //series.setSpacing(50); // 50% spacing between bars
+        series.setAnimated(true);
+        graph.addSeries(series);
+
+        // set the viewport wider than the data, to have a nice view
+        graph.getViewport().setMinX(0d);
+        graph.getViewport().setMaxX(items.length);
+        graph.getViewport().setXAxisBoundsManual(true);
+    }
+
+    public void training_button(){
         if (!mTraining) {
             // User has started juggling
             Toast.makeText(getActivity(), "Start Juggling!", Toast.LENGTH_SHORT).show();
@@ -117,11 +165,6 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
             // Calculate the total time that this trick has been trained
             final String totalTime = Long.toString(trainingTime + Long.parseLong(mTimeTrained));
 
-            // Inform user
-            Toast.makeText(getActivity(), "Trained for " + trainingTime + " seconds. \n Record added to DB.",
-                    Toast.LENGTH_SHORT).show();
-            trainingTimeTextView.setText("Time spent training this trick: " + totalTime);
-
             // Create an alert dialog
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("Do you want to add a catch count?");
@@ -130,7 +173,6 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
             goal.setHint("Enter Catch Count...");
             goal.setInputType(InputType.TYPE_CLASS_NUMBER);
             builder.setView(goal);
-
             // Set up the buttons
             builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
 
@@ -139,18 +181,38 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
                 public void onClick(DialogInterface dialog, int which) {
                     String catchCount = goal.getText().toString();
                     Log.d("LOG", "asdf mCatchCount: " + catchCount);
+                    // Update mRecords to reflect new catch count
+                    mRecords = mRecords + "," + catchCount;
                     // User enters a value (hopefully) and clicks add
-                    // if the catch count is greater than the personal record,
-                    // then update the personal record in the metadata trick
+                    // If the catch count is greater than the personal record,
+                    // then update the personal record in the metadata trick.
                     if (Integer.parseInt(catchCount) > Integer.parseInt(mTrickPr)) {
                         // Update metadata trick
-                        update_trick(mId, catchCount, totalTime, mTrickDescription, mTrickName, catchCount, mTrickGoal);
+                        update_trick(mId, catchCount, totalTime, mTrickDescription, mTrickName,
+                                mRecords, mTrickGoal, mPropType, mHits, mMisses);
                         Toast.makeText(getContext(), "Great! A new PR!", Toast.LENGTH_SHORT).show();
+                        // Update the mTrickPr variable
+                        mTrickPr = catchCount;
+                    }
+                    // it is not a pr, but the meta trick still needs to be updated to increase the time and store the record
+                    else {
+                        update_trick(mId, mTrickPr, totalTime, mTrickDescription, mTrickName,
+                                mRecords, mTrickGoal, mPropType, mHits, mMisses);
+                        Toast.makeText(getContext(), "Record Logged.", Toast.LENGTH_SHORT).show();
                     }
 
                     // Insert a record of this trick into the data base
-                    insert_trick(mTrickPr, traingTimeString, mTrickDescription, mTrickName, catchCount, mTrickGoal);
+                    insert_trick(mTrickPr, traingTimeString, mTrickDescription, mTrickName,
+                            catchCount, mTrickGoal, mPropType, "no", "no");
 
+                    // now that new data has been logged, it's time to update the UI to reflect the NEW PR!
+                    // Update the time trained
+                    mTrainingTimeTextView.setText("Time spent training this trick: " + totalTime);
+                    // If needed, update the pr
+                    mPrTextView.setText("PR: " + mTrickPr);
+                    Log.d("LOG", "asdf mTrickPR: " + mTrickPr);
+                    // Update the graph
+                    initGraph(mGraphView, mRecords);
                 }
             });
             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -158,10 +220,23 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
                 public void onClick(DialogInterface dialog, int which) {
                     // user clicks no, so there is not need to check if the catch count is greater
                     // update the metadata trick
-                    update_trick(mId, mTrickPr, totalTime, mTrickDescription, mTrickName, "0", mTrickGoal);
+                    update_trick(mId, mTrickPr, totalTime, mTrickDescription, mTrickName,
+                            mRecords, mTrickGoal, mPropType, mHits, mMisses);
+                    Toast.makeText(getContext(), "Record Logged.", Toast.LENGTH_SHORT).show();
 
                     // than the pr, so just enter a record of training this trick in the db
-                    insert_trick(mTrickPr, traingTimeString, mTrickDescription, mTrickName, "0", mTrickGoal);
+                    insert_trick(mTrickPr, traingTimeString, mTrickDescription, mTrickName,
+                            "0", mTrickGoal, mPropType, "no", "no");
+
+                    // now that new data has been logged, it's time to update the UI to reflect the NEW PR!
+                    // Update the time trained
+                    mTrainingTimeTextView.setText("Time spent training this trick: " + totalTime);
+                    // If needed, update the pr
+                    mPrTextView.setText("PR: " + mTrickPr);
+                    Log.d("LOG", "asdf mTrickPR: " + mTrickPr);
+                    // Update the graph
+                    initGraph(mGraphView, mRecords);
+
                     dialog.cancel();
                 }
             });
@@ -169,8 +244,45 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+
+    @Override
+    public void onClick(View v) {
+        // Get the button_type
+        int button_type = v.getId();
+        if (button_type==R.id.hit_button){
+            mHits = Integer.toString(Integer.parseInt(mHits) + 1);
+            mHitMissTextView.setText(mHits + " / " + mMisses);
+
+            update_trick(mId, mTrickPr, mTimeTrained, mTrickDescription, mTrickName,
+                    mRecords, mTrickGoal, mPropType, mHits, mMisses);
+            Toast.makeText(getContext(), "Record Logged.", Toast.LENGTH_SHORT).show();
+
+            // than the pr, so just enter a record of training this trick in the db
+            insert_trick(mTrickPr, mTimeTrained, mTrickDescription, mTrickName,
+                    "0", mTrickGoal, mPropType, "1", "no");
+        }
+
+        if (button_type==R.id.fragment_start_training_button){
+            Log.d("LOG", "asdf training button");
+            training_button();
+        }
+
+        if (button_type==R.id.miss_button){
+            mMisses = Integer.toString(Integer.parseInt(mMisses) + 1);
+            mHitMissTextView.setText(mHits + " / " + mMisses);
+
+            update_trick(mId, mTrickPr, mTimeTrained, mTrickDescription, mTrickName,
+                    mRecords, mTrickGoal, mPropType, mHits, mMisses);
+            Toast.makeText(getContext(), "Record Logged.", Toast.LENGTH_SHORT).show();
+
+            // than the pr, so just enter a record of training this trick in the db
+            insert_trick(mTrickPr, "0", mTrickDescription, mTrickName,
+                    "0", mTrickGoal, mPropType, "no", "1");
+        }
+    }
+
     public void update_trick(String id, String pr, String time, String description, String name, String record,
-                             String goal) {
+                             String goal, String propType, String hits, String misses) {
         Uri uri = Contract.listEntry.CONTENT_URI;
         uri = uri.buildUpon().appendPath(id).build();
         ContentValues cv = new ContentValues();
@@ -180,20 +292,26 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
         cv.put(Contract.listEntry.COLUMN_TRICK_NAME, name);
         cv.put(Contract.listEntry.COLUMN_IS_META, "yes");
         cv.put(Contract.listEntry.COLUMN_RECORD, record);
+        cv.put(Contract.listEntry.COLUMN_HIT, hits);
+        cv.put(Contract.listEntry.COLUMN_MISS, misses);
+        cv.put(Contract.listEntry.COLUMN_PROP_TYPE, propType);
         cv.put(Contract.listEntry.COLUMN_GOAL, goal);
         int result = getActivity().getContentResolver().update(
-                Contract.listEntry.CONTENT_URI, cv, id,null);
-        Log.d("LOG", "asdf result: " + result + " PR:" + pr + " ID: " + id);
+                Contract.listEntry.CONTENT_URI, cv, id, null);
+        Log.d("LOG", "asdf result: " + result + " PR:" + pr + " Record: " + record);
     }
 
     public void insert_trick(String pr, String time, String description, String name, String record,
-                             String goal) {
+                             String goal, String propType, String hits, String misses) {
         ContentValues cv = new ContentValues();
         cv.put(Contract.listEntry.COLUMN_PERSONAL_RECORD, pr);
         cv.put(Contract.listEntry.COLUMN_TIME_TRAINED, time);
         cv.put(Contract.listEntry.COLUMN_TRICK_DESCRIPTION, description);
         cv.put(Contract.listEntry.COLUMN_TRICK_NAME, name);
+        cv.put(Contract.listEntry.COLUMN_HIT, hits);
+        cv.put(Contract.listEntry.COLUMN_MISS, misses);
         cv.put(Contract.listEntry.COLUMN_IS_META, "no");
+        cv.put(Contract.listEntry.COLUMN_PROP_TYPE, propType);
         cv.put(Contract.listEntry.COLUMN_RECORD, record);
         cv.put(Contract.listEntry.COLUMN_GOAL, goal);
         // Insert the content values via a ContentResolver

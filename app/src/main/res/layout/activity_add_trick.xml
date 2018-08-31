@@ -33,10 +33,21 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="Goal (# catches, # reps, time, etc..."
-        app:layout_constraintBottom_toTopOf="@id/button_add_trick_to_database"
+        app:layout_constraintBottom_toTopOf="@id/edit_text_prop_type"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_text_trick_description" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:id="@+id/edit_text_prop_type"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_goal_catches"
+        app:layout_constraintBottom_toTopOf="@id/button_add_trick_to_database"
+        android:hint="Prop Type (Ball, club, ring, etc...)"/>
 
     <Button
         android:id="@+id/button_add_trick_to_database"
@@ -44,6 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="Add Trick to Database"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_prop_type"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />

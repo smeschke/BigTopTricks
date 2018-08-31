@@ -29,6 +29,10 @@ public class TrickDetail extends AppCompatActivity {
             String trickGoal = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_GOAL);
             String trickDescription = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_DESCRIPTION);
             String timeTrained = getIntent().getExtras().getString(TrickFragment.ARG_TIME_TRAINED);
+            String records = getIntent().getExtras().getString(TrickFragment.ARG_RECORD_ID);
+            String propType = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_PROP_TYPE);
+            String hits = getIntent().getExtras().getString(TrickFragment.ARG_HITS);
+            String misses = getIntent().getExtras().getString(TrickFragment.ARG_MISSES);
             mId = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_ID);
 
             Bundle arguments = new Bundle();
@@ -37,7 +41,11 @@ public class TrickDetail extends AppCompatActivity {
             arguments.putString(TrickFragment.ARG_TRICK_GOAL, trickGoal);
             arguments.putString(TrickFragment.ARG_TRICK_PR, trickPr);
             arguments.putString(TrickFragment.ARG_TRICK_NAME, trickName);
+            arguments.putString(TrickFragment.ARG_HITS, hits);
+            arguments.putString(TrickFragment.ARG_MISSES, misses);
             arguments.putString(TrickFragment.ARG_TRICK_ID, mId);
+            arguments.putString(TrickFragment.ARG_TRICK_PROP_TYPE, propType);
+            arguments.putString(TrickFragment.ARG_RECORD_ID, records);
             TrickFragment fragment = new TrickFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

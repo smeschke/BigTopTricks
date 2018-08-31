@@ -6,6 +6,10 @@
 
     <!--list of juggling patterns-->
     <string-array name="patterns">
+        <item>Cascade</item>
+        <item>Shower</item>
+        <item>Half-Shower</item>
+        <item>Fountain</item>
         <item>	Three Ball Siteswaps 	</item>
         <item>	441	</item>
         <item>	423	</item>

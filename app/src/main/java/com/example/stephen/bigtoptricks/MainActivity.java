@@ -62,6 +62,10 @@ public class MainActivity extends AppCompatActivity implements
         String trickPr = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_PERSONAL_RECORD));
         String trickDescription = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_TRICK_DESCRIPTION));
         String id = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry._ID));
+        String propType = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_PROP_TYPE));
+        String records = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_RECORD));
+        String hits = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_HIT));
+        String misses = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_MISS));
 
         Log.d("LOG", "---------> asdf ID: " + id + " Trick Name: " + trickName);
         Intent toTrickDetail = new Intent(MainActivity.this, TrickDetail.class);
@@ -70,7 +74,11 @@ public class MainActivity extends AppCompatActivity implements
         toTrickDetail.putExtra(TrickFragment.ARG_TIME_TRAINED, timeTrained);
         toTrickDetail.putExtra(TrickFragment.ARG_TRICK_DESCRIPTION, trickDescription);
         toTrickDetail.putExtra(TrickFragment.ARG_TRICK_PR, trickPr);
+        toTrickDetail.putExtra(TrickFragment.ARG_TRICK_PROP_TYPE, propType);
         toTrickDetail.putExtra(TrickFragment.ARG_TRICK_GOAL, trickGoal);
+        toTrickDetail.putExtra(TrickFragment.ARG_RECORD_ID, records);
+        toTrickDetail.putExtra(TrickFragment.ARG_HITS, hits);
+        toTrickDetail.putExtra(TrickFragment.ARG_MISSES, misses);
         startActivity(toTrickDetail);
     }
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ END ONCLICK METHOD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

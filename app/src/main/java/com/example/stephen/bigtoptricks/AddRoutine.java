@@ -63,6 +63,8 @@ public class AddRoutine extends AppCompatActivity {
         cv.put(Contract.listEntry.COLUMN_TRICK_NAME, trickName);
         cv.put(Contract.listEntry.COLUMN_IS_META, "yes");
         cv.put(Contract.listEntry.COLUMN_GOAL, goal);
+        cv.put(Contract.listEntry.COLUMN_HIT, "0");
+        cv.put(Contract.listEntry.COLUMN_MISS, "0");
         cv.put(Contract.listEntry.COLUMN_RECORD, "50");
         // Insert the content values via a ContentResolver
         Uri uri = getContentResolver().insert(Contract.listEntry.CONTENT_URI, cv);

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".DisplayData">
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -13,7 +14,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/database_textview"/>
+   </ScrollView>
 
-    </ScrollView>
+    <!--
+
+        <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:id="@+id/graph" />-->
+
 
 </android.support.constraint.ConstraintLayout>

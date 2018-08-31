@@ -16,7 +16,7 @@
         android:id="@+id/menu_add_from_list"
         android:orderInCategory="3"
         app:showAsAction="never"
-        android:title="Add Trick from Siteswap List"/>
+        android:title="Add Trick from List"/>
     <item
         android:id="@+id/menu_settings"
         android:orderInCategory="4"

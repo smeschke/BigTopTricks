@@ -22,6 +22,11 @@ public class Contract {
         public static final String COLUMN_TIME_TRAINED = "time_trained";
         public static final String COLUMN_PERSONAL_RECORD = "personal_record";
         public static final String COLUMN_GOAL = "goal";
+        public static final String COLUMN_HIT = "hit";
+        public static final String COLUMN_MISS = "miss";
+        public static final String COLUMN_PROP_TYPE = "propType";
+        // if entry is not meta, column record contains the number of catches
+        // if entry is meta, column contains a list of all record a,b,c,d...
         public static final String COLUMN_RECORD = "record";
         public static final String COLUMN_IS_META = "is_meta";
         public static final String COLUMN_TIMESTAMP = "timestamp";
