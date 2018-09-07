@@ -6,30 +6,25 @@
         android:orderInCategory="1"
         app:showAsAction="never"
         android:title="Add Trick To DB"/>
-    <item
-        android:id="@+id/menu_add_routine"
-        android:orderInCategory="2"
-        app:showAsAction="never"
-        android:title="Add Routine To DB"/>
 
     <item
         android:id="@+id/menu_add_from_list"
-        android:orderInCategory="3"
+        android:orderInCategory="2"
         app:showAsAction="never"
         android:title="Add Trick from List"/>
     <item
         android:id="@+id/menu_settings"
-        android:orderInCategory="4"
+        android:orderInCategory="3"
         app:showAsAction="never"
         android:title="Settings"/>
     <item
         android:id="@+id/menu_help"
-        android:orderInCategory="5"
+        android:orderInCategory="4"
         app:showAsAction="never"
         android:title="Help and Introduction"/>
     <item
         android:id="@+id/menu_show_db"
-        android:orderInCategory="6"
+        android:orderInCategory="5"
         app:showAsAction="never"
         android:title="Training DB"/>
 </menu>

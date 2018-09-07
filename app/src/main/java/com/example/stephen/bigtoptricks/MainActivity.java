@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements
     private MyAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private Cursor mCursor;
-    public final int LOADER_ID = 42;
+    private final int LOADER_ID = 42;
     private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
@@ -125,10 +125,6 @@ public class MainActivity extends AppCompatActivity implements
         if (itemThatWasClickedId == R.id.menu_add_trick) {
             Intent toAddNewTrickActivity = new Intent(this, AddTrick.class);
             startActivity(toAddNewTrickActivity);
-        }
-        if (itemThatWasClickedId == R.id.menu_add_routine) {
-            Intent toAddNewRoutineActivity = new Intent(this, AddRoutine.class);
-            startActivity(toAddNewRoutineActivity);
         }
         if (itemThatWasClickedId == R.id.menu_add_from_list) {
             Intent toAddFromListActivity = new Intent(this, AddTrickFromList.class);

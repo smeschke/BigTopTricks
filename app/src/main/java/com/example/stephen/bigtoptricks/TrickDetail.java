@@ -1,6 +1,7 @@
 package com.example.stephen.bigtoptricks;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +16,11 @@ import com.example.stephen.bigtoptricks.data.Contract;
 import java.util.ArrayList;
 
 public class TrickDetail extends AppCompatActivity {
+
     public String mId;
+    public String mTrickName;
+    private final static String mUnique = "unique_delimiter";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +30,7 @@ public class TrickDetail extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             String trickName = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_NAME);
+            mTrickName = trickName;
             String trickPr = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_PR);
             String trickGoal = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_GOAL);
             String trickDescription = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_DESCRIPTION);
@@ -87,6 +93,32 @@ public class TrickDetail extends AppCompatActivity {
         // Delete single row
         int test = getContentResolver().delete(uri, null, null);
         Log.d("LOG", "asdf trick removed: " + test);
+
+        ArrayList<String> mTrickNames = new ArrayList<String>();
+        // Get access to the preferences
+        SharedPreferences settings = getApplicationContext().
+                getSharedPreferences("log", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        String tricks_string = settings.getString("tricks", "");
+        Log.d("LOG", "asdf tricks String: " + tricks_string);
+        String[] stringLIst = tricks_string.split(mUnique);
+        for (int i = 0; i < stringLIst.length; i++) {
+            mTrickNames.add(stringLIst[i]);
+            Log.d("LOG", "asdf : " + stringLIst[i]);
+        }
+
+        mTrickNames.remove(mTrickName);
+        String output_string = "";
+        for (int i = 0; i < mTrickNames.size(); i++) {
+            //Log.d("LOG", "asdf : " + mTrickNames.get(i));
+            output_string += mTrickNames.get(i) + mUnique;
+        }
+        Log.d("LOG", "asdf : " + output_string);
+        // update list of trick names in shared preferences
+        editor.putString("tricks", output_string).commit();
+        Log.d("LOG", "asdf : no crash get here == lunch time");
+
     }
+
     //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; END DB METHODS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 }

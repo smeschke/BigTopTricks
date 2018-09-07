@@ -36,12 +36,12 @@ public class AddTrickFromList extends AppCompatActivity implements mSiteswapList
         //get resources from strings.xml
         Resources res = getResources();
         patterns = res.getStringArray(R.array.patterns);
-        Log.d("LOG", "asdf patterns length: " + patterns.length);
+        //Log.d("LOG", "asdf patterns length: " + patterns.length);
         for (int i = 0; i < patterns.length; i++){
-            Log.d("LOG", "asdf " + patterns[i]);
+            //Log.d("LOG", "asdf " + patterns[i]);
             pattern_list.add(patterns[i]);
         }
-        Log.d("LOG", "asdf patterns length: " + pattern_list.size());
+        //Log.d("LOG", "asdf patterns length: " + pattern_list.size());
 
         //code for recycler view
         mList = (RecyclerView) findViewById(R.id.recycler_view_siteswap_list);
@@ -56,54 +56,10 @@ public class AddTrickFromList extends AppCompatActivity implements mSiteswapList
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ START ONCLICK METHOD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     @Override
     public void onClick(final int position) {
-        /*Log.d("LOG", "asdf ID: " + position + " " + patterns[position]);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter Goal for Trick:");
-        // Set up the input
-        final EditText goal = new EditText(this);
-        goal.setHint("Goal Catches...");
-        builder.setView(goal);
-        // Show the keyboard
-        goal.setInputType(InputType.TYPE_CLASS_NUMBER);
-
-        // Set up the buttons
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String goalString = goal.getText().toString();
-                add_to_db(pattern_list.get(position), "no description for this trick",
-                        goalString);
-                Toast.makeText(getApplicationContext(), pattern_list.get(position)+" has been added to the DB",
-                        Toast.LENGTH_LONG).show();
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.show();*/
         Intent toAddTrick = new Intent(this, AddTrick.class);
         toAddTrick.putExtra("trickName", pattern_list.get(position));
         toAddTrick.putExtra("trickDesc", "There is no description for this trick. This trick was part of the siteswap list.");
         startActivity(toAddTrick);
     }
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ END ONCLICK METHOD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-/*    public void add_to_db(String trickName, String trickDescription, String goal){
-        Log.d("LOG", "asdf Goal: " + goal);
-        // Fill content values with trick attributes
-        ContentValues cv = new ContentValues();
-        cv.put(Contract.listEntry.COLUMN_PERSONAL_RECORD, "0");
-        cv.put(Contract.listEntry.COLUMN_TIME_TRAINED, "0");
-        cv.put(Contract.listEntry.COLUMN_TRICK_DESCRIPTION, trickDescription);
-        cv.put(Contract.listEntry.COLUMN_TRICK_NAME, trickName);
-        cv.put(Contract.listEntry.COLUMN_IS_META, "yes");
-        cv.put(Contract.listEntry.COLUMN_GOAL, goal);
-        cv.put(Contract.listEntry.COLUMN_RECORD, "0");
-        // Insert the content values via a ContentResolver
-        Uri uri = getContentResolver().insert(Contract.listEntry.CONTENT_URI, cv);
-    }*/
 }
