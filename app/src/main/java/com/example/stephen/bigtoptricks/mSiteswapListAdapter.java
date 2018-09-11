@@ -1,14 +1,31 @@
 package com.example.stephen.bigtoptricks;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.stephen.bigtoptricks.data.Contract;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.ArrayList;
+import java.util.List;
 
 public class mSiteswapListAdapter extends RecyclerView.Adapter<mSiteswapListAdapter.mAdapterViewHolder> {
 
@@ -77,5 +94,13 @@ public class mSiteswapListAdapter extends RecyclerView.Adapter<mSiteswapListAdap
             int adapterPosition = getAdapterPosition();
             mClickHandler.onClick(adapterPosition);
         }
+    }
+
+    // TODO (6) create swap cursor method to reset the data
+    void swapCursor(ArrayList<String> data) {
+        // Move through the cursor and extract the movie poster urls.
+        output_list = data;
+        //Log.d("LOG", "asdf prs: " + mTrickNames.toString());
+        notifyDataSetChanged();
     }
 }

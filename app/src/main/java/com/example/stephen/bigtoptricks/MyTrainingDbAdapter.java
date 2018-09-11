@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //TODO (3) extend RV View Holder (implement onCreate, onBind, and getItemCount)
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapter.ViewHolder> {
 
     private final LayoutInflater mInflater;
     private final Context mContext;
@@ -27,7 +27,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<String> mPrs;
 
     // Create MyRecyclerViewAdapter
-    MyAdapter(Context context) {
+    MyTrainingDbAdapter(Context context) {
         this.mInflater = LayoutInflater.from(context);
         this.mContext = context;
     }

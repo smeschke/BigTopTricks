@@ -20,10 +20,10 @@ import com.example.stephen.bigtoptricks.data.Contract;
 
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,
-        MyAdapter.ItemClickListener {
+        MyTrainingDbAdapter.ItemClickListener {
 
     // Create a string of json to pass around
-    private MyAdapter mAdapter;
+    private MyTrainingDbAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private Cursor mCursor;
     private final int LOADER_ID = 42;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements
         mLayoutManager = layoutManager;
         mRecyclerView.setLayoutManager(mLayoutManager);
         // Initialize the adapter and attach it to the RecyclerView
-        mAdapter = new MyAdapter(this);
+        mAdapter = new MyTrainingDbAdapter(this);
         // Start listening for clicks
         mAdapter.setClickListener(this);
         // Set adapter to mRecyclerView
