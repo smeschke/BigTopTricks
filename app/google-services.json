@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "572280715585",
+    "firebase_url": "https://bigtoptricks-ab766.firebaseio.com",
+    "project_id": "bigtoptricks-ab766",
+    "storage_bucket": "bigtoptricks-ab766.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572280715585:android:6d3305b9340b34e2",
+        "android_client_info": {
+          "package_name": "com.example.stephen.bigtoptricks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "572280715585-rk0bvrss658srtff2enm85akciope19m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stephen.bigtoptricks",
+            "certificate_hash": "a383fcd971ce96e0301d8bd0c7a1305793f3bce0"
+          }
+        },
+        {
+          "client_id": "572280715585-6ks025e2gfnmjka3ffk77g65gv6d0efh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPfzQHh1qbTLFHvRNml2jVwRVjpJPvFxQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "572280715585-6ks025e2gfnmjka3ffk77g65gv6d0efh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

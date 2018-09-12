@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.stephen.bigtoptricks.data.Contract;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,9 @@ public class AddTrick extends AppCompatActivity {
     private EditText mGoalCatchesEditText;
     private EditText mPropTypeEditText;
     private final static String mUnique = "unique_delimiter";
+
+
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +110,16 @@ public class AddTrick extends AppCompatActivity {
 
             // update list of trick names in shared preferences
             editor.putString("tricks", tricks_string + mUnique + trickName).commit();
+
+
+            // Obtain the FirebaseAnalytics instance.
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "add activity id");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "add activity item name");
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         } else {
             Log.d("LOG", "asdf contains");
