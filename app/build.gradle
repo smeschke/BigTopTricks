@@ -26,7 +26,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:11.8.0'
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
-
+    implementation 'com.android.support:design:27.1.0'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.7.3'
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.7.3'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.7.3'

@@ -26,33 +26,75 @@
 
         <WebView
             android:id="@+id/discovery_animation"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/discover_description_text_view"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/discovery_title_text_view" />
 
 
         <TextView
+            android:id="@+id/discovery_capacity_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintBottom_toTopOf="@+id/discovery_siteswap_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/discovery_animation" />
+
+        <TextView
+            android:id="@+id/discovery_siteswap_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintBottom_toTopOf="@+id/discovery_tutorial_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/discovery_capacity_text_view" />
+
+        <TextView
+            android:id="@+id/discovery_tutorial_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintBottom_toTopOf="@+id/discovery_difficulty_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/discovery_siteswap_text_view" />
+
+        <TextView
+            android:id="@+id/discovery_difficulty_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintBottom_toTopOf="@+id/discovery_source_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/discovery_tutorial_text_view" />
+
+        <TextView
+            android:id="@+id/discovery_source_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintBottom_toTopOf="@+id/discover_description_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/discovery_difficulty_text_view" />
+
+
+        <TextView
             android:id="@+id/discover_description_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
-            android:layout_marginLeft="48dp"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@id/addTrick"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/discovery_animation" />
 
         <Button
             android:id="@+id/addTrick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="32dp"
             android:onClick="addTrick"
             android:text="Add Trick to Training DB"
-            android:layout_margin="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
