@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,11 +25,12 @@
             android:authorities="com.example.stephen.bigtoptricks"
             android:exported="false" />
 
-        <activity android:name=".AddTrick" />
+        <activity android:name=".addTricks.AddTrick" />
         <activity android:name=".TrickDetail" />
         <activity android:name=".DisplayData" />
-        <activity android:name=".AddTrickFromList" />
-        <activity android:name=".TrickDiscovery"></activity>
+        <activity android:name=".addTricks.AddTrickFromList"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".addTricks.TrickDiscovery"></activity>
     </application>
 
 </manifest>

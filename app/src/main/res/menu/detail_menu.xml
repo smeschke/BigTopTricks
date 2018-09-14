@@ -2,8 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_remove_trick"
+        android:id="@+id/menu_show_detail"
         android:orderInCategory="1"
+        app:showAsAction="never"
+        android:title="Show Trick Details"/>
+    <item
+        android:id="@+id/menu_remove_trick"
+        android:orderInCategory="2"
         app:showAsAction="never"
         android:title="Remove trick from DB"/>
 </menu>

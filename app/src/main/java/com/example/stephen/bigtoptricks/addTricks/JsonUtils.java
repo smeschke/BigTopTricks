@@ -1,4 +1,4 @@
-package com.example.stephen.bigtoptricks;
+package com.example.stephen.bigtoptricks.addTricks;
 
 
 import android.content.Context;
@@ -77,7 +77,7 @@ public class JsonUtils {
             difficulty = jsonObject.getString("difficulty");
             capacity = jsonObject.getString("capacity");
             description = jsonObject.getString("description");
-            video_url = jsonObject.getString("tutorial");
+            tutorial = jsonObject.getString("tutorial");
             source = jsonObject.getString("source");
         } catch (JSONException e) {
             Log.d("LOG", "asdf error in json parsing");
@@ -88,7 +88,7 @@ public class JsonUtils {
         trick_details.add(animation);
         trick_details.add(tutorial);
         trick_details.add(difficulty);
-        trick_details.add(video_url);
+        trick_details.add(tutorial);
         trick_details.add(description);
         trick_details.add(source);
         return trick_details;

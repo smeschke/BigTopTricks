@@ -1,4 +1,4 @@
-package com.example.stephen.bigtoptricks;
+package com.example.stephen.bigtoptricks.addTricks;
 
 import java.io.IOException;
 import java.io.InputStream;

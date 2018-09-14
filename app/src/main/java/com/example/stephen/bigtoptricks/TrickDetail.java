@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.stephen.bigtoptricks.addTricks.JsonUtils;
+import com.example.stephen.bigtoptricks.addTricks.TrickDiscovery;
 import com.example.stephen.bigtoptricks.data.Contract;
 
 import java.util.ArrayList;
@@ -20,11 +22,27 @@ public class TrickDetail extends AppCompatActivity {
     public String mId;
     public String mTrickName;
     private final static String mUnique = "unique_delimiter";
+    private String mTrickPr;
+    private String mTrickGoal;
+    private String mTrickDescription;
+    private String mTimeTrained;
+    private String mHits;
+    private String mMisses;
+    private String mPropType;
+    private String mRecords;
+    private String mTrickCapacity;
+    private String mTrickSiteswap;
+    private String mTrickSource;
+    private String mTrickAnimation;
+    private String mTrickTutorial;
+    private String mTrickDifficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trick_detail);
+
+
 
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
@@ -39,9 +57,24 @@ public class TrickDetail extends AppCompatActivity {
             String propType = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_PROP_TYPE);
             String hits = getIntent().getExtras().getString(TrickFragment.ARG_HITS);
             String misses = getIntent().getExtras().getString(TrickFragment.ARG_MISSES);
+
+            mTrickSiteswap = getIntent().getExtras().getString(TrickFragment.ARG_SITESWAP);
+            mTrickAnimation = getIntent().getExtras().getString(TrickFragment.ARG_ANIMATION);
+            mTrickDifficulty = getIntent().getExtras().getString(TrickFragment.ARG_DIFFICULTY);
+            mTrickTutorial = getIntent().getExtras().getString(TrickFragment.ARG_TUTORIAL);
+            mTrickSource = getIntent().getExtras().getString(TrickFragment.ARG_SOURCE);
+            mTrickCapacity = getIntent().getExtras().getString(TrickFragment.ARG_CAPACITY);
+            mTrickDescription = trickDescription;
+
             mId = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_ID);
 
             Bundle arguments = new Bundle();
+            arguments.putString(TrickFragment.ARG_SITESWAP, mTrickSiteswap);
+            arguments.putString(TrickFragment.ARG_ANIMATION, mTrickAnimation);
+            arguments.putString(TrickFragment.ARG_DIFFICULTY, mTrickDifficulty);
+            arguments.putString(TrickFragment.ARG_TUTORIAL, mTrickTutorial);
+            arguments.putString(TrickFragment.ARG_SOURCE, mTrickSource);
+            arguments.putString(TrickFragment.ARG_CAPACITY, mTrickCapacity);
             arguments.putString(TrickFragment.ARG_TIME_TRAINED, timeTrained);
             arguments.putString(TrickFragment.ARG_TRICK_DESCRIPTION, trickDescription);
             arguments.putString(TrickFragment.ARG_TRICK_GOAL, trickGoal);
@@ -75,6 +108,25 @@ public class TrickDetail extends AppCompatActivity {
             remove_trick(Integer.parseInt(mId));
             finish();
             Toast.makeText(this, "Trick Removed from DB", Toast.LENGTH_LONG).show();
+        }
+        if (itemThatWasClickedId == R.id.menu_show_detail){
+            ArrayList<String> trick_details = new ArrayList<String>();
+
+            trick_details.add(mTrickName);
+            trick_details.add(mTrickCapacity);
+            trick_details.add(mTrickSiteswap);
+            trick_details.add(mTrickAnimation);
+            trick_details.add(mTrickTutorial);
+            trick_details.add(mTrickDifficulty);
+            trick_details.add(mTrickTutorial);
+            trick_details.add(mTrickDescription);
+            trick_details.add(mTrickSource);
+
+            Log.d("LOG", "asdf: goig from training to discovery:  " + trick_details.toString());
+
+            Intent toTrickDiscovery = new Intent(this, TrickDiscovery.class);
+            toTrickDiscovery.putStringArrayListExtra("details", trick_details);
+            startActivity(toTrickDiscovery);
         }
         if (itemThatWasClickedId == android.R.id.home) {
             NavUtils.navigateUpTo(this, new Intent(this,

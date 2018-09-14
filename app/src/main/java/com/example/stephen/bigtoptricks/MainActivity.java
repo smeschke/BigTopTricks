@@ -14,10 +14,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
 
+import com.example.stephen.bigtoptricks.addTricks.AddTrick;
+import com.example.stephen.bigtoptricks.addTricks.AddTrickFromList;
 import com.example.stephen.bigtoptricks.data.Contract;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements
         // Set adapter to mRecyclerView
         mRecyclerView.setAdapter(mAdapter);
         // Initialize loader
+        Log.d("LOG", "asdf on adapter set");
         getSupportLoaderManager().initLoader(LOADER_ID, null, this);
 
     }
@@ -69,8 +71,25 @@ public class MainActivity extends AppCompatActivity implements
         String hits = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_HIT));
         String misses = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_MISS));
 
+        String animation = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_ANIMAION));
+        String siteswap = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_SITESWAP));
+        String source = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_SOURCE));
+        String difficulty = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_DIFFICULTY));
+        String capacity = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_CAPACITY));
+        String tutorial = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_TUTORIAL));
+
         Log.d("LOG", "---------> asdf ID: " + id + " Trick Name: " + trickName);
         Intent toTrickDetail = new Intent(MainActivity.this, TrickDetail.class);
+
+        toTrickDetail.putExtra(TrickFragment.ARG_SOURCE,source);
+        toTrickDetail.putExtra(TrickFragment.ARG_ANIMATION,animation);
+        toTrickDetail.putExtra(TrickFragment.ARG_DIFFICULTY,difficulty);
+        toTrickDetail.putExtra(TrickFragment.ARG_TUTORIAL,tutorial);
+        toTrickDetail.putExtra(TrickFragment.ARG_SITESWAP,siteswap);
+        toTrickDetail.putExtra(TrickFragment.ARG_CAPACITY,capacity);
+
+        Log.d("LOG", "asdf in extra: " + source+ animation+ difficulty+ tutorial+siteswap+capacity);
+
         toTrickDetail.putExtra(TrickFragment.ARG_TRICK_ID, id);
         toTrickDetail.putExtra(TrickFragment.ARG_TRICK_NAME, trickName);
         toTrickDetail.putExtra(TrickFragment.ARG_TIME_TRAINED, timeTrained);
@@ -89,8 +108,7 @@ public class MainActivity extends AppCompatActivity implements
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        /*return new CursorLoader(this,Contract.listEntry.CONTENT_URI,null,
-                null,null, Contract.listEntry.COLUMN_TIMESTAMP);*/
+        Log.d("LOG", "asdf new Loader");
         return new CursorLoader(this,
                 Contract.listEntry.CONTENT_URI,
                 null,
@@ -102,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements
     // When loading is finished, swap in the new data
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        Log.d("LOG", "asdf on Load Finished");
         mCursor = data;
         mAdapter.swapCursor(data);
     }
@@ -136,11 +155,13 @@ public class MainActivity extends AppCompatActivity implements
             Intent toShowDb = new Intent(this, DisplayData.class);
             startActivity(toShowDb);
         }
-        if (itemThatWasClickedId == R.id.menu_help)
-            Toast.makeText(this, "Menu help is not implemented yet.", Toast.LENGTH_SHORT).show();
-        if (itemThatWasClickedId == R.id.menu_settings)
-            Toast.makeText(this, "Menu settings is not implemented yet.", Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
     //++++++++++++++++++++++++++++++++ END THREE BUTTONS OPTIONS +++++++++++++++++++++++++++++++++++
+
+    public void addTrick(View view){
+        Log.d("LOG", "asdf add trick fab");
+        Intent toAddFromListActivity = new Intent(this, AddTrickFromList.class);
+        startActivity(toAddFromListActivity);
+    }
 }

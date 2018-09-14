@@ -16,12 +16,4 @@
             android:id="@+id/database_textview"/>
    </ScrollView>
 
-    <!--
-
-        <com.jjoe64.graphview.GraphView
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:id="@+id/graph" />-->
-
-
 </android.support.constraint.ConstraintLayout>

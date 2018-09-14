@@ -52,7 +52,12 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
 
     @Override
     public int getItemCount() {
-        return mTrickNames.size();
+
+        try{
+            return mTrickNames.size();
+        }catch (Exception e){
+            return 0;
+        }
     }
 
     // TODO (6) create swap cursor method to reset the data

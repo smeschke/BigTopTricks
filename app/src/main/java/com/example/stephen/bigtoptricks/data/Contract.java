@@ -25,10 +25,14 @@ public class Contract {
         public static final String COLUMN_HIT = "hit";
         public static final String COLUMN_MISS = "miss";
         public static final String COLUMN_PROP_TYPE = "propType";
-        // if entry is not meta, column record contains the number of catches
-        // if entry is meta, column contains a list of all record a,b,c,d...
         public static final String COLUMN_RECORD = "record";
         public static final String COLUMN_IS_META = "is_meta";
         public static final String COLUMN_TIMESTAMP = "timestamp";
+        public static final String COLUMN_SITESWAP = "siteswap";
+        public static final String COLUMN_CAPACITY = "capacity";
+        public static final String COLUMN_SOURCE = "source";
+        public static final String COLUMN_TUTORIAL = "tutorial";
+        public static final String COLUMN_DIFFICULTY = "difficulty";
+        public static final String COLUMN_ANIMAION = "animation";
     }
 }

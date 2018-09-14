@@ -35,6 +35,12 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
     public static final String ARG_RECORD_ID = "records";
     public static final String ARG_HITS = "hits";
     public static final String ARG_MISSES = "misses";
+    public static final String ARG_CAPACITY = "capacity";
+    public static final String ARG_SOURCE = "source";
+    public static final String ARG_SITESWAP = "siteswap";
+    public static final String ARG_TUTORIAL = "tutorial";
+    public static final String ARG_ANIMATION = "animation";
+    public static final String ARG_DIFFICULTY = "difficulty";
     private String mTrickName;
     private String mTrickPr;
     private String mTrickGoal;
@@ -45,6 +51,12 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
     private String mMisses;
     private String mPropType;
     private String mRecords;
+    private String mTrickCapacity;
+    private String mTrickSiteswap;
+    private String mTrickSource;
+    private String mTrickAnimation;
+    private String mTrickTutorial;
+    private String mTrickDifficulty;
     Chronometer mChronometer;
     public long mStartTime;
     public boolean mTraining;
@@ -89,6 +101,13 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
         mMisses = getArguments().getString(ARG_MISSES);
         mPropType = getArguments().getString(ARG_TRICK_PROP_TYPE);
         mRecords = getArguments().getString(ARG_RECORD_ID);
+        mTrickCapacity = getArguments().getString(ARG_CAPACITY);
+        mTrickSource = getArguments().getString(ARG_SOURCE);
+        mTrickAnimation = getArguments().getString(ARG_ANIMATION);
+        mTrickDifficulty = getArguments().getString(ARG_DIFFICULTY);
+        mTrickTutorial = getArguments().getString(ARG_TUTORIAL);
+        mTrickSiteswap = getArguments().getString(ARG_SITESWAP);
+        Log.d("LOG", "asdf: " + mTrickCapacity + mTrickAnimation + mTrickDifficulty + mTrickTutorial + mTrickSiteswap);
         Log.d("LOG", "asdf mID: " + mHits + " " + mMisses);
     }
 
@@ -296,6 +315,14 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
         cv.put(Contract.listEntry.COLUMN_MISS, misses);
         cv.put(Contract.listEntry.COLUMN_PROP_TYPE, propType);
         cv.put(Contract.listEntry.COLUMN_GOAL, goal);
+
+        cv.put(Contract.listEntry.COLUMN_SITESWAP, mTrickSiteswap);
+        cv.put(Contract.listEntry.COLUMN_ANIMAION, mTrickAnimation);
+        cv.put(Contract.listEntry.COLUMN_SOURCE, mTrickSource);
+        cv.put(Contract.listEntry.COLUMN_DIFFICULTY, mTrickDifficulty);
+        cv.put(Contract.listEntry.COLUMN_CAPACITY, mTrickCapacity);
+        cv.put(Contract.listEntry.COLUMN_TUTORIAL, mTrickTutorial);
+
         int result = getActivity().getContentResolver().update(
                 Contract.listEntry.CONTENT_URI, cv, id, null);
         Log.d("LOG", "asdf result: " + result + " PR:" + pr + " Record: " + record);
@@ -314,6 +341,13 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
         cv.put(Contract.listEntry.COLUMN_PROP_TYPE, propType);
         cv.put(Contract.listEntry.COLUMN_RECORD, record);
         cv.put(Contract.listEntry.COLUMN_GOAL, goal);
+
+        cv.put(Contract.listEntry.COLUMN_SITESWAP, mTrickSiteswap);
+        cv.put(Contract.listEntry.COLUMN_ANIMAION, mTrickAnimation);
+        cv.put(Contract.listEntry.COLUMN_SOURCE, mTrickSource);
+        cv.put(Contract.listEntry.COLUMN_DIFFICULTY, mTrickDifficulty);
+        cv.put(Contract.listEntry.COLUMN_CAPACITY, mTrickCapacity);
+        cv.put(Contract.listEntry.COLUMN_TUTORIAL, mTrickTutorial);
         // Insert the content values via a ContentResolver
         Uri uri = getActivity().getContentResolver().insert(Contract.listEntry.CONTENT_URI, cv);
     }
