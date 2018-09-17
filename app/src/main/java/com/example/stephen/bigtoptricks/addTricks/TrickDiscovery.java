@@ -1,6 +1,7 @@
 package com.example.stephen.bigtoptricks.addTricks;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -67,5 +68,10 @@ public class TrickDiscovery extends AppCompatActivity {
         Intent toAddTrick = new Intent(this, AddTrick.class);
         toAddTrick.putStringArrayListExtra("details", mTrickDetails);
         startActivity(toAddTrick);
+    }
+
+    public void toUrl(View view){
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mTrickDetails.get(4)));
+        startActivity(browserIntent);
     }
 }

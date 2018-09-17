@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         // Create layout manager and bind it to the recycler view
         mRecyclerView = findViewById(R.id.my_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,
@@ -49,9 +50,8 @@ public class MainActivity extends AppCompatActivity implements
         // Set adapter to mRecyclerView
         mRecyclerView.setAdapter(mAdapter);
         // Initialize loader
-        Log.d("LOG", "asdf on adapter set");
+        //Log.d("LOG", "asdf on adapter set");
         getSupportLoaderManager().initLoader(LOADER_ID, null, this);
-
     }
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ START ONCLICK METHOD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements
         String records = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_RECORD));
         String hits = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_HIT));
         String misses = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_MISS));
-
         String animation = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_ANIMAION));
         String siteswap = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_SITESWAP));
         String source = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_SOURCE));
@@ -78,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements
         String capacity = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_CAPACITY));
         String tutorial = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_TUTORIAL));
 
-        Log.d("LOG", "---------> asdf ID: " + id + " Trick Name: " + trickName);
+        //Log.d("LOG", "---------> asdf ID: " + id + " Trick Name: " + trickName);
         Intent toTrickDetail = new Intent(MainActivity.this, TrickDetail.class);
 
         toTrickDetail.putExtra(TrickFragment.ARG_SOURCE,source);
@@ -87,9 +86,6 @@ public class MainActivity extends AppCompatActivity implements
         toTrickDetail.putExtra(TrickFragment.ARG_TUTORIAL,tutorial);
         toTrickDetail.putExtra(TrickFragment.ARG_SITESWAP,siteswap);
         toTrickDetail.putExtra(TrickFragment.ARG_CAPACITY,capacity);
-
-        Log.d("LOG", "asdf in extra: " + source+ animation+ difficulty+ tutorial+siteswap+capacity);
-
         toTrickDetail.putExtra(TrickFragment.ARG_TRICK_ID, id);
         toTrickDetail.putExtra(TrickFragment.ARG_TRICK_NAME, trickName);
         toTrickDetail.putExtra(TrickFragment.ARG_TIME_TRAINED, timeTrained);
@@ -120,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements
     // When loading is finished, swap in the new data
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        Log.d("LOG", "asdf on Load Finished");
+        //Log.d("LOG", "asdf on Load Finished");
         mCursor = data;
         mAdapter.swapCursor(data);
     }
@@ -160,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements
     //++++++++++++++++++++++++++++++++ END THREE BUTTONS OPTIONS +++++++++++++++++++++++++++++++++++
 
     public void addTrick(View view){
-        Log.d("LOG", "asdf add trick fab");
+        //Log.d("LOG", "asdf add trick fab");
         Intent toAddFromListActivity = new Intent(this, AddTrickFromList.class);
         startActivity(toAddFromListActivity);
     }

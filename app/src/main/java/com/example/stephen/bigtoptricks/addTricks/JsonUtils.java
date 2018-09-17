@@ -34,17 +34,45 @@ public class JsonUtils {
         return trick_names;
     }
 
-    public static ArrayList<String> getTrickDiff(String public_json_string) throws JSONException {
-        ArrayList<String> trick_diffs = new ArrayList<>();
+    public static ArrayList<String> getTrickCapicities(String public_json_string) throws JSONException {
+        ArrayList<String> trick_names = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray(public_json_string);
+        int num_tricks = getNumberOfTricks(public_json_string);
+        for(int position=0; position<num_tricks; position++){
+            JSONObject jsonObject = jsonArray.getJSONObject(position);
+            String trick_name = jsonObject.getString("capacity");
+            trick_names.add(trick_name);
+        }
+        return trick_names;
+    }
+
+    public static ArrayList<String> getTrickDifficulties(String public_json_string) throws JSONException {
+        ArrayList<String> trick_names = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(public_json_string);
         int num_tricks = getNumberOfTricks(public_json_string);
         for(int position=0; position<num_tricks; position++){
             JSONObject jsonObject = jsonArray.getJSONObject(position);
             String trick_name = jsonObject.getString("difficulty");
-            trick_diffs.add(trick_name);
+            trick_names.add(trick_name);
         }
-        return trick_diffs;
+        return trick_names;
     }
+
+    public static ArrayList<String> getTrickSources(String public_json_string) throws JSONException {
+        ArrayList<String> trick_names = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray(public_json_string);
+        int num_tricks = getNumberOfTricks(public_json_string);
+        for(int position=0; position<num_tricks; position++){
+            JSONObject jsonObject = jsonArray.getJSONObject(position);
+            String trick_name = jsonObject.getString("source");
+            trick_names.add(trick_name);
+        }
+        return trick_names;
+    }
+
+
+
+
 
     /* Takes the big json string that contains all the tricks,
    and returns the length.*/

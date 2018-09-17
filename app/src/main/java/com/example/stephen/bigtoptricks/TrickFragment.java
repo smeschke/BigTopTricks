@@ -147,7 +147,7 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
         String[] items = records.split(",");
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{});
         for (int i = 0; i < items.length; i++) {
-            Log.d("LOG", "asdf record item: " + items[i]);
+            //Log.d("LOG", "asdf record item: " + items[i]);
             series.appendData(new DataPoint(i, Integer.parseInt(items[i])), true, 40);
         }
 
@@ -325,7 +325,7 @@ public class TrickFragment extends Fragment implements View.OnClickListener {
 
         int result = getActivity().getContentResolver().update(
                 Contract.listEntry.CONTENT_URI, cv, id, null);
-        Log.d("LOG", "asdf result: " + result + " PR:" + pr + " Record: " + record);
+        //Log.d("LOG", "asdf result: " + result + " PR:" + pr + " Record: " + record);
     }
 
     public void insert_trick(String pr, String time, String description, String name, String record,
