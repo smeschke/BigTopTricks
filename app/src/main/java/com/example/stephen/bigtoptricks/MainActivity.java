@@ -20,6 +20,23 @@ import com.example.stephen.bigtoptricks.addTricks.AddTrick;
 import com.example.stephen.bigtoptricks.addTricks.AddTrickFromList;
 import com.example.stephen.bigtoptricks.data.Contract;
 
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_ANIMATION;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_CAPACITY;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_DIFFICULTY;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_HITS;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_MISSES;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_RECORD_ID;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_SITESWAP;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_SOURCE;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TIME_TRAINED;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_DESCRIPTION;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_GOAL;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_ID;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_NAME;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_PR;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_PROP_TYPE;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TUTORIAL;
+
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,
         MyTrainingDbAdapter.ItemClickListener {
@@ -80,22 +97,22 @@ public class MainActivity extends AppCompatActivity implements
         //Log.d("LOG", "---------> asdf ID: " + id + " Trick Name: " + trickName);
         Intent toTrickDetail = new Intent(MainActivity.this, TrickDetail.class);
 
-        toTrickDetail.putExtra(TrickFragment.ARG_SOURCE,source);
-        toTrickDetail.putExtra(TrickFragment.ARG_ANIMATION,animation);
-        toTrickDetail.putExtra(TrickFragment.ARG_DIFFICULTY,difficulty);
-        toTrickDetail.putExtra(TrickFragment.ARG_TUTORIAL,tutorial);
-        toTrickDetail.putExtra(TrickFragment.ARG_SITESWAP,siteswap);
-        toTrickDetail.putExtra(TrickFragment.ARG_CAPACITY,capacity);
-        toTrickDetail.putExtra(TrickFragment.ARG_TRICK_ID, id);
-        toTrickDetail.putExtra(TrickFragment.ARG_TRICK_NAME, trickName);
-        toTrickDetail.putExtra(TrickFragment.ARG_TIME_TRAINED, timeTrained);
-        toTrickDetail.putExtra(TrickFragment.ARG_TRICK_DESCRIPTION, trickDescription);
-        toTrickDetail.putExtra(TrickFragment.ARG_TRICK_PR, trickPr);
-        toTrickDetail.putExtra(TrickFragment.ARG_TRICK_PROP_TYPE, propType);
-        toTrickDetail.putExtra(TrickFragment.ARG_TRICK_GOAL, trickGoal);
-        toTrickDetail.putExtra(TrickFragment.ARG_RECORD_ID, records);
-        toTrickDetail.putExtra(TrickFragment.ARG_HITS, hits);
-        toTrickDetail.putExtra(TrickFragment.ARG_MISSES, misses);
+        toTrickDetail.putExtra(ARG_SOURCE,source);
+        toTrickDetail.putExtra(ARG_ANIMATION,animation);
+        toTrickDetail.putExtra(ARG_DIFFICULTY,difficulty);
+        toTrickDetail.putExtra(ARG_TUTORIAL,tutorial);
+        toTrickDetail.putExtra(ARG_SITESWAP,siteswap);
+        toTrickDetail.putExtra(ARG_CAPACITY,capacity);
+        toTrickDetail.putExtra(ARG_TRICK_ID, id);
+        toTrickDetail.putExtra(ARG_TRICK_NAME, trickName);
+        toTrickDetail.putExtra(ARG_TIME_TRAINED, timeTrained);
+        toTrickDetail.putExtra(ARG_TRICK_DESCRIPTION, trickDescription);
+        toTrickDetail.putExtra(ARG_TRICK_PR, trickPr);
+        toTrickDetail.putExtra(ARG_TRICK_PROP_TYPE, propType);
+        toTrickDetail.putExtra(ARG_TRICK_GOAL, trickGoal);
+        toTrickDetail.putExtra(ARG_RECORD_ID, records);
+        toTrickDetail.putExtra(ARG_HITS, hits);
+        toTrickDetail.putExtra(ARG_MISSES, misses);
         startActivity(toTrickDetail);
     }
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ END ONCLICK METHOD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
