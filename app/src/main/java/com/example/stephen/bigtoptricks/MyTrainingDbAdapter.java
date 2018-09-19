@@ -25,6 +25,7 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
     private List<String> mTrickNames;
     private List<String> mGoals;
     private List<String> mPrs;
+    private List<String> mTimes;
 
     // Create MyRecyclerViewAdapter
     MyTrainingDbAdapter(Context context) {
@@ -48,6 +49,7 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
         holder.trickNameTextView.setText(mTrickNames.get(position));
         holder.prCatchesTextView.setText("PR: " + mPrs.get(position));
         holder.goalCatchesTextView.setText("Goal: " + mGoals.get(position));
+        holder.timeTrainedTextView.setText("Time Trained: " + mTimes.get(position));
     }
 
     @Override
@@ -66,6 +68,7 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
         List<String> trickNames = new ArrayList<>();
         List<String> goals = new ArrayList<>();
         List<String> prs = new ArrayList<>();
+        List<String> times = new ArrayList<>();
         for (int i = 0; i < data.getCount(); i++) {
             data.moveToPosition(i);
 
@@ -80,11 +83,16 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
             String pr = data.getString(data.getColumnIndex(
                     Contract.listEntry.COLUMN_PERSONAL_RECORD));
             prs.add(pr);
+
+            String t = data.getString(data.getColumnIndex(
+                    Contract.listEntry.COLUMN_TIME_TRAINED));
+            times.add(t);
         }
 
         mTrickNames = trickNames;
         mGoals = goals;
         mPrs = prs;
+        mTimes = times;
 
         //Log.d("LOG", "asdf prs: " + mTrickNames.toString());
         notifyDataSetChanged();
@@ -104,11 +112,13 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
         final TextView trickNameTextView;
         final TextView goalCatchesTextView;
         final TextView prCatchesTextView;
+        final TextView timeTrainedTextView;
 
         // Set the click listener to the image view
         // When a user clicks on an image --> something happens based on the image a user clicked.
         ViewHolder(View itemView) {
             super(itemView);
+            timeTrainedTextView = itemView.findViewById(R.id.text_view_time_trained);
             trickNameTextView = itemView.findViewById(R.id.text_view_trick_name_list_item);
             goalCatchesTextView = itemView.findViewById(R.id.text_view_goal_catches_list_item);
             prCatchesTextView = itemView.findViewById(R.id.text_view_pr_catches_list_item);

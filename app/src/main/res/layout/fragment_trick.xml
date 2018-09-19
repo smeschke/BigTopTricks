@@ -83,7 +83,6 @@
 
     <Button
         android:id="@+id/hit_button"
-        android:onClick="apply_hit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hit"

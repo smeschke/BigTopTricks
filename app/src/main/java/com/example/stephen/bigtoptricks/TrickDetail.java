@@ -21,15 +21,8 @@ public class TrickDetail extends AppCompatActivity {
 
     public String mId;
     public String mTrickName;
-    private final static String mUnique = "unique_delimiter";
-    private String mTrickPr;
-    private String mTrickGoal;
+    public final static String mUnique = "unique_delimiter";
     private String mTrickDescription;
-    private String mTimeTrained;
-    private String mHits;
-    private String mMisses;
-    private String mPropType;
-    private String mRecords;
     private String mTrickCapacity;
     private String mTrickSiteswap;
     private String mTrickSource;
@@ -42,30 +35,25 @@ public class TrickDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trick_detail);
 
-
-
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            String trickName = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_NAME);
-            mTrickName = trickName;
             String trickPr = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_PR);
             String trickGoal = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_GOAL);
-            String trickDescription = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_DESCRIPTION);
+
             String timeTrained = getIntent().getExtras().getString(TrickFragment.ARG_TIME_TRAINED);
             String records = getIntent().getExtras().getString(TrickFragment.ARG_RECORD_ID);
             String propType = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_PROP_TYPE);
             String hits = getIntent().getExtras().getString(TrickFragment.ARG_HITS);
             String misses = getIntent().getExtras().getString(TrickFragment.ARG_MISSES);
-
+            mTrickName = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_NAME);
+            mTrickDescription = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_DESCRIPTION);
             mTrickSiteswap = getIntent().getExtras().getString(TrickFragment.ARG_SITESWAP);
             mTrickAnimation = getIntent().getExtras().getString(TrickFragment.ARG_ANIMATION);
             mTrickDifficulty = getIntent().getExtras().getString(TrickFragment.ARG_DIFFICULTY);
             mTrickTutorial = getIntent().getExtras().getString(TrickFragment.ARG_TUTORIAL);
             mTrickSource = getIntent().getExtras().getString(TrickFragment.ARG_SOURCE);
             mTrickCapacity = getIntent().getExtras().getString(TrickFragment.ARG_CAPACITY);
-            mTrickDescription = trickDescription;
-
             mId = getIntent().getExtras().getString(TrickFragment.ARG_TRICK_ID);
 
             Bundle arguments = new Bundle();
@@ -76,10 +64,10 @@ public class TrickDetail extends AppCompatActivity {
             arguments.putString(TrickFragment.ARG_SOURCE, mTrickSource);
             arguments.putString(TrickFragment.ARG_CAPACITY, mTrickCapacity);
             arguments.putString(TrickFragment.ARG_TIME_TRAINED, timeTrained);
-            arguments.putString(TrickFragment.ARG_TRICK_DESCRIPTION, trickDescription);
+            arguments.putString(TrickFragment.ARG_TRICK_DESCRIPTION, mTrickDescription);
             arguments.putString(TrickFragment.ARG_TRICK_GOAL, trickGoal);
             arguments.putString(TrickFragment.ARG_TRICK_PR, trickPr);
-            arguments.putString(TrickFragment.ARG_TRICK_NAME, trickName);
+            arguments.putString(TrickFragment.ARG_TRICK_NAME, mTrickName);
             arguments.putString(TrickFragment.ARG_HITS, hits);
             arguments.putString(TrickFragment.ARG_MISSES, misses);
             arguments.putString(TrickFragment.ARG_TRICK_ID, mId);
@@ -111,7 +99,6 @@ public class TrickDetail extends AppCompatActivity {
         }
         if (itemThatWasClickedId == R.id.menu_show_detail){
             ArrayList<String> trick_details = new ArrayList<String>();
-
             trick_details.add(mTrickName);
             trick_details.add(mTrickCapacity);
             trick_details.add(mTrickSiteswap);
@@ -121,9 +108,6 @@ public class TrickDetail extends AppCompatActivity {
             trick_details.add(mTrickTutorial);
             trick_details.add(mTrickDescription);
             trick_details.add(mTrickSource);
-
-            Log.d("LOG", "asdf: goig from training to discovery:  " + trick_details.toString());
-
             Intent toTrickDiscovery = new Intent(this, TrickDiscovery.class);
             toTrickDiscovery.putStringArrayListExtra("details", trick_details);
             startActivity(toTrickDiscovery);
@@ -144,33 +128,20 @@ public class TrickDetail extends AppCompatActivity {
         uri = uri.buildUpon().appendPath(Integer.toString(id)).build();
         // Delete single row
         int test = getContentResolver().delete(uri, null, null);
-        Log.d("LOG", "asdf trick removed: " + test);
-
-        ArrayList<String> mTrickNames = new ArrayList<String>();
         // Get access to the preferences
-        SharedPreferences settings = getApplicationContext().
-                getSharedPreferences("log", 0);
-        SharedPreferences.Editor editor = settings.edit();
-        String tricks_string = settings.getString("tricks", "");
-        Log.d("LOG", "asdf tricks String: " + tricks_string);
-        String[] stringLIst = tricks_string.split(mUnique);
-        for (int i = 0; i < stringLIst.length; i++) {
-            mTrickNames.add(stringLIst[i]);
-            Log.d("LOG", "asdf : " + stringLIst[i]);
-        }
-
+        SharedPreferences settings = getApplicationContext().getSharedPreferences("log", 0);
+        String[] stringLIst = settings.getString("tricks", "").split(mUnique);
+        // get list of trick names
+        ArrayList<String> mTrickNames = new ArrayList<String>();
+        for (int i = 0; i < stringLIst.length; i++) mTrickNames.add(stringLIst[i]);
+        // remove this trick from list of trick names
         mTrickNames.remove(mTrickName);
+        // create new list of strings that does not contain the removed trick
         String output_string = "";
-        for (int i = 0; i < mTrickNames.size(); i++) {
-            //Log.d("LOG", "asdf : " + mTrickNames.get(i));
-            output_string += mTrickNames.get(i) + mUnique;
-        }
-        Log.d("LOG", "asdf : " + output_string);
+        for (int i = 0; i < mTrickNames.size(); i++) output_string += mTrickNames.get(i) + mUnique;
         // update list of trick names in shared preferences
-        editor.putString("tricks", output_string).commit();
-        Log.d("LOG", "asdf : no crash get here == lunch time");
+        settings.edit().putString("tricks", output_string).commit();
 
     }
-
     //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; END DB METHODS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 }

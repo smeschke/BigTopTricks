@@ -1,8 +1,6 @@
 package com.example.stephen.bigtoptricks.addTricks;
 
-import android.content.ContentValues;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -13,10 +11,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.stephen.bigtoptricks.R;
-import com.example.stephen.bigtoptricks.data.Contract;
+import com.example.stephen.bigtoptricks.data.Actions;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
+
+import static com.example.stephen.bigtoptricks.TrickDetail.mUnique;
 
 public class AddTrick extends AppCompatActivity {
 
@@ -24,8 +24,6 @@ public class AddTrick extends AppCompatActivity {
     private EditText mTrickDescriptionEditText;
     private EditText mGoalCatchesEditText;
     private EditText mPropTypeEditText;
-    private final static String mUnique = "unique_delimiter";
-
     private String mTrickName;
     private String mTrickDescription;
     private String mTrickCapacity;
@@ -35,8 +33,6 @@ public class AddTrick extends AppCompatActivity {
     private String mTrickTutorial;
     private String mTrickDifficulty;
     private ArrayList<String> mTrickDetails = new ArrayList<String>();
-
-
     private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
@@ -51,7 +47,6 @@ public class AddTrick extends AppCompatActivity {
         mPropTypeEditText = (EditText) findViewById(R.id.edit_text_prop_type);
 
         if (getIntent().hasExtra("details")) {
-            Log.d("LOG", "asdf intent has extras");
             mTrickDetails = getIntent().getStringArrayListExtra("details");
             mTrickName = mTrickDetails.get(0);
             mTrickCapacity = mTrickDetails.get(1);
@@ -62,10 +57,8 @@ public class AddTrick extends AppCompatActivity {
             mTrickDescription = mTrickDetails.get(7);
             mTrickSource = mTrickDetails.get(8);
             mTrickNameEditText.setText(mTrickName);
-            mTrickDescriptionEditText.setText(mTrickDescription.substring(0, 234) + "...");
-        }
-        else{
-            Log.d("LOG", "asdf intent has NONONON extras");
+            mTrickDescriptionEditText.setText(mTrickDescription.substring(0, 60) + "...");
+        } else {
             mTrickName = "custom trick";
             mTrickCapacity = "custom trick";
             mTrickSiteswap = "custom trick";
@@ -90,72 +83,39 @@ public class AddTrick extends AppCompatActivity {
         String trickDescription = mTrickDescriptionEditText.getText().toString();
         String goal = mGoalCatchesEditText.getText().toString();
         String propType = mPropTypeEditText.getText().toString();
-        Log.d("LOG", "asdf trick Name: " + trickName);
 
-
-        // determine if trick name is already in the db
+        // Determine if trick name is already in the db
         boolean is_unique = true;
 
-        // Can't have a trick with no name
-        if (trickName.length()<1) is_unique = false;
-        if (trickDescription.length()<1) trickDescription = "No description for this trick.";
-        if (goal.length()<1) goal = "No goal for this trick.";
-        if (propType.length()<1) propType = "No prop type for this trick.";
+        // Can't have a trick with no name (check for null parameters)
+        if (trickName.length() < 1) is_unique = false;
+        if (trickDescription.length() < 1) trickDescription = "No description for this trick.";
+        if (goal.length() < 1) goal = "No goal for this trick.";
+        if (propType.length() < 1) propType = "No prop type for this trick.";
 
         // Get access to the preferences for list of trick names
         ArrayList<String> mTrickNames = new ArrayList<String>();
-        // Get access to the preferences
-        SharedPreferences settings = getApplicationContext().
-                getSharedPreferences("log", 0);
-        SharedPreferences.Editor editor = settings.edit();
+        // Look through all the tricks in the DB
+        SharedPreferences settings = getApplicationContext().getSharedPreferences("log", 0);
         String tricks_string = settings.getString("tricks", "");
-        Log.d("LOG", "asdf tricks String: " + tricks_string);
         String[] stringLIst = tricks_string.split(mUnique);
-        for (int i = 0; i < stringLIst.length; i++) {
-            mTrickNames.add(stringLIst[i]);
-            Log.d("LOG", "asdf : " + stringLIst[i]);
-        }
-        if(mTrickNames.contains(trickName)) is_unique=false;
-
+        for (int i = 0; i < stringLIst.length; i++) mTrickNames.add(stringLIst[i]);
+        if (mTrickNames.contains(trickName)) is_unique = false;
         if (is_unique) {
-            // Fill content values with trick attributes
-            Log.d("LOG", "asdf add trick to db: " + mTrickCapacity + mTrickAnimation
-                    + mTrickDifficulty + mTrickTutorial + mTrickSiteswap);
-            ContentValues cv = new ContentValues();
-            cv.put(Contract.listEntry.COLUMN_PERSONAL_RECORD, "0");
-            cv.put(Contract.listEntry.COLUMN_TIME_TRAINED, "0");
-            cv.put(Contract.listEntry.COLUMN_TRICK_DESCRIPTION, trickDescription);
-            cv.put(Contract.listEntry.COLUMN_TRICK_NAME, trickName);
-            cv.put(Contract.listEntry.COLUMN_IS_META, "yes");
-            cv.put(Contract.listEntry.COLUMN_HIT, "0");
-            cv.put(Contract.listEntry.COLUMN_MISS, "0");
-            cv.put(Contract.listEntry.COLUMN_RECORD, "0");
-            cv.put(Contract.listEntry.COLUMN_PROP_TYPE, propType);
-            cv.put(Contract.listEntry.COLUMN_GOAL, goal);
-            cv.put(Contract.listEntry.COLUMN_SITESWAP, mTrickSiteswap);
-            cv.put(Contract.listEntry.COLUMN_ANIMAION, mTrickAnimation);
-            cv.put(Contract.listEntry.COLUMN_SOURCE, mTrickSource);
-            cv.put(Contract.listEntry.COLUMN_DIFFICULTY, mTrickDifficulty);
-            cv.put(Contract.listEntry.COLUMN_CAPACITY, mTrickCapacity);
-            cv.put(Contract.listEntry.COLUMN_TUTORIAL, mTrickTutorial);
-            // Insert the content values via a ContentResolver
-            Uri uri = getContentResolver().insert(Contract.listEntry.CONTENT_URI, cv);
-
+            // Insert the trick into the database
+            Actions.insert_trick(this, "0", "0", trickDescription,
+                    trickName, "yes", "0", "0", "0", propType, goal,
+                    mTrickSiteswap, mTrickAnimation, mTrickSource, mTrickDifficulty, mTrickCapacity,
+                    mTrickTutorial);
             // Inform the user that the trick has been added to the DB
-            Toast.makeText(this,
-                    mTrickName + " has been entered into the training DB.",
+            Toast.makeText(this,mTrickName + " has been entered into the training DB.",
                     Toast.LENGTH_SHORT).show();
-
             // Reset the hints on the edittext boxes
             mTrickNameEditText.setHint("Enter Trick Name...");
             mTrickDescriptionEditText.setHint("Enter Trick Description (optional)...");
             mGoalCatchesEditText.setHint("Goal (#catches, #reps, time, etc...");
-
-
             // update list of trick names in shared preferences
-            editor.putString("tricks", tricks_string + mUnique + trickName).commit();
-
-            ////////////////////// FIREBASE ANALYTICS //////////////////////////////////////////////
+            settings.edit().putString("tricks", tricks_string + mUnique + trickName).commit();
             // Obtain the FirebaseAnalytics instance.
             mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
             Bundle bundle = new Bundle();
@@ -163,9 +123,8 @@ public class AddTrick extends AppCompatActivity {
             bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "add activity item name");
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-
         } else {
-            Log.d("LOG", "asdf contains");
+            // The user is trying to enter a trick name that already exists in the database
             Toast.makeText(this, "Trick name is already on the training manifest.\n" +
                     "Please, enter a unique name for this trick.", Toast.LENGTH_SHORT).show();
         }
