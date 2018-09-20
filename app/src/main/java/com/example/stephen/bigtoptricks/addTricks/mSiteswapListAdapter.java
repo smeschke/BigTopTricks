@@ -132,7 +132,7 @@ public class mSiteswapListAdapter extends RecyclerView.Adapter<mSiteswapListAdap
         sources_list = sources;
         capacity_list = capacities;
         difficulties_list = difficulties;
-        output_list.add(0, "Add a Custom Trick");
+        output_list.add(0, "Add a Custom Tricks");
         sources_list.add(0, "Create trick yourself.");
         capacity_list.add(0, "User Defined");
         difficulties_list.add(0, "Any");

@@ -11,20 +11,61 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.example.stephen.bigtoptricks.R;
+import com.example.stephen.bigtoptricks.Tricks;
 import com.example.stephen.bigtoptricks.addTricks.AddTrick;
 
 import java.util.ArrayList;
+
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_OBJECT;
 
 public class TrickDiscovery extends AppCompatActivity {
 
     private String mTrickName;
     private String mTrickDescription;
+
+    private String mName;
+    private String mPr;
+    private String mGoal;
+    private String mDescription;
+    private String mTimeTrained;
+    private String mId;
+    private String mHits;
+    private String mMisses;
+    private String mPropType;
+    private String mRecords;
+    private String mCapacity;
+    private String mSiteswap;
+    private String mSource;
+    private String mAnimation;
+    private String mTutorial;
+    private String mDifficulty;
+    private Tricks mTricks;
+
+
     private ArrayList<String> mTrickDetails = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trick_discovery);
+
+        mTricks = getIntent().getExtras().getParcelable(ARG_TRICK_OBJECT);
+        mName = mTricks.getName();
+        mRecords = mTricks.getRecord();
+        mPropType = mTricks.getProp_type();
+        mPr = mTricks.getPr();
+        mMisses = mTricks.getMiss();
+        mGoal = mTricks.getGoal();
+        mTimeTrained = mTricks.getTime_trained();
+        mHits = mTricks.getHit();
+        mSiteswap = mTricks.getSiteswap();
+        mSource = mTricks.getSource();
+        mAnimation = mTricks.getAnimation();
+        mTutorial = mTricks.getTutorial();
+        mDifficulty = mTricks.getDifficulty();
+        mCapacity = mTricks.getCapacity();
+        mId = mTricks.getId();
+        mDescription = mTricks.getDescription();
 
         mTrickDetails = getIntent().getStringArrayListExtra("details");
         Log.d("LOG", "asdf made it    " + mTrickDetails.toString());
@@ -33,7 +74,6 @@ public class TrickDiscovery extends AppCompatActivity {
         title_text_view.setText(mTrickDetails.get(0));
 
         TextView details_text_view = (TextView) findViewById(R.id.discover_description_text_view);
-        //details_text_view.setText(mTrickDetails.get(7).replaceAll("(\r\n)", " "));
         details_text_view.setText(Html.fromHtml(mTrickDetails.get(7)));
 
         WebView wv = (WebView) findViewById(R.id.discovery_animation);

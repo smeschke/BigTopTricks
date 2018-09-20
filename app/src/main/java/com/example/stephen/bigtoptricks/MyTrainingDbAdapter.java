@@ -94,7 +94,6 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
         mPrs = prs;
         mTimes = times;
 
-        //Log.d("LOG", "asdf prs: " + mTrickNames.toString());
         notifyDataSetChanged();
     }
 

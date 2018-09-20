@@ -16,32 +16,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.stephen.bigtoptricks.addTricks.AddTrick;
 import com.example.stephen.bigtoptricks.addTricks.AddTrickFromList;
 import com.example.stephen.bigtoptricks.data.Contract;
 
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_ANIMATION;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_CAPACITY;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_DIFFICULTY;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_HITS;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_MISSES;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_RECORD_ID;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_SITESWAP;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_SOURCE;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TIME_TRAINED;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_DESCRIPTION;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_GOAL;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_ID;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_NAME;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_PR;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_PROP_TYPE;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TUTORIAL;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_OBJECT;
 
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,
         MyTrainingDbAdapter.ItemClickListener {
 
-    // Create a string of json to pass around
     private MyTrainingDbAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private Cursor mCursor;
@@ -52,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         // Create layout manager and bind it to the recycler view
         mRecyclerView = findViewById(R.id.my_recycler_view);
@@ -67,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements
         // Set adapter to mRecyclerView
         mRecyclerView.setAdapter(mAdapter);
         // Initialize loader
-        //Log.d("LOG", "asdf on adapter set");
         getSupportLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
@@ -77,42 +58,28 @@ public class MainActivity extends AppCompatActivity implements
 
         mCursor.moveToPosition(position);
 
-        String trickName = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_TRICK_NAME));
-        String timeTrained = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_TIME_TRAINED));
-        String trickGoal = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_GOAL));
-        String trickPr = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_PERSONAL_RECORD));
-        String trickDescription = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_TRICK_DESCRIPTION));
+        String name = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_TRICK_NAME));
+        String time_trained = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_TIME_TRAINED));
+        String goal = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_GOAL));
+        String pr = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_PERSONAL_RECORD));
+        String description = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_TRICK_DESCRIPTION));
         String id = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry._ID));
-        String propType = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_PROP_TYPE));
-        String records = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_RECORD));
-        String hits = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_HIT));
-        String misses = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_MISS));
+        String prop_type = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_PROP_TYPE));
+        String record = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_RECORD));
+        String hit = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_HIT));
+        String miss = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_MISS));
         String animation = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_ANIMAION));
         String siteswap = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_SITESWAP));
         String source = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_SOURCE));
         String difficulty = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_DIFFICULTY));
         String capacity = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_CAPACITY));
         String tutorial = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_TUTORIAL));
+        String meta = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_IS_META));
 
-        //Log.d("LOG", "---------> asdf ID: " + id + " Trick Name: " + trickName);
+        Tricks tricks = new Tricks(pr, time_trained, description, name, meta, hit, miss, record, prop_type, goal,
+                siteswap, animation, source, difficulty, capacity, tutorial, id);
         Intent toTrickDetail = new Intent(MainActivity.this, TrickDetail.class);
-
-        toTrickDetail.putExtra(ARG_SOURCE,source);
-        toTrickDetail.putExtra(ARG_ANIMATION,animation);
-        toTrickDetail.putExtra(ARG_DIFFICULTY,difficulty);
-        toTrickDetail.putExtra(ARG_TUTORIAL,tutorial);
-        toTrickDetail.putExtra(ARG_SITESWAP,siteswap);
-        toTrickDetail.putExtra(ARG_CAPACITY,capacity);
-        toTrickDetail.putExtra(ARG_TRICK_ID, id);
-        toTrickDetail.putExtra(ARG_TRICK_NAME, trickName);
-        toTrickDetail.putExtra(ARG_TIME_TRAINED, timeTrained);
-        toTrickDetail.putExtra(ARG_TRICK_DESCRIPTION, trickDescription);
-        toTrickDetail.putExtra(ARG_TRICK_PR, trickPr);
-        toTrickDetail.putExtra(ARG_TRICK_PROP_TYPE, propType);
-        toTrickDetail.putExtra(ARG_TRICK_GOAL, trickGoal);
-        toTrickDetail.putExtra(ARG_RECORD_ID, records);
-        toTrickDetail.putExtra(ARG_HITS, hits);
-        toTrickDetail.putExtra(ARG_MISSES, misses);
+        toTrickDetail.putExtra(ARG_TRICK_OBJECT, tricks);
         startActivity(toTrickDetail);
     }
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ END ONCLICK METHOD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -156,14 +123,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemThatWasClickedId = item.getItemId();
-        if (itemThatWasClickedId == R.id.menu_add_trick) {
-            Intent toAddNewTrickActivity = new Intent(this, AddTrick.class);
-            startActivity(toAddNewTrickActivity);
-        }
-        if (itemThatWasClickedId == R.id.menu_add_from_list) {
-            Intent toAddFromListActivity = new Intent(this, AddTrickFromList.class);
-            startActivity(toAddFromListActivity);
-        }
         if (itemThatWasClickedId == R.id.menu_show_db) {
             Intent toShowDb = new Intent(this, DisplayData.class);
             startActivity(toShowDb);
@@ -172,8 +131,7 @@ public class MainActivity extends AppCompatActivity implements
     }
     //++++++++++++++++++++++++++++++++ END THREE BUTTONS OPTIONS +++++++++++++++++++++++++++++++++++
 
-    public void addTrick(View view){
-        //Log.d("LOG", "asdf add trick fab");
+    public void addTrick(View view) {
         Intent toAddFromListActivity = new Intent(this, AddTrickFromList.class);
         startActivity(toAddFromListActivity);
     }

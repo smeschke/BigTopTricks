@@ -111,8 +111,8 @@ public class AddTrick extends AppCompatActivity {
             Toast.makeText(this,mTrickName + " has been entered into the training DB.",
                     Toast.LENGTH_SHORT).show();
             // Reset the hints on the edittext boxes
-            mTrickNameEditText.setHint("Enter Trick Name...");
-            mTrickDescriptionEditText.setHint("Enter Trick Description (optional)...");
+            mTrickNameEditText.setHint("Enter Tricks Name...");
+            mTrickDescriptionEditText.setHint("Enter Tricks Description (optional)...");
             mGoalCatchesEditText.setHint("Goal (#catches, #reps, time, etc...");
             // update list of trick names in shared preferences
             settings.edit().putString("tricks", tricks_string + mUnique + trickName).commit();
@@ -125,7 +125,7 @@ public class AddTrick extends AppCompatActivity {
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         } else {
             // The user is trying to enter a trick name that already exists in the database
-            Toast.makeText(this, "Trick name is already on the training manifest.\n" +
+            Toast.makeText(this, "Tricks name is already on the training manifest.\n" +
                     "Please, enter a unique name for this trick.", Toast.LENGTH_SHORT).show();
         }
     }
