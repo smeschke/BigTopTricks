@@ -7,61 +7,61 @@
     tools:context=".TrickFragment">
 
     <TextView
-        android:id="@+id/fragment_trick_name_text_view"
+        android:id="@+id/trick_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="32dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/fragment_trick_description_text_view"
+        app:layout_constraintBottom_toTopOf="@id/trick_description_text_view"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.jjoe64.graphview.GraphView
-        android:id="@+id/fragment_trick_description_text_view"
+        android:id="@+id/trick_description_text_view"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        app:layout_constraintBottom_toTopOf="@id/fragment_trick_pr_text_view"
+        app:layout_constraintBottom_toTopOf="@id/trick_pr_text_view"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_trick_name_text_view" />
+        app:layout_constraintTop_toBottomOf="@id/trick_name_text_view" />
 
     <TextView
-        android:id="@+id/fragment_trick_pr_text_view"
+        android:id="@+id/trick_pr_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@id/fragment_trick_goal_text_view"
+        app:layout_constraintBottom_toTopOf="@id/trick_goal_text_view"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_trick_description_text_view" />
+        app:layout_constraintTop_toBottomOf="@id/trick_description_text_view" />
 
     <TextView
-        android:id="@+id/fragment_trick_goal_text_view"
+        android:id="@+id/trick_goal_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:text="fragment trick goal text view"
         android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@id/fragment_time_trained_text_view"
+        app:layout_constraintBottom_toTopOf="@id/time_trained_text_view"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_trick_pr_text_view" />
+        app:layout_constraintTop_toBottomOf="@id/trick_pr_text_view" />
 
 
     <TextView
-        android:id="@+id/fragment_time_trained_text_view"
+        android:id="@+id/time_trained_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:text="time trained text view"
         android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@id/fragment_start_training_button"
+        app:layout_constraintBottom_toTopOf="@id/start_training_button"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_trick_goal_text_view" />
+        app:layout_constraintTop_toBottomOf="@id/trick_goal_text_view" />
 
 
     <Button
-        android:id="@+id/fragment_start_training_button"
+        android:id="@+id/start_training_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start Training!"
@@ -69,18 +69,18 @@
         android:textSize="16dp"
         app:layout_constraintBottom_toTopOf="@id/hit_button"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/fragment_chronometer"
-        app:layout_constraintTop_toBottomOf="@id/fragment_time_trained_text_view" />
+        app:layout_constraintRight_toLeftOf="@id/chronometer"
+        app:layout_constraintTop_toBottomOf="@id/time_trained_text_view" />
 
     <Chronometer
-        android:id="@+id/fragment_chronometer"
+        android:id="@+id/chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/fragment_start_training_button"
-        app:layout_constraintLeft_toRightOf="@id/fragment_start_training_button"
+        app:layout_constraintBottom_toBottomOf="@id/start_training_button"
+        app:layout_constraintLeft_toRightOf="@id/start_training_button"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/fragment_start_training_button" />
+        app:layout_constraintTop_toTopOf="@id/start_training_button" />
 
     <Button
         android:id="@+id/hit_button"
@@ -91,7 +91,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/hitMissTextView"
-        app:layout_constraintTop_toBottomOf="@id/fragment_start_training_button" />
+        app:layout_constraintTop_toBottomOf="@id/start_training_button" />
 
     <TextView
         android:id="@+id/hitMissTextView"
@@ -101,7 +101,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/hit_button"
         app:layout_constraintRight_toLeftOf="@id/miss_button"
-        app:layout_constraintTop_toBottomOf="@id/fragment_start_training_button" />
+        app:layout_constraintTop_toBottomOf="@id/start_training_button" />
 
     <Button
         android:id="@+id/miss_button"
@@ -112,5 +112,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/hitMissTextView"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_start_training_button" />
+        app:layout_constraintTop_toBottomOf="@id/start_training_button" />
 </android.support.constraint.ConstraintLayout>

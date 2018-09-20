@@ -32,6 +32,8 @@ import java.util.ArrayList;
 public class TrickDetail extends AppCompatActivity {
 
     public final static String mUnique = "unique_delimiter";
+    public static final String ARG_TRICK_OBJECT = "trick_object";
+    public final static String ARG_LIST_KEY = "list_key";
     private String mName;
     private String mPr;
     private String mGoal;
@@ -49,33 +51,15 @@ public class TrickDetail extends AppCompatActivity {
     private String mTutorial;
     private String mDifficulty;
     private Tricks mTricks;
-    Chronometer mChronometer;
-    public long mStartTime;
-    public boolean mTraining;
-    public Button mTrainingButton;
-    Button mHitButton;
-    Button mMissButton;
-    TextView mTrainingTimeTextView;
-    TextView mPrTextView;
-    GraphView mGraphView;
-    TextView mHitMissTextView;
-    public static final String ARG_HITS = "hits";
-    public static final String ARG_TRICK_NAME = "trick_name";
-    public static final String ARG_TRICK_PR = "trick_pr";
-    public static final String ARG_TRICK_GOAL = "trick_goal";
-    public static final String ARG_TIME_TRAINED = "time_trained";
-    public static final String ARG_TRICK_DESCRIPTION = "trick_description";
-    public static final String ARG_TRICK_ID = "id";
-    public static final String ARG_TRICK_PROP_TYPE = "prop";
-    public static final String ARG_RECORD_ID = "records";
-    public static final String ARG_MISSES = "misses";
-    public static final String ARG_CAPACITY = "capacity";
-    public static final String ARG_SOURCE = "source";
-    public static final String ARG_SITESWAP = "siteswap";
-    public static final String ARG_TUTORIAL = "tutorial";
-    public static final String ARG_ANIMATION = "animation";
-    public static final String ARG_DIFFICULTY = "difficulty";
-    public static final String ARG_TRICK_OBJECT = "trick_object";
+    private Chronometer mChronometer;
+    private long mStartTime;
+    private boolean mTraining;
+    private Button mTrainingButton;
+    private TextView mTrainingTimeTextView;
+    private TextView mPrTextView;
+    private GraphView mGraphView;
+    private TextView mHitMissTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,24 +84,21 @@ public class TrickDetail extends AppCompatActivity {
         mId = mTricks.getId();
         mDescription = mTricks.getDescription();
 
-
         // Get references to all of the text views
-        mTrainingTimeTextView = findViewById(R.id.fragment_time_trained_text_view);
+        mTrainingTimeTextView = findViewById(R.id.time_trained_text_view);
         mTrainingTimeTextView.setText("Time spent training this trick: " + mTimeTrained);
-        ((TextView) findViewById(R.id.fragment_trick_goal_text_view)).setText("Goal: " + mGoal);
-        ((TextView) findViewById(R.id.fragment_trick_name_text_view)).setText(mName + " " + mPropType);
-        mPrTextView = (TextView) findViewById(R.id.fragment_trick_pr_text_view);
+        ((TextView) findViewById(R.id.trick_goal_text_view)).setText("Goal: " + mGoal);
+        ((TextView) findViewById(R.id.trick_name_text_view)).setText(mName + " " + mPropType);
+        mPrTextView = (TextView) findViewById(R.id.trick_pr_text_view);
         mPrTextView.setText("PR: " + mPr);
 
         // Now the buttons
-        mTrainingButton = (Button) findViewById(R.id.fragment_start_training_button);
-        mHitButton = (Button) findViewById(R.id.hit_button);
-        mMissButton = (Button) findViewById(R.id.miss_button);
+        mTrainingButton = (Button) findViewById(R.id.start_training_button);
 
-        mChronometer = ((Chronometer) findViewById(R.id.fragment_chronometer));
+        mChronometer = ((Chronometer) findViewById(R.id.chronometer));
         mHitMissTextView = (TextView) findViewById(R.id.hitMissTextView);
         mHitMissTextView.setText(mHits + " / " + mMisses);
-        mGraphView = (GraphView) findViewById(R.id.fragment_trick_description_text_view);
+        mGraphView = (GraphView) findViewById(R.id.trick_description_text_view);
         initGraph(mGraphView, mRecords);
     }
 
@@ -178,13 +159,13 @@ public class TrickDetail extends AppCompatActivity {
                     // If the catch count is greater than the personal record,
                     // then update the personal record in the metadata trick.
                     if (Integer.parseInt(catchCount) > Integer.parseInt(mPr)) {
-                        Toast.makeText(getApplicationContext(), "Great! A new PR!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.new_pr_message, Toast.LENGTH_SHORT).show();
                         // Update the mPr variable
                         mPr = catchCount;
                     }
                     // it is not a pr, but the meta trick still needs to be updated to increase the time and store the record
                     else
-                        Toast.makeText(getApplicationContext(), "Record Logged.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.record_logged, Toast.LENGTH_SHORT).show();
 
                     // Update metadata trick
                     update_trick(mId, catchCount, totalTime, mDescription, mName,
@@ -279,21 +260,11 @@ public class TrickDetail extends AppCompatActivity {
         if (itemThatWasClickedId == R.id.menu_remove_trick) {
             remove_trick(Integer.parseInt(mId));
             finish();
-            Toast.makeText(this, "Tricks Removed from DB", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.trick_removed, Toast.LENGTH_LONG).show();
         }
         if (itemThatWasClickedId == R.id.menu_show_detail) {
-            ArrayList<String> trick_details = new ArrayList<String>();
-            trick_details.add(mName);
-            trick_details.add(mCapacity);
-            trick_details.add(mSiteswap);
-            trick_details.add(mAnimation);
-            trick_details.add(mTutorial);
-            trick_details.add(mDifficulty);
-            trick_details.add(mTutorial);
-            trick_details.add(mDescription);
-            trick_details.add(mSource);
             Intent toTrickDiscovery = new Intent(this, TrickDiscovery.class);
-            toTrickDiscovery.putStringArrayListExtra("details", trick_details);
+            toTrickDiscovery.putExtra(ARG_TRICK_OBJECT, mTricks);
             startActivity(toTrickDiscovery);
         }
         if (itemThatWasClickedId == android.R.id.home) {
@@ -314,7 +285,7 @@ public class TrickDetail extends AppCompatActivity {
         int test = getContentResolver().delete(uri, null, null);
         // Get access to the preferences
         SharedPreferences settings = getApplicationContext().getSharedPreferences("log", 0);
-        String[] stringLIst = settings.getString("mTricks", "").split(mUnique);
+        String[] stringLIst = settings.getString(ARG_LIST_KEY, "").split(mUnique);
         // get list of trick names
         ArrayList<String> mTrickNames = new ArrayList<String>();
         for (int i = 0; i < stringLIst.length; i++) mTrickNames.add(stringLIst[i]);
@@ -324,8 +295,7 @@ public class TrickDetail extends AppCompatActivity {
         String output_string = "";
         for (int i = 0; i < mTrickNames.size(); i++) output_string += mTrickNames.get(i) + mUnique;
         // update list of trick names in shared preferences
-        settings.edit().putString("mTricks", output_string).commit();
-
+        settings.edit().putString(ARG_LIST_KEY, output_string).commit();
     }
     //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; END DB METHODS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 }

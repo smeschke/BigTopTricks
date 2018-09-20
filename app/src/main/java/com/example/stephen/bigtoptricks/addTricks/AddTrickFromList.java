@@ -9,30 +9,26 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.stephen.bigtoptricks.R;
+import com.example.stephen.bigtoptricks.Tricks;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class AddTrickFromList extends AppCompatActivity implements com.example.stephen.bigtoptricks.addTricks.mSiteswapListAdapter.mAdapterOnClickHandler {
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_OBJECT;
 
-    //initialize variables for resources from strings.xml
-    private ArrayList<String> pattern_list = new ArrayList<>();
-    private ArrayList<String> capacity_list = new ArrayList<>();
-    private ArrayList<String> difficulty_list = new ArrayList<>();
-    private ArrayList<String> sources_list = new ArrayList<>();
+public class AddTrickFromList extends AppCompatActivity
+        implements com.example.stephen.bigtoptricks.addTricks.mSiteswapListAdapter.mAdapterOnClickHandler {
+
     //initialize an adapter and recyclerView
     private mSiteswapListAdapter mSiteswapListAdapter;
     private RecyclerView mList;
     private String mJsonString;
     LinearLayoutManager mLayoutManager;
-    ArrayList<String> mTrickNames;
-    ArrayList<String> mTrickCapacities;
-    ArrayList<String> mTrickDifficulties;
-    ArrayList<String> mTrickSources;
 
 
     @Override
@@ -53,11 +49,10 @@ public class AddTrickFromList extends AppCompatActivity implements com.example.s
                 LinearLayoutManager.VERTICAL, false);
         mList.setLayoutManager(mLayoutManager);
         mList.setHasFixedSize(true);
-        mSiteswapListAdapter = new mSiteswapListAdapter(this, this, pattern_list, capacity_list, difficulty_list, sources_list);
+        mSiteswapListAdapter = new mSiteswapListAdapter(this, this);
         mList.setAdapter(mSiteswapListAdapter);
 
         // Get access to the preferences
-        //Log.d("LOG", "asdf fetch tas");
         new fetch().execute(url);
     }
 
@@ -70,8 +65,9 @@ public class AddTrickFromList extends AppCompatActivity implements com.example.s
             startActivity(toAddTrick);
         } else {
             Intent toTrickDiscovery = new Intent(this, TrickDiscovery.class);
-            ArrayList<String> trick_details = JsonUtils.parseIndividualTrick(mJsonString, position - 1);
-            toTrickDiscovery.putStringArrayListExtra("details", trick_details);
+            // Parse details about trick from JSON, and put it in the intent
+            toTrickDiscovery.putExtra(ARG_TRICK_OBJECT,
+                    JsonUtils.parseIndividualTrickToOBject(mJsonString, position-1));
             startActivity(toTrickDiscovery);
         }
     }
@@ -85,7 +81,6 @@ public class AddTrickFromList extends AppCompatActivity implements com.example.s
         @Override
         protected String doInBackground(URL... urls) {
             String fetchResults = null;
-            //Log.d("LOG", "asdf onPostExecute do in background" );
             try {
                 fetchResults = NetworkUtils.getResponseFromHttpUrl(urls[0]);
             } catch (IOException e) {
@@ -98,18 +93,8 @@ public class AddTrickFromList extends AppCompatActivity implements com.example.s
         // On post execute task
         @Override
         protected void onPostExecute(String trick_data) {
-            // Iterate though the list of recipes and add them to the DB
             mJsonString = trick_data;
-            try {
-                mTrickNames = JsonUtils.getTrickNames(trick_data);
-                mTrickCapacities = JsonUtils.getTrickCapicities(trick_data);
-                mTrickDifficulties = JsonUtils.getTrickDifficulties(trick_data);
-                mTrickSources = JsonUtils.getTrickSources(trick_data);
-            } catch (JSONException e) {
-                Log.d("LOG", "asdf list did not parse correctly");
-            }
-            //Log.d("LOG", "asdf onPostExecute" + trick_data.substring(0,1234));
-            mSiteswapListAdapter.swapCursor(mTrickNames, mTrickCapacities, mTrickDifficulties, mTrickSources);
+            mSiteswapListAdapter.swapCursor(trick_data);
         }
     }
     ///////////////////////////////// END RECIPE DATA FETCH TASK ///////////////////////////////////

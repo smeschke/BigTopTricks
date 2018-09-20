@@ -4,6 +4,8 @@ package com.example.stephen.bigtoptricks.addTricks;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.stephen.bigtoptricks.Tricks;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,10 +72,6 @@ public class JsonUtils {
         return trick_names;
     }
 
-
-
-
-
     /* Takes the big json string that contains all the tricks,
    and returns the length.*/
     public static int getNumberOfTricks(String public_json_string) throws JSONException {
@@ -122,5 +120,93 @@ public class JsonUtils {
         return trick_details;
     }
 
+    /* Takes the big json string that contains all twenty movies,
+   and parses out one individual movie.*/
+    public static Tricks parseIndividualTrickToOBject(String public_json_string, int position) {
+        ArrayList<String> trick_details = new ArrayList<>();
+        JSONArray jsonArray;
+        String name = "";
+        String capacity = "";
+        String siteswap = "";
+        String animation = "";
+        String tutorial = "";
+        String difficulty = "";
+        String description = "";
+        String source = "";
+        try {
+            jsonArray = new JSONArray(public_json_string);
+            JSONObject jsonObject = jsonArray.getJSONObject(position);
+            name = jsonObject.getString("trick_name");
+            animation = jsonObject.getString("animation");
+            siteswap = jsonObject.getString("siteswap");
+            difficulty = jsonObject.getString("difficulty");
+            capacity = jsonObject.getString("capacity");
+            description = jsonObject.getString("description");
+            tutorial = jsonObject.getString("tutorial");
+            source = jsonObject.getString("source");
+        } catch (JSONException e) {
+            Log.d("LOG", "asdf error in json parsing");
+        }
+        trick_details.add(name);
+        trick_details.add(capacity);
+        trick_details.add(siteswap);
+        trick_details.add(animation);
+        trick_details.add(tutorial);
+        trick_details.add(difficulty);
+        trick_details.add(tutorial);
+        trick_details.add(description);
+        trick_details.add(source);
 
+        Tricks tricks = new Tricks("0", "0", description, name, "yes", "0",
+                "0", "0", "0", "0", siteswap, animation, source,
+                difficulty, capacity, tutorial, "0");
+        return tricks;
+    }
+
+    public static ArrayList<Tricks> getListOfTrickObjectsFromJson(String public_json_string) throws JSONException {
+        ArrayList<Tricks> tricksArrayList = new ArrayList<>();
+        JSONArray jsonArray;
+        int num_tricks = getNumberOfTricks(public_json_string);
+        for(int position=0; position<num_tricks; position++){
+            ArrayList<String> trick_details = new ArrayList<>();
+            String name = "";
+            String capacity = "";
+            String siteswap = "";
+            String animation = "";
+            String tutorial = "";
+            String difficulty = "";
+            String description = "";
+            String source = "";
+            try {
+                jsonArray = new JSONArray(public_json_string);
+                JSONObject jsonObject = jsonArray.getJSONObject(position);
+                name = jsonObject.getString("trick_name");
+                animation = jsonObject.getString("animation");
+                siteswap = jsonObject.getString("siteswap");
+                difficulty = jsonObject.getString("difficulty");
+                capacity = jsonObject.getString("capacity");
+                description = jsonObject.getString("description");
+                tutorial = jsonObject.getString("tutorial");
+                source = jsonObject.getString("source");
+            } catch (JSONException e) {
+                Log.d("LOG", "asdf error in json parsing");
+            }
+            trick_details.add(name);
+            trick_details.add(capacity);
+            trick_details.add(siteswap);
+            trick_details.add(animation);
+            trick_details.add(tutorial);
+            trick_details.add(difficulty);
+            trick_details.add(tutorial);
+            trick_details.add(description);
+            trick_details.add(source);
+
+            Tricks tricks = new Tricks("0", "0", description, name, "yes", "0",
+                    "0", "0", "0", "0", siteswap, animation, source,
+                    difficulty, capacity, tutorial, "0");
+
+            tricksArrayList.add(tricks);
+        }
+        return tricksArrayList;
+    }
 }

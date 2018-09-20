@@ -20,9 +20,6 @@ import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_OBJECT;
 
 public class TrickDiscovery extends AppCompatActivity {
 
-    private String mTrickName;
-    private String mTrickDescription;
-
     private String mName;
     private String mPr;
     private String mGoal;
@@ -40,9 +37,6 @@ public class TrickDiscovery extends AppCompatActivity {
     private String mTutorial;
     private String mDifficulty;
     private Tricks mTricks;
-
-
-    private ArrayList<String> mTrickDetails = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,51 +61,32 @@ public class TrickDiscovery extends AppCompatActivity {
         mId = mTricks.getId();
         mDescription = mTricks.getDescription();
 
-        mTrickDetails = getIntent().getStringArrayListExtra("details");
-        Log.d("LOG", "asdf made it    " + mTrickDetails.toString());
-
         TextView title_text_view = (TextView) findViewById(R.id.discovery_title_text_view);
-        title_text_view.setText(mTrickDetails.get(0));
-
+        title_text_view.setText(mName);
         TextView details_text_view = (TextView) findViewById(R.id.discover_description_text_view);
-        details_text_view.setText(Html.fromHtml(mTrickDetails.get(7)));
-
+        details_text_view.setText(Html.fromHtml(mDescription));
         WebView wv = (WebView) findViewById(R.id.discovery_animation);
-        wv.loadUrl(mTrickDetails.get(3));
-
-        mTrickName = mTrickDetails.get(0);
-        mTrickDescription = mTrickDetails.get(7);
-
+        wv.loadUrl(mAnimation);
         TextView siteswap = (TextView) findViewById(R.id.discovery_siteswap_text_view);
-        siteswap.setText("Siteswap: " + mTrickDetails.get(2));
-
+        siteswap.setText("Siteswap: " + mSiteswap);
         TextView capacity = (TextView) findViewById(R.id.discovery_capacity_text_view);
-        capacity.setText("Capacity: " + mTrickDetails.get(1));
-
+        capacity.setText("Capacity: " + mCapacity);
         TextView source = (TextView) findViewById(R.id.discovery_source_text_view);
-        source.setText("Source: " + mTrickDetails.get(8));
-
+        source.setText("Source: " + mSource);
         TextView tutorial = (TextView) findViewById(R.id.discovery_tutorial_text_view);
-        String tutorial_text= mTrickDetails.get(4);
-        //if (tutorial_text.length()<1){ tutorial_text = "No tutorial avaliable.";}
-        tutorial.setText("Tutorial: " + tutorial_text);
-
+        tutorial.setText("Tutorial: " + mTutorial);
         TextView difficulty = (TextView) findViewById(R.id.discovery_difficulty_text_view);
-        String difficulty_text = mTrickDetails.get(5);
-
-        difficulty.setText("Difficulty: " + mTrickDetails.get(5));
-
-
+        difficulty.setText("Difficulty: " + mDifficulty);
     }
 
     public void addTrick(View view){
         Intent toAddTrick = new Intent(this, AddTrick.class);
-        toAddTrick.putStringArrayListExtra("details", mTrickDetails);
+        toAddTrick.putExtra(ARG_TRICK_OBJECT, mTricks);
         startActivity(toAddTrick);
     }
 
     public void toUrl(View view){
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mTrickDetails.get(4)));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mTutorial));
         startActivity(browserIntent);
     }
 }

@@ -2,8 +2,10 @@ package com.example.stephen.bigtoptricks;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Movie;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +24,7 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
     //TODO (4b) Create ItemClickListener
     private ItemClickListener mClickListener;
     //TODO (2) get data from constructor
-    private List<String> mTrickNames;
-    private List<String> mGoals;
-    private List<String> mPrs;
-    private List<String> mTimes;
+    private List<Tricks> mTricks;
 
     // Create MyRecyclerViewAdapter
     MyTrainingDbAdapter(Context context) {
@@ -46,17 +45,17 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Set the text in the textview
-        holder.trickNameTextView.setText(mTrickNames.get(position));
-        holder.prCatchesTextView.setText("PR: " + mPrs.get(position));
-        holder.goalCatchesTextView.setText("Goal: " + mGoals.get(position));
-        holder.timeTrainedTextView.setText("Time Trained: " + mTimes.get(position));
+        holder.trickNameTextView.setText(mTricks.get(position).getName());
+        holder.prCatchesTextView.setText("PR: " + mTricks.get(position).getPr());
+        holder.goalCatchesTextView.setText("Goal: " + mTricks.get(position).getGoal());
+        holder.timeTrainedTextView.setText("Time Trained: " + mTricks.get(position).getTime_trained());
     }
 
     @Override
     public int getItemCount() {
 
         try{
-            return mTrickNames.size();
+            return mTricks.size();
         }catch (Exception e){
             return 0;
         }
@@ -64,36 +63,19 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
 
     // TODO (6) create swap cursor method to reset the data
     void swapCursor(Cursor data) {
-        // Move through the cursor and extract the movie poster urls.
-        List<String> trickNames = new ArrayList<>();
-        List<String> goals = new ArrayList<>();
-        List<String> prs = new ArrayList<>();
-        List<String> times = new ArrayList<>();
+        ArrayList<Tricks> listTricks = new ArrayList<>();
         for (int i = 0; i < data.getCount(); i++) {
             data.moveToPosition(i);
-
-            String name = data.getString(data.getColumnIndex(
-                    Contract.listEntry.COLUMN_TRICK_NAME));
-            trickNames.add(name);
-
-            String goal = data.getString(data.getColumnIndex(
-                    Contract.listEntry.COLUMN_GOAL));
-            goals.add(goal);
-
-            String pr = data.getString(data.getColumnIndex(
-                    Contract.listEntry.COLUMN_PERSONAL_RECORD));
-            prs.add(pr);
-
-            String t = data.getString(data.getColumnIndex(
-                    Contract.listEntry.COLUMN_TIME_TRAINED));
-            times.add(t);
+            String name = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_TRICK_NAME));
+            String goal = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_GOAL));
+            String pr = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_PERSONAL_RECORD));
+            String t = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_TIME_TRAINED));
+            Tricks tricks = new Tricks(pr, t, "", name, "", "",
+                    "", "", "", goal, "", "", "",
+                    "", "", "", "");
+            listTricks.add(tricks);
         }
-
-        mTrickNames = trickNames;
-        mGoals = goals;
-        mPrs = prs;
-        mTimes = times;
-
+        mTricks = listTricks;
         notifyDataSetChanged();
     }
 

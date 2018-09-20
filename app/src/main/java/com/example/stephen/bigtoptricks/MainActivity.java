@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        Log.d("LOG", "asdf new Loader");
         return new CursorLoader(this,
                 Contract.listEntry.CONTENT_URI,
                 null,
@@ -100,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements
     // When loading is finished, swap in the new data
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        //Log.d("LOG", "asdf on Load Finished");
         mCursor = data;
         mAdapter.swapCursor(data);
     }
