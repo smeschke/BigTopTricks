@@ -69,10 +69,12 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
             String name = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_TRICK_NAME));
             String goal = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_GOAL));
             String pr = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_PERSONAL_RECORD));
-            String t = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_TIME_TRAINED));
-            Tricks tricks = new Tricks(pr, t, "", name, "", "",
-                    "", "", "", goal, "", "", "",
-                    "", "", "", "");
+            String time_trained = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_TIME_TRAINED));
+            Tricks tricks = new Tricks();
+            tricks.setName(name);
+            tricks.setGoal(goal);
+            tricks.setPr(pr);
+            tricks.setTime_trained(time_trained);
             listTricks.add(tricks);
         }
         mTricks = listTricks;

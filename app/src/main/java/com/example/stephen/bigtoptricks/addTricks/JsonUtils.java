@@ -163,50 +163,49 @@ public class JsonUtils {
         return tricks;
     }
 
-    public static ArrayList<Tricks> getListOfTrickObjectsFromJson(String public_json_string) throws JSONException {
-        ArrayList<Tricks> tricksArrayList = new ArrayList<>();
+    public static Tricks parseLimitedDetails(String public_json_string, int position) {
         JSONArray jsonArray;
+        String name = "";
+        String capacity = "";
+        String difficulty = "";
+        String source = "";
+        try {
+            jsonArray = new JSONArray(public_json_string);
+            JSONObject jsonObject = jsonArray.getJSONObject(position);
+            name = jsonObject.getString("trick_name");
+            difficulty = jsonObject.getString("difficulty");
+            capacity = jsonObject.getString("capacity");
+            source = jsonObject.getString("source");
+        } catch (JSONException e) {
+            Log.d("LOG", "asdf error in json parsing");
+        }
+        Tricks tricks = new Tricks();
+        tricks.setName(name);
+        tricks.setCapacity(capacity);
+        tricks.setDifficulty(difficulty);
+        tricks.setSource(source);
+        return tricks;
+    }
+
+    public static ArrayList<Tricks> parseLimitedObjects(String public_json_string) throws JSONException {
+        ArrayList<Tricks> tricks_list = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray(public_json_string);
         int num_tricks = getNumberOfTricks(public_json_string);
         for(int position=0; position<num_tricks; position++){
-            ArrayList<String> trick_details = new ArrayList<>();
-            String name = "";
-            String capacity = "";
-            String siteswap = "";
-            String animation = "";
-            String tutorial = "";
-            String difficulty = "";
-            String description = "";
-            String source = "";
-            try {
-                jsonArray = new JSONArray(public_json_string);
-                JSONObject jsonObject = jsonArray.getJSONObject(position);
-                name = jsonObject.getString("trick_name");
-                animation = jsonObject.getString("animation");
-                siteswap = jsonObject.getString("siteswap");
-                difficulty = jsonObject.getString("difficulty");
-                capacity = jsonObject.getString("capacity");
-                description = jsonObject.getString("description");
-                tutorial = jsonObject.getString("tutorial");
-                source = jsonObject.getString("source");
-            } catch (JSONException e) {
-                Log.d("LOG", "asdf error in json parsing");
-            }
-            trick_details.add(name);
-            trick_details.add(capacity);
-            trick_details.add(siteswap);
-            trick_details.add(animation);
-            trick_details.add(tutorial);
-            trick_details.add(difficulty);
-            trick_details.add(tutorial);
-            trick_details.add(description);
-            trick_details.add(source);
-
-            Tricks tricks = new Tricks("0", "0", description, name, "yes", "0",
-                    "0", "0", "0", "0", siteswap, animation, source,
-                    difficulty, capacity, tutorial, "0");
-
-            tricksArrayList.add(tricks);
+            Tricks tricks = new Tricks();
+            JSONObject jsonObject = jsonArray.getJSONObject(position);
+            String name = jsonObject.getString("trick_name");
+            String difficulty = jsonObject.getString("difficulty");
+            String capacity = jsonObject.getString("capacity");
+            String source = jsonObject.getString("source");
+            tricks.setName(name);
+            tricks.setCapacity(capacity);
+            tricks.setDifficulty(difficulty);
+            tricks.setSource(source);
+            tricks_list.add(tricks);
         }
-        return tricksArrayList;
+        return tricks_list;
     }
+
+
 }

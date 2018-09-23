@@ -18,6 +18,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import java.util.ArrayList;
 
 import static com.example.stephen.bigtoptricks.TrickDetail.ARG_LIST_KEY;
+import static com.example.stephen.bigtoptricks.TrickDetail.ARG_SP_LOG_KEY;
 import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_OBJECT;
 import static com.example.stephen.bigtoptricks.TrickDetail.mUnique;
 
@@ -83,6 +84,7 @@ public class AddTrick extends AppCompatActivity {
         String goal = mGoalCatchesEditText.getText().toString();
         String propType = mPropTypeEditText.getText().toString();
 
+
         // Determine if trick name is already in the db
         boolean is_unique = true;
 
@@ -91,15 +93,27 @@ public class AddTrick extends AppCompatActivity {
         if (mDescription.length() < 1) mDescription = getString(R.string.default_description);
         if (goal.length() < 1) goal = getString(R.string.default_goal);
         if (propType.length() < 1) propType = getString(R.string.default_prop_type);
+        if (mSiteswap== null) mSiteswap = "None Entered";
+        if (mSource== null) mSource = "None Entered";
+        if (mDifficulty== null) mDifficulty = "None Entered";
+        if (mTutorial== null) mTutorial = "None Entered";
+        if (mCapacity== null) mCapacity = "None Entered";
+        if (mAnimation== null) mAnimation = "None Entered";
+
+        Log.d("LOG", "asdf " + "0" + "0" + mDescription +
+                mName + "yes" + "0" + "0" + "0" + propType + goal +
+                mSiteswap + mAnimation + mSource + mDifficulty + mCapacity +
+                mTutorial);
 
         // Get access to the preferences for list of trick names
         ArrayList<String> mTrickNames = new ArrayList<String>();
         // Look through all the tricks in the DB
-        SharedPreferences settings = getApplicationContext().getSharedPreferences("log", 0);
+        SharedPreferences settings = getApplicationContext().getSharedPreferences(ARG_SP_LOG_KEY, 0);
         String tricks_string = settings.getString(ARG_LIST_KEY, "");
         String[] stringLIst = tricks_string.split(mUnique);
         for (int i = 0; i < stringLIst.length; i++) mTrickNames.add(stringLIst[i]);
         if (mTrickNames.contains(mName)) is_unique = false;
+
         if (is_unique) {
             // Insert the trick into the database
             Actions.insert_trick(this, "0", "0", mDescription,

@@ -94,7 +94,11 @@ public class AddTrickFromList extends AppCompatActivity
         @Override
         protected void onPostExecute(String trick_data) {
             mJsonString = trick_data;
-            mSiteswapListAdapter.swapCursor(trick_data);
+            try {
+                mSiteswapListAdapter.swapCursor(trick_data);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
     ///////////////////////////////// END RECIPE DATA FETCH TASK ///////////////////////////////////

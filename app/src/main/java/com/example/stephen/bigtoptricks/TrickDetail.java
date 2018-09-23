@@ -34,6 +34,7 @@ public class TrickDetail extends AppCompatActivity {
     public final static String mUnique = "unique_delimiter";
     public static final String ARG_TRICK_OBJECT = "trick_object";
     public final static String ARG_LIST_KEY = "list_key";
+    public final static String ARG_SP_LOG_KEY = "log";
     private String mName;
     private String mPr;
     private String mGoal;
@@ -55,6 +56,8 @@ public class TrickDetail extends AppCompatActivity {
     private long mStartTime;
     private boolean mTraining;
     private Button mTrainingButton;
+    private Button mHitButton;
+    private Button mMissButton;
     private TextView mTrainingTimeTextView;
     private TextView mPrTextView;
     private GraphView mGraphView;
@@ -86,14 +89,34 @@ public class TrickDetail extends AppCompatActivity {
 
         // Get references to all of the text views
         mTrainingTimeTextView = findViewById(R.id.time_trained_text_view);
-        mTrainingTimeTextView.setText("Time spent training this trick: " + mTimeTrained);
-        ((TextView) findViewById(R.id.trick_goal_text_view)).setText("Goal: " + mGoal);
+        mTrainingTimeTextView.setText(getString(R.string.time_spent_training) + " " + mTimeTrained);
+        ((TextView) findViewById(R.id.trick_goal_text_view)).setText(getString(R.string.goal) + " " + mGoal);
         ((TextView) findViewById(R.id.trick_name_text_view)).setText(mName + " " + mPropType);
         mPrTextView = (TextView) findViewById(R.id.trick_pr_text_view);
-        mPrTextView.setText("PR: " + mPr);
+        mPrTextView.setText(getString(R.string.pr) + " " + mPr);
 
         // Now the buttons
         mTrainingButton = (Button) findViewById(R.id.start_training_button);
+        mTrainingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                training_button();
+            }
+        });
+        mHitButton = (Button) findViewById(R.id.hit_button);
+        mHitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hit_button();
+            }
+        });
+        mMissButton = (Button) findViewById(R.id.miss_button);
+        mMissButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                miss_button();
+            }
+        });
 
         mChronometer = ((Chronometer) findViewById(R.id.chronometer));
         mHitMissTextView = (TextView) findViewById(R.id.hitMissTextView);
@@ -115,39 +138,40 @@ public class TrickDetail extends AppCompatActivity {
         graph.getViewport().setXAxisBoundsManual(true);
     }
 
-    protected void training_button(View view) {
+    public void training_button() {
         if (!mTraining) {
             // User has started juggling
-            Toast.makeText(this, "Start Juggling!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.start_juggling, Toast.LENGTH_SHORT).show();
             mChronometer.setBase(SystemClock.elapsedRealtime());
             mChronometer.start();
             mTraining = true;
-            mTrainingButton.setText("Finished Training.");
+            mTrainingButton.setText(R.string.finished_training);
             mStartTime = System.currentTimeMillis();
         } else {
             // User has stopped juggling
             mChronometer.stop();
             mChronometer.setBase(SystemClock.elapsedRealtime());
             mTraining = false;
-            mTrainingButton.setText("Start Juggling!");
+            mTrainingButton.setText(R.string.start_juggling);
 
             // Calculate training duration
             long trainingTime = (System.currentTimeMillis() - mStartTime) / 1000;
             final String traingTimeString = Long.toString(trainingTime);
             // Calculate the total time that this trick has been trained
-            final String totalTime = Long.toString(trainingTime + Long.parseLong(mTimeTrained));
-            Log.d("LOG", "asdf TrainingTime: " + trainingTime + " mTimeTrained: " + mTimeTrained + " totalTime: " + totalTime);
+            long longTimeTrained = Long.parseLong(mTimeTrained);
+            final String totalTime = Long.toString(trainingTime + longTimeTrained);
+            Log.d("LOG", "asdf TrainingTime: " + trainingTime + " mTimeTrained: " + longTimeTrained + " totalTime: " + totalTime);
 
             // Create an alert dialog
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Do you want to add a catch count?");
+            builder.setTitle(R.string.catch_count_question);
             // Ask the user to enter a goal
             final EditText catchCountEditText = new EditText(this);
-            catchCountEditText.setHint("Enter Catch Count...");
+            catchCountEditText.setHint(R.string.enter_catch_count);
             catchCountEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
             builder.setView(catchCountEditText);
             // Set up the buttons
-            builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
 
 
                 @Override
@@ -177,21 +201,21 @@ public class TrickDetail extends AppCompatActivity {
 
                     // now that new data has been logged, it's time to update the UI to reflect the NEW PR!
                     // Update the time trained
-                    mTrainingTimeTextView.setText("Time spent training this trick: " + totalTime);
+                    mTrainingTimeTextView.setText(getString(R.string.time_spent_training) + " " + totalTime);
                     // If needed, update the pr
-                    mPrTextView.setText("PR: " + mPr);
+                    mPrTextView.setText(getString(R.string.pr) + " " + mPr);
                     // Update the graph
                     initGraph(mGraphView, mRecords);
                 }
             });
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     // user clicks no, so there is not need to check if the catch count is greater
                     // update the metadata trick
                     update_trick(mId, mPr, totalTime, mDescription, mName,
                             mRecords, mGoal, mPropType, mHits, mMisses);
-                    Toast.makeText(getApplicationContext(), "Record Logged.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.record_logged, Toast.LENGTH_SHORT).show();
 
                     // than the pr, so just enter a record of training this trick in the db
                     insert_trick(mPr, traingTimeString, mDescription, mName,
@@ -199,9 +223,9 @@ public class TrickDetail extends AppCompatActivity {
 
                     // now that new data has been logged, it's time to update the UI to reflect the NEW PR!
                     // Update the time trained
-                    mTrainingTimeTextView.setText("Time spent training this trick: " + totalTime);
+                    mTrainingTimeTextView.setText(getString(R.string.time_spent_training) + totalTime);
                     // If needed, update the pr
-                    mPrTextView.setText("PR: " + mPr);
+                    mPrTextView.setText(getString(R.string.pr) + " " + mPr);
                     // Update the graph
                     initGraph(mGraphView, mRecords);
 
@@ -212,12 +236,12 @@ public class TrickDetail extends AppCompatActivity {
         }
     }
 
-    protected void miss_button(View view) {
+    public void miss_button() {
         mMisses = Integer.toString(Integer.parseInt(mMisses) + 1);
         update_hits("no", "1");
     }
 
-    protected void hit_button(View view) {
+    public void hit_button() {
         mHits = Integer.toString(Integer.parseInt(mHits) + 1);
         update_hits("1", "no");
     }
@@ -228,7 +252,7 @@ public class TrickDetail extends AppCompatActivity {
                 mRecords, mGoal, mPropType, mHits, mMisses);
         insert_trick(mPr, "0", mDescription, mName,
                 "0", mGoal, mPropType, hitsVal, missVal);
-        Toast.makeText(this, "Record Logged.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.record_logged, Toast.LENGTH_SHORT).show();
     }
 
     public void update_trick(String id, String pr, String time, String description, String name,
@@ -284,7 +308,7 @@ public class TrickDetail extends AppCompatActivity {
         // Delete single row
         int test = getContentResolver().delete(uri, null, null);
         // Get access to the preferences
-        SharedPreferences settings = getApplicationContext().getSharedPreferences("log", 0);
+        SharedPreferences settings = getApplicationContext().getSharedPreferences(ARG_SP_LOG_KEY, 0);
         String[] stringLIst = settings.getString(ARG_LIST_KEY, "").split(mUnique);
         // get list of trick names
         ArrayList<String> mTrickNames = new ArrayList<String>();

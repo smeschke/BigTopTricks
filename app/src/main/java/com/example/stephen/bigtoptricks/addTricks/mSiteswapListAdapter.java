@@ -3,6 +3,7 @@ package com.example.stephen.bigtoptricks.addTricks;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,12 @@ import android.widget.TextView;
 
 import com.example.stephen.bigtoptricks.R;
 import com.example.stephen.bigtoptricks.Tricks;
+import com.example.stephen.bigtoptricks.data.Contract;
+
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class mSiteswapListAdapter extends RecyclerView.Adapter<mSiteswapListAdapter.mAdapterViewHolder> {
 
@@ -19,6 +26,9 @@ public class mSiteswapListAdapter extends RecyclerView.Adapter<mSiteswapListAdap
     final private mAdapterOnClickHandler mClickHandler;
     //create string for output list
     private String mJson;
+    //create list of trick objects that will populate the recycler view
+    private List<Tricks> mTricks;
+
 
 
     //get stuff on list from Main Activity
@@ -51,11 +61,9 @@ public class mSiteswapListAdapter extends RecyclerView.Adapter<mSiteswapListAdap
     //bind data to view holder
     @Override
     public void onBindViewHolder(mSiteswapListAdapter.mAdapterViewHolder holder, int position) {
-        Tricks tricks = new Tricks("", "", "",
-                "Create Custom Trick", "", "","", "", "",
-                "", "", "", "",
-                "", "", "", "");
-        if (position!=0) tricks = JsonUtils.parseIndividualTrickToOBject(mJson, position-1);
+        Tricks tricks = new Tricks();
+        if (position == 0) tricks.setName("Create Custom Trick");
+        else tricks = mTricks.get(position-1);
         String name = tricks.getName();
         String capacity = tricks.getCapacity();
         String difficulty = tricks.getDifficulty();
@@ -67,6 +75,7 @@ public class mSiteswapListAdapter extends RecyclerView.Adapter<mSiteswapListAdap
         } catch (Exception e) {
             capacityStr = "";
         }
+
         String difficultyStr = "";
         try {
             for (int i = 0; i < Integer.parseInt(difficulty); i++) difficultyStr += "+ ";
@@ -124,8 +133,13 @@ public class mSiteswapListAdapter extends RecyclerView.Adapter<mSiteswapListAdap
     }
 
     // TODO (6) create swap cursor method to reset the data
-    void swapCursor(String json) {
+    void swapCursor(String json) throws JSONException {
         mJson = json;
-        notifyDataSetChanged();
+        mTricks = JsonUtils.parseLimitedObjects(json);
+        /*mNames = JsonUtils.getTrickNames(json);
+        mSources = JsonUtils.getTrickSources(json);
+        mDifficulties = JsonUtils.getTrickDifficulties(json);
+        mCapacity = JsonUtils.getTrickCapicities(json);
+        */notifyDataSetChanged();
     }
 }

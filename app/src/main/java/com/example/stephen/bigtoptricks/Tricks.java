@@ -90,6 +90,8 @@ public class Tricks implements Parcelable{
         }
     };
 
+    public Tricks() {}
+
     public String getName() {
         return name;
     }
@@ -104,9 +106,7 @@ public class Tricks implements Parcelable{
         return description;
     }
 
-    public String getMeta() {
-        return meta;
-    }
+    public String getMeta() { return meta;}
 
     public String getHit() {
         return hit;
@@ -154,4 +154,37 @@ public class Tricks implements Parcelable{
 
     public String getId() { return id; }
 
+    public void setPr(String pr) { this.pr = pr; }
+
+    public void setTime_trained(String time_trained) { this.time_trained = time_trained; }
+
+    public void setDescription(String description) { this.description = description; }
+
+    public void setName(String name) { this.name = name; }
+
+    public void setMeta(String meta) { this.meta = meta; }
+
+    public void setHit(String hit) { this.hit = hit; }
+
+    public void setMiss(String miss) { this.miss = miss;}
+
+    public void setRecord(String record) { this.record = record; }
+
+    public void setProp_type(String prop_type) { this.prop_type = prop_type; }
+
+    public void setGoal(String goal) { this.goal = goal; }
+
+    public void setSiteswap(String siteswap) {this.siteswap = siteswap; }
+
+    public void setAnimation(String animation) {this.animation = animation; }
+
+    public void setSource(String source) {this.source = source; }
+
+    public void setDifficulty(String difficulty) {this.difficulty = difficulty; }
+
+    public void setCapacity(String capacity) {this.capacity = capacity;}
+
+    public void setTutorial(String tutorial) {this.tutorial = tutorial;}
+
+    public void setId(String id) {this.id = id;}
 }

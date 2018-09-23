@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">BigTopTricks</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="default_description">No description for this trick.</string>
     <string name="default_goal">No goal for this trick.</string>
     <string name="default_prop_type">Prop Unknown</string>
@@ -15,103 +12,13 @@
     <string name="trick_removed">Tricks Removed from DB</string>
     <string name="new_pr_message">Great! A new PR!</string>
     <string name="record_logged">Record Logged.</string>
-
-    <!--list of juggling patterns-->
-    <string-array name="patterns">
-        <item>Cascade</item>
-        <item>Shower</item>
-        <item>Half-Shower</item>
-        <item>Fountain</item>
-        <item>	Three Ball Siteswaps 	</item>
-        <item>	441	</item>
-        <item>	423	</item>
-        <item>	531	</item>
-        <item>	51414	</item>
-        <item>	51234	</item>
-        <item>	50505	</item>
-        <item>	52512	</item>
-        <item>	7131	</item>
-        <item>	73131	</item>
-        <item>	Four Ball Siteswaps	</item>
-        <item>	53	</item>
-        <item>	552	</item>
-        <item>	534	</item>
-        <item>	5551	</item>
-        <item>	55514	</item>
-        <item>	55550	</item>
-        <item>	615	</item>
-        <item>	633	</item>
-        <item>	642	</item>
-        <item>	6424	</item>
-        <item>	62525	</item>
-        <item>	61616	</item>
-        <item>	71	</item>
-        <item>	714	</item>
-        <item>	741	</item>
-        <item>	7333	</item>
-        <item>	7441	</item>
-        <item>	75251	</item>
-        <item>	75314	</item>
-        <item>	7161616	</item>
-        <item>	7272712	</item>
-        <item>	83333	</item>
-        <item>	9151	</item>
-        <item>	912	</item>
-        <item>	Four Ball Multiplex and Synch	</item>
-        <item>	[43]14	</item>
-        <item>	[53]22	</item>
-        <item>	[54]21	</item>
-        <item>	Five Ball Siteswaps	</item>
-        <item>	64	</item>
-        <item>	645	</item>
-        <item>	66661	</item>
-        <item>	744	</item>
-        <item>	753	</item>
-        <item>	771	</item>
-        <item>	7571	</item>
-        <item>	7733	</item>
-        <item>	77722	</item>
-        <item>	73456	</item>
-        <item>	75616	</item>
-        <item>	75625	</item>
-        <item>	75661	</item>
-        <item>	75751	</item>
-        <item>	(6)777171(4)	</item>
-        <item>	8246	</item>
-        <item>	91	</item>
-        <item>	94444	</item>
-        <item>	95551	</item>
-        <item>	97531	</item>
-        <item>	Five Ball Multiplex and Synch	</item>
-        <item>	[53]25	</item>
-        <item>	[54]24	</item>
-        <item>	[54]1	</item>
-        <item>	[43]26	</item>
-        <item>	[54]6622	</item>
-        <item>	(6x,4)(6,4x)	</item>
-        <item>	(6x,4)(4,6x)	</item>
-        <item>	(8,2x)(2x,8)	</item>
-        <item>	(6x,6x)(6x,2)(6x,6x)(2,6x)	</item>
-        <item>	Six Ball Siteswaps	</item>
-        <item>	756	</item>
-        <item>	855	</item>
-        <item>	864	</item>
-        <item>	9555	</item>
-        <item>	b97531	</item>
-        <item>	Six Ball Multiplex and Synch	</item>
-        <item>	[54]27	</item>
-        <item>	[65]25	</item>
-        <item>	[75]24	</item>
-        <item>	[76]23	</item>
-        <item>	[65]6625	</item>
-        <item>	(8x,6)(4,6x)*	</item>
-        <item>	Seven Ball Siteswaps	</item>
-        <item>	966	</item>
-        <item>	8888881	</item>
-        <item>	[75]27	</item>
-        <item>	[86]25	</item>
-        <item>	[64][64]1	</item>
-    </string-array>
-
-
+    <string name="pr">PR:</string>
+    <string name="goal">Goal:</string>
+    <string name="start_juggling">Start Juggling!</string>
+    <string name="finished_training">Finished Training.</string>
+    <string name="catch_count_question">Do you want to add a catch count?</string>
+    <string name="enter_catch_count">Enter Catch Count...</string>
+    <string name="add">Add</string>
+    <string name="time_spent_training">Time spent training this trick:</string>
+    <string name="no">No</string>
 </resources>
