@@ -34,5 +34,6 @@ public class Contract {
         public static final String COLUMN_TUTORIAL = "tutorial";
         public static final String COLUMN_DIFFICULTY = "difficulty";
         public static final String COLUMN_ANIMAION = "animation";
+        public static final String COLUMN_LOCATION = "location";
     }
 }

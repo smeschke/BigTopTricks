@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -99,6 +100,12 @@ public class MainActivity extends AppCompatActivity implements
     // When loading is finished, swap in the new data
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        if (data.getCount()==0) {
+            Snackbar mySnackbar = Snackbar.make(findViewById(R.id.coordinator),
+                    "Welcome! Press 'Add' to get started...", Snackbar.LENGTH_LONG);
+            mySnackbar.show();
+        }
+
         mCursor = data;
         mAdapter.swapCursor(data);
     }

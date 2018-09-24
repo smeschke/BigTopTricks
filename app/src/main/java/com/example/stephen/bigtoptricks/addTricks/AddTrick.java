@@ -52,7 +52,6 @@ public class AddTrick extends AppCompatActivity {
         mPropTypeEditText = (EditText) findViewById(R.id.edit_text_prop_type);
 
         if (getIntent().hasExtra(ARG_TRICK_OBJECT)) {
-
             mTricks = getIntent().getExtras().getParcelable(ARG_TRICK_OBJECT);
             mName = mTricks.getName();
             mSiteswap = mTricks.getSiteswap();
@@ -79,11 +78,11 @@ public class AddTrick extends AppCompatActivity {
     }
 
     public void add_to_db() {
+        // Get values from
         mName = mTrickNameEditText.getText().toString();
         if (!mUseDefaultDescription) mDescription = mTrickDescriptionEditText.getText().toString();
         String goal = mGoalCatchesEditText.getText().toString();
         String propType = mPropTypeEditText.getText().toString();
-
 
         // Determine if trick name is already in the db
         boolean is_unique = true;
@@ -100,11 +99,6 @@ public class AddTrick extends AppCompatActivity {
         if (mCapacity== null) mCapacity = "None Entered";
         if (mAnimation== null) mAnimation = "None Entered";
 
-        Log.d("LOG", "asdf " + "0" + "0" + mDescription +
-                mName + "yes" + "0" + "0" + "0" + propType + goal +
-                mSiteswap + mAnimation + mSource + mDifficulty + mCapacity +
-                mTutorial);
-
         // Get access to the preferences for list of trick names
         ArrayList<String> mTrickNames = new ArrayList<String>();
         // Look through all the tricks in the DB
@@ -119,7 +113,7 @@ public class AddTrick extends AppCompatActivity {
             Actions.insert_trick(this, "0", "0", mDescription,
                     mName, "yes", "0", "0", "0", propType, goal,
                     mSiteswap, mAnimation, mSource, mDifficulty, mCapacity,
-                    mTutorial);
+                    mTutorial, "no location");
             // Inform the user that the trick has been added to the DB
             Toast.makeText(this,mName + " " + getString(R.string.into_db),
                     Toast.LENGTH_SHORT).show();

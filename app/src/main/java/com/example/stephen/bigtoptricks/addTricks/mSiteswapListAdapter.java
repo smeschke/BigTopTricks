@@ -41,7 +41,8 @@ public class mSiteswapListAdapter extends RecyclerView.Adapter<mSiteswapListAdap
     //when view holder is created, inflate the views
     @Override
     public mSiteswapListAdapter.mAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        int layoutId = R.layout.siteswap_list_item_custom;
+        int layoutId = 0;
+        if (viewType == 0) layoutId = R.layout.siteswap_list_item_custom;
         if (viewType == 1) layoutId = R.layout.siteswap_list_item;
         View view = LayoutInflater.from(mContext).inflate(layoutId, parent, false);
         view.setFocusable(true);

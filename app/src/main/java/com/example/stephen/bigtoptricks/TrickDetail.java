@@ -259,7 +259,7 @@ public class TrickDetail extends AppCompatActivity {
                              String record, String goal, String propType, String hits, String misses) {
         Actions.update_trick(this, id, pr, time, description, name, "yes", hits,
                 misses, record, propType, goal, mSiteswap, mAnimation, mSource,
-                mDifficulty, mCapacity, mTutorial);
+                mDifficulty, mCapacity, mTutorial, "no location");
     }
 
     public void insert_trick(String pr, String time, String description, String name, String record,
@@ -267,7 +267,7 @@ public class TrickDetail extends AppCompatActivity {
 
         Actions.insert_trick(this, "0", "0", description, name, "no",
                 "0", "0", "0", propType, goal, mSiteswap, mAnimation,
-                mSource, mDifficulty, mCapacity, mTutorial);
+                mSource, mDifficulty, mCapacity, mTutorial, "no location");
     }
 
     //++++++++++++++++++++++++++++++++ START THREE BUTTONS OPTIONS +++++++++++++++++++++++++++++++++

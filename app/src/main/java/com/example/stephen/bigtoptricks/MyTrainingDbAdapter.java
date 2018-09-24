@@ -2,7 +2,6 @@ package com.example.stephen.bigtoptricks;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Movie;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -45,18 +44,22 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Set the text in the textview
-        holder.trickNameTextView.setText(mTricks.get(position).getName());
-        holder.prCatchesTextView.setText("PR: " + mTricks.get(position).getPr());
-        holder.goalCatchesTextView.setText("Goal: " + mTricks.get(position).getGoal());
-        holder.timeTrainedTextView.setText("Time Trained: " + mTricks.get(position).getTime_trained());
+        String name = mTricks.get(position).getName();
+        String pr = mTricks.get(position).getPr();
+        String goal = mTricks.get(position).getGoal();
+        String timeTrained = mTricks.get(position).getTime_trained();
+        holder.trickNameTextView.setText(name);
+        if (pr!=null) holder.prCatchesTextView.setText("PR: " + pr);
+        if (goal!=null) holder.goalCatchesTextView.setText("Goal: " + goal);
+        if (timeTrained!=null) holder.timeTrainedTextView.setText("Time Trained: " + timeTrained);
     }
 
     @Override
     public int getItemCount() {
 
-        try{
+        try {
             return mTricks.size();
-        }catch (Exception e){
+        } catch (Exception e) {
             return 0;
         }
     }
