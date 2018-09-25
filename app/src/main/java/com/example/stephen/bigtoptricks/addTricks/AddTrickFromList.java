@@ -3,10 +3,14 @@ package com.example.stephen.bigtoptricks.addTricks;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import com.example.stephen.bigtoptricks.R;
 import com.example.stephen.bigtoptricks.Tricks;
@@ -35,6 +39,27 @@ public class AddTrickFromList extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_trick_from_list);
+
+        // https://stackoverflow.com/questions/51318506/up-navigation-in-fragments-toolbar
+        AppCompatActivity appCompatActivity = ((AppCompatActivity) this);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.exo_controls_previous);
+        appCompatActivity.setSupportActionBar(toolbar);
+        ActionBar actionBar = appCompatActivity.getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        // Custom setting for the up navigation
+        // Must do this to preserve scroll position in ArticleListActivity
+        // https://stackoverflow.com/questions/30679133/override-up-button-in-action-bar
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle("Library of Tricks");
 
         URL url = null;
         try {

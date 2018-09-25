@@ -13,11 +13,47 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+
+    <style name="Recyclerview">
+        <item name="android:paddingTop">@dimen/list_side_margin</item>
+        <item name="android:paddingLeft">@dimen/list_side_margin</item>
+        <item name="android:paddingRight">@dimen/list_side_margin</item>
+        <item name="android:paddingBottom">@dimen/list_side_margin</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="RecyclerViewBody">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/body_text_margin</item>
+        <item name="android:layout_marginRight">@dimen/body_text_margin</item>
+    </style>
+
+    <style name="ToolBar">
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:color">@color/colorAccent</item>
+    </style>
+
+    <style name="Coordinator">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="ListActivityToolBarImage">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">@dimen/title_bar_image_padding</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
     <style name="ImageViewStyle">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:scaleType">centerCrop</item>
-        <item name="android:background">@drawable/exo_controls_fullscreen_enter</item>
+        <item name="android:layout_height">321dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
     <style name="CollapsingToolbar">
@@ -30,31 +66,23 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:fitsSystemWindows">true</item>
-    </style>
-
-    <style name="RecyclerViewBody">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
     <style name="FloatingActionButton">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:clickable">true</item>
+        <item name="android:translationZ">@dimen/fab_press_translation_z</item>
         <item name="android:layout_gravity">bottom|end</item>
-        <item name="android:layout_margin">32dp</item>
+        <item name="android:layout_margin">@dimen/fab_margin</item>
     </style>
 
-    <style name="ToolBar">
-        <item name="android:layout_height">24dp</item>
+    <style name="BodyTextView">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">@dimen/detail_body_text_size</item>
     </style>
-
-    <style name="Coordinator">
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_width">match_parent</item>
-    </style>
-
 
 </resources>

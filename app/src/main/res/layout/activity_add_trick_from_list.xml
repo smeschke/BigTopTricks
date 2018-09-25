@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinator"
@@ -8,24 +7,24 @@
         android:id="@+id/app_bar_layout"
         style="@style/AppBar"
         android:elevation="4dp"
+        android:text="test1234"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             style="@style/CollapsingToolbar"
-            app:contentScrim="@color/colorAccent"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+            app:contentScrim="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
                 android:id="@+id/photo"
-                android:layout_height="234dp"
-                android:layout_width="match_parent"
-                android:scaleType="fitCenter"
-                android:src="@drawable/siteswap" />
+                android:src="@drawable/siteswap"
+                style="@style/ImageViewStyle"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 style="@style/ToolBar"
+                android:text="test9876"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -33,12 +32,9 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_siteswap_list"
         style="@style/RecyclerViewBody"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>

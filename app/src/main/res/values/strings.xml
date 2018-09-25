@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BigTopTricks</string>
+    <string name="app_name">Big Top Tricks</string>
     <string name="default_description">No description for this trick.</string>
     <string name="default_goal">No goal for this trick.</string>
     <string name="default_prop_type">Prop Unknown</string>

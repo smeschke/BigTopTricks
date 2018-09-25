@@ -17,7 +17,6 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -27,14 +26,19 @@
             android:authorities="com.example.stephen.bigtoptricks"
             android:exported="false" />
 
-        <activity android:name=".addTricks.AddTrick" />
-        <activity android:name=".TrickDetail" />
-        <activity android:name=".DisplayData" />
+        <activity android:name=".addTricks.AddTrick"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".TrickDetail"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".DisplayData"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".addTricks.AddTrickFromList"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".addTricks.TrickDiscovery" />
-
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".addTricks.TrickDiscovery"
+            android:parentActivityName=".addTricks.AddTrickFromList"/>
         <receiver android:name=".TricksWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

@@ -44,6 +44,11 @@ public class DisplayData extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_data);
+
+        // up navigation
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         getSupportLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
