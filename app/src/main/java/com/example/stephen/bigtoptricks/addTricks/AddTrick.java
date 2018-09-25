@@ -1,5 +1,7 @@
 package com.example.stephen.bigtoptricks.addTricks;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,10 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.example.stephen.bigtoptricks.R;
 import com.example.stephen.bigtoptricks.Tricks;
+import com.example.stephen.bigtoptricks.TricksWidget;
 import com.example.stephen.bigtoptricks.data.Actions;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -100,13 +104,13 @@ public class AddTrick extends AppCompatActivity {
         if (mAnimation== null) mAnimation = "None Entered";
 
         // Get access to the preferences for list of trick names
-        ArrayList<String> mTrickNames = new ArrayList<String>();
+        ArrayList<String> trickNames = new ArrayList<String>();
         // Look through all the tricks in the DB
         SharedPreferences settings = getApplicationContext().getSharedPreferences(ARG_SP_LOG_KEY, 0);
         String tricks_string = settings.getString(ARG_LIST_KEY, "");
         String[] stringLIst = tricks_string.split(mUnique);
-        for (int i = 0; i < stringLIst.length; i++) mTrickNames.add(stringLIst[i]);
-        if (mTrickNames.contains(mName)) is_unique = false;
+        for (int i = 0; i < stringLIst.length; i++) trickNames.add(stringLIst[i]);
+        if (trickNames.contains(mName)) is_unique = false;
 
         if (is_unique) {
             // Insert the trick into the database
@@ -130,10 +134,32 @@ public class AddTrick extends AppCompatActivity {
             bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "add activity item name");
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+            // Update the widget
+            trickNames.add(mName);
+            writeToWidget(trickNames);
         } else {
             // The user is trying to enter a trick name that already exists in the database
             Toast.makeText(this, getString(R.string.already_in_db) +
                     getString(R.string.make_unique_name), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void writeToWidget(ArrayList<String> names){
+        String output = "Big Top Tricks\nTraining Database:\n";
+        for (int i = 0; i < names.size(); i++) {
+            if(names.get(i).length()>0) output = output + names.get(i) + "\n";
+        }
+        // Get app widget manager
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        // Create a remote view
+        RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.tricks_widget);
+        ComponentName thisWidget = new ComponentName(this, TricksWidget.class);
+        // Set the widget text and update the widget
+        Log.d("LOG", "asdf " + names.size()+ output);
+        remoteViews.setTextViewText(R.id.appwidget_text, output);
+        appWidgetManager.updateAppWidget(thisWidget, remoteViews);
+        // Tell the user that the ingredients have been added to the widget
+        Toast.makeText(this, "Info written to widget", Toast.LENGTH_SHORT).show();
     }
 }

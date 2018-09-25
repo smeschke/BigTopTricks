@@ -21,4 +21,7 @@
     <string name="add">Add</string>
     <string name="time_spent_training">Time spent training this trick:</string>
     <string name="no">No</string>
+    <string name="get_started_message">Welcome! Press \'Add\' to get started...</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

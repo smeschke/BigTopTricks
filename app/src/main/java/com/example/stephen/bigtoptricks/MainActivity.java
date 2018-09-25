@@ -1,5 +1,8 @@
 package com.example.stephen.bigtoptricks;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,6 +19,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.example.stephen.bigtoptricks.addTricks.AddTrickFromList;
 import com.example.stephen.bigtoptricks.data.Contract;
@@ -78,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements
         String meta = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_IS_META));
 
         Tricks tricks = new Tricks(pr, time_trained, description, name, meta, hit, miss, record, prop_type, goal,
-                siteswap, animation, source, difficulty, capacity, tutorial, id);
+                siteswap, animation, source, difficulty, capacity, tutorial, id, "no location");
         Intent toTrickDetail = new Intent(MainActivity.this, TrickDetail.class);
         toTrickDetail.putExtra(ARG_TRICK_OBJECT, tricks);
         startActivity(toTrickDetail);
@@ -102,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         if (data.getCount()==0) {
             Snackbar mySnackbar = Snackbar.make(findViewById(R.id.coordinator),
-                    "Welcome! Press 'Add' to get started...", Snackbar.LENGTH_LONG);
+                    R.string.get_started_message, Snackbar.LENGTH_LONG);
             mySnackbar.show();
         }
 

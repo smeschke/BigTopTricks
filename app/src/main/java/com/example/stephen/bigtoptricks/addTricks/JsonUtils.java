@@ -123,7 +123,6 @@ public class JsonUtils {
     /* Takes the big json string that contains all twenty movies,
    and parses out one individual movie.*/
     public static Tricks parseIndividualTrickToOBject(String public_json_string, int position) {
-        ArrayList<String> trick_details = new ArrayList<>();
         JSONArray jsonArray;
         String name = "";
         String capacity = "";
@@ -147,20 +146,18 @@ public class JsonUtils {
         } catch (JSONException e) {
             Log.d("LOG", "asdf error in json parsing");
         }
-        trick_details.add(name);
-        trick_details.add(capacity);
-        trick_details.add(siteswap);
-        trick_details.add(animation);
-        trick_details.add(tutorial);
-        trick_details.add(difficulty);
-        trick_details.add(tutorial);
-        trick_details.add(description);
-        trick_details.add(source);
 
-        Tricks tricks = new Tricks("0", "0", description, name, "yes", "0",
-                "0", "0", "0", "0", siteswap, animation, source,
-                difficulty, capacity, tutorial, "0");
-        return tricks;
+        Tricks trick = new Tricks();
+        trick.setDescription(description);
+        trick.setName(name);
+        trick.setAnimation(animation);
+        trick.setSource(source);
+        trick.setDifficulty(difficulty);
+        trick.setCapacity(capacity);
+        trick.setTutorial(tutorial);
+        trick.setSiteswap(siteswap);
+
+        return trick;
     }
 
     public static Tricks parseLimitedDetails(String public_json_string, int position) {
