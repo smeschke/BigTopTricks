@@ -9,27 +9,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.example.stephen.bigtoptricks.R;
-import com.example.stephen.bigtoptricks.Tricks;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_OBJECT;
+import static com.example.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
 
-public class AddTrickFromList extends AppCompatActivity
-        implements com.example.stephen.bigtoptricks.addTricks.mSiteswapListAdapter.mAdapterOnClickHandler {
+public class Library extends AppCompatActivity
+        implements MyLibraryAdapter.mAdapterOnClickHandler {
 
     //initialize an adapter and recyclerView
-    private mSiteswapListAdapter mSiteswapListAdapter;
+    private MyLibraryAdapter mSiteswapListAdapter;
     private RecyclerView mList;
     private String mJsonString;
     LinearLayoutManager mLayoutManager;
@@ -38,7 +34,7 @@ public class AddTrickFromList extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_trick_from_list);
+        setContentView(R.layout.activity_library);
 
         // https://stackoverflow.com/questions/51318506/up-navigation-in-fragments-toolbar
         AppCompatActivity appCompatActivity = ((AppCompatActivity) this);
@@ -74,7 +70,7 @@ public class AddTrickFromList extends AppCompatActivity
                 LinearLayoutManager.VERTICAL, false);
         mList.setLayoutManager(mLayoutManager);
         mList.setHasFixedSize(true);
-        mSiteswapListAdapter = new mSiteswapListAdapter(this, this);
+        mSiteswapListAdapter = new MyLibraryAdapter(this, this);
         mList.setAdapter(mSiteswapListAdapter);
 
         // Get access to the preferences

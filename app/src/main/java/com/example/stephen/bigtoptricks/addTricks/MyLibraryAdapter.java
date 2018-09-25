@@ -3,7 +3,6 @@ package com.example.stephen.bigtoptricks.addTricks;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +10,12 @@ import android.widget.TextView;
 
 import com.example.stephen.bigtoptricks.R;
 import com.example.stephen.bigtoptricks.Tricks;
-import com.example.stephen.bigtoptricks.data.Contract;
 
 import org.json.JSONException;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class mSiteswapListAdapter extends RecyclerView.Adapter<mSiteswapListAdapter.mAdapterViewHolder> {
+public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAdapterViewHolder> {
 
     //get context
     private final Context mContext;
@@ -32,18 +29,18 @@ public class mSiteswapListAdapter extends RecyclerView.Adapter<mSiteswapListAdap
 
 
     //get stuff on list from Main Activity
-    public mSiteswapListAdapter(@NonNull Context context,
-                                mAdapterOnClickHandler clickHandler) {
+    public MyLibraryAdapter(@NonNull Context context,
+                            mAdapterOnClickHandler clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
     }
 
     //when view holder is created, inflate the views
     @Override
-    public mSiteswapListAdapter.mAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyLibraryAdapter.mAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         int layoutId = 0;
-        if (viewType == 0) layoutId = R.layout.siteswap_list_item_custom;
-        if (viewType == 1) layoutId = R.layout.siteswap_list_item;
+        if (viewType == 0) layoutId = R.layout.library_list_item_custom;
+        if (viewType == 1) layoutId = R.layout.library_list_item;
         View view = LayoutInflater.from(mContext).inflate(layoutId, parent, false);
         view.setFocusable(true);
         return new mAdapterViewHolder(view);
@@ -61,7 +58,7 @@ public class mSiteswapListAdapter extends RecyclerView.Adapter<mSiteswapListAdap
 
     //bind data to view holder
     @Override
-    public void onBindViewHolder(mSiteswapListAdapter.mAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(MyLibraryAdapter.mAdapterViewHolder holder, int position) {
         Tricks tricks = new Tricks();
         if (position == 0) tricks.setName("Create Custom Trick");
         else tricks = mTricks.get(position-1);

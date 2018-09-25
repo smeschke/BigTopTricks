@@ -1,9 +1,9 @@
 package com.example.stephen.bigtoptricks;
 
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Context;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,20 +12,20 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RemoteViews;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.stephen.bigtoptricks.addTricks.AddTrickFromList;
+import com.example.stephen.bigtoptricks.addTricks.Library;
 import com.example.stephen.bigtoptricks.data.Contract;
 
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_OBJECT;
+import static com.example.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
 
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements
 
         Tricks tricks = new Tricks(pr, time_trained, description, name, meta, hit, miss, record, prop_type, goal,
                 siteswap, animation, source, difficulty, capacity, tutorial, id, "no location");
-        Intent toTrickDetail = new Intent(MainActivity.this, TrickDetail.class);
+        Intent toTrickDetail = new Intent(MainActivity.this, Training.class);
         toTrickDetail.putExtra(ARG_TRICK_OBJECT, tricks);
         startActivity(toTrickDetail);
     }
@@ -105,14 +105,28 @@ public class MainActivity extends AppCompatActivity implements
     // When loading is finished, swap in the new data
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        if (data.getCount()==0) {
-            Snackbar mySnackbar = Snackbar.make(findViewById(R.id.coordinator),
-                    R.string.get_started_message, Snackbar.LENGTH_LONG);
-            mySnackbar.show();
-        }
-
+        if (data.getCount()==0) showStartMessage();
         mCursor = data;
         mAdapter.swapCursor(data);
+    }
+
+    public void showStartMessage() {
+        //show a dialog that gives the user information about how to use app
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setCancelable(true);
+        builder.setMessage(R.string.welcome_message);
+        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.setPositiveButton("", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        }).show();
     }
 
     // Reset the loader
@@ -142,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements
     //++++++++++++++++++++++++++++++++ END THREE BUTTONS OPTIONS +++++++++++++++++++++++++++++++++++
 
     public void addTrick(View view) {
-        Intent toAddFromListActivity = new Intent(this, AddTrickFromList.class);
+        Intent toAddFromListActivity = new Intent(this, Library.class);
         startActivity(toAddFromListActivity);
     }
 }

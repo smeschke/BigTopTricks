@@ -5,18 +5,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.example.stephen.bigtoptricks.R;
 import com.example.stephen.bigtoptricks.Tricks;
-import com.example.stephen.bigtoptricks.addTricks.AddTrick;
 
-import java.util.ArrayList;
-
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_OBJECT;
+import static com.example.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
 
 public class TrickDiscovery extends AppCompatActivity {
 
@@ -41,7 +37,7 @@ public class TrickDiscovery extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trick_discovery);
+        setContentView(R.layout.activity_discovery);
 
         mTricks = getIntent().getExtras().getParcelable(ARG_TRICK_OBJECT);
         mName = mTricks.getName();

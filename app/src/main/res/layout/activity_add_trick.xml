@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="Enter Trick Name..."
+        android:hint="@string/name_hint"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="Enter Trick Description (optional)..."
+        android:hint="@string/description_hint"
         app:layout_constraintBottom_toTopOf="@id/edit_text_goal_catches"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -32,32 +32,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="Goal (# catches, # reps, time, etc..."
+        android:hint="@string/goal_hint"
         app:layout_constraintBottom_toTopOf="@id/edit_text_prop_type"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_text_trick_description" />
 
     <EditText
+        android:id="@+id/edit_text_prop_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:id="@+id/edit_text_prop_type"
+        android:hint="@string/prop_type_hint"
+        app:layout_constraintBottom_toTopOf="@id/button_add_trick_to_database"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_goal_catches"
-        app:layout_constraintBottom_toTopOf="@id/button_add_trick_to_database"
-        android:hint="Prop Type (Ball, club, ring, etc...)"/>
+        app:layout_constraintTop_toBottomOf="@id/edit_text_goal_catches" />
 
     <Button
         android:id="@+id/button_add_trick_to_database"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Add Trick to Database"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_prop_type"
+        android:text="@string/add_trick_to_database"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_prop_type" />
 
 </android.support.constraint.ConstraintLayout>

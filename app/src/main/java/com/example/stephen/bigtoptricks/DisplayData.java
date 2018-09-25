@@ -53,67 +53,6 @@ public class DisplayData extends AppCompatActivity implements
     }
 
 
-
-    protected void output_data(View view) throws IOException {
-/*        Log.d("LOG", "asdf isExternalStorageWritable: " + isExternalStorageWritable());
-        Log.d("LOG", "asdf isExternalStorageReadable: " + isExternalStorageReadable());
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "juggling_data");
-        //File file1 = getDir(Environment.DIRECTORY_PICTURES + "/test",//Context.MODE_PRIVATE);
-
-
-
-        //File file2 = getPublicAlbumStorageDir("jugglingTest");*/
-
-        //File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "juggling_data");
-        try {
-            File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Notes");
-            if (!root.exists()) {
-                root.mkdirs();
-            }
-            File gpxfile = new File(root, "jugglingfile");
-            FileWriter writer = new FileWriter(gpxfile);
-            writer.append("m juggling text");
-            writer.flush();
-            writer.close();
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public File getPublicAlbumStorageDir(String albumName) {
-        // Get the directory for the user's public pictures directory.
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), albumName);
-        if (!file.mkdirs()) {
-            Log.e("LOG", "asdf Directory not created");
-        }
-        return file;
-    }
-
-    /* Checks if external storage is available for read and write */
-    public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    /* Checks if external storage is available to at least read */
-    public boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-
-
     ///////////////////////////////////START CURSOR LOADER METHODS /////////////////////////////////
     @NonNull
     @Override
@@ -146,6 +85,9 @@ public class DisplayData extends AppCompatActivity implements
     private void bindView(Cursor data) {
         ArrayList<Tricks> listTricks = new ArrayList<>();
         String text = "";
+        String locations = "";
+        String trick_names = "";
+        int time_trained = 0;
         for (int i = 0; i < data.getCount(); i++) {
             data.moveToPosition(i);
             String name = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_TRICK_NAME));
@@ -167,10 +109,23 @@ public class DisplayData extends AppCompatActivity implements
                     + "    NumCatches: " + catchCount + "\n"
                     + "    Time Trained: " + timeTrained + "\n"
                     + "    Location: " + location + "\n\n";
+
+            locations = "\u2022 " + location + ",";
+            trick_names = "\u2022 " + name + ",";
+            time_trained = time_trained + Integer.parseInt(timeTrained);
+
         }
         mTricks = listTricks;
+        //get rid of the ending commas
+        locations = locations.substring(0,locations.length()-1);
+        trick_names = trick_names.substring(0,trick_names.length()-1);
+        //create output string to display
+        String output = "";
+        output = output + "My total training time: " + Integer.toString(time_trained) + "\n\n\n";
+        output = output + "Places I have juggled:\n" + locations + "\n\n\n";
+        output = output + "Tricks I have trained:\n" + trick_names;
         TextView database_textview = (TextView) findViewById(R.id.database_textview);
-        database_textview.setText(text);
+        database_textview.setText(output);
         mText = text;
     }
 }

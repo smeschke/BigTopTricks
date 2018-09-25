@@ -21,10 +21,10 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_LIST_KEY;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_SP_LOG_KEY;
-import static com.example.stephen.bigtoptricks.TrickDetail.ARG_TRICK_OBJECT;
-import static com.example.stephen.bigtoptricks.TrickDetail.mUnique;
+import static com.example.stephen.bigtoptricks.Training.ARG_LIST_KEY;
+import static com.example.stephen.bigtoptricks.Training.ARG_SP_LOG_KEY;
+import static com.example.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
+import static com.example.stephen.bigtoptricks.Training.mUnique;
 
 public class AddTrick extends AppCompatActivity {
 
@@ -121,10 +121,17 @@ public class AddTrick extends AppCompatActivity {
             // Inform the user that the trick has been added to the DB
             Toast.makeText(this,mName + " " + getString(R.string.into_db),
                     Toast.LENGTH_SHORT).show();
+
             // Reset the hints on the edittext boxes
+            mTrickNameEditText.setText("");
+            mTrickDescriptionEditText.setText("");
+            mGoalCatchesEditText.setText("");
+            mPropTypeEditText.setText("");
+            mPropTypeEditText.setHint(R.string.prop_type_hint);
             mTrickNameEditText.setHint(R.string.name_hint);
             mTrickDescriptionEditText.setHint(R.string.description_hint);
             mGoalCatchesEditText.setHint(R.string.goal_hint);
+
             // update list of trick names in shared preferences
             settings.edit().putString(ARG_LIST_KEY, tricks_string + mUnique + mName).commit();
             // Obtain the FirebaseAnalytics instance.
@@ -148,7 +155,7 @@ public class AddTrick extends AppCompatActivity {
     public void writeToWidget(ArrayList<String> names){
         String output = "Big Top Tricks\nTraining Database:\n";
         for (int i = 0; i < names.size(); i++) {
-            if(names.get(i).length()>0) output = output + names.get(i) + "\n";
+            if(names.get(i).length()>0) output = output + "\u2022 " + names.get(i) + "\n";
         }
         // Get app widget manager
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);

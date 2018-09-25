@@ -19,11 +19,4 @@
             android:id="@+id/database_textview"/>
    </ScrollView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        style="@style/FloatingActionButton"
-        android:elevation="6dp"
-        android:onClick="output_data"
-        app:srcCompat="@drawable/add2" />
-
 </FrameLayout>

@@ -29,16 +29,16 @@
         <activity android:name=".addTricks.AddTrick"
             android:parentActivityName=".MainActivity"/>
         <activity
-            android:name=".TrickDetail"
+            android:name=".Training"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".DisplayData"
             android:parentActivityName=".MainActivity"/>
         <activity
-            android:name=".addTricks.AddTrickFromList"
+            android:name=".addTricks.Library"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".addTricks.TrickDiscovery"
-            android:parentActivityName=".addTricks.AddTrickFromList"/>
+            android:parentActivityName=".addTricks.Library"/>
         <receiver android:name=".TricksWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

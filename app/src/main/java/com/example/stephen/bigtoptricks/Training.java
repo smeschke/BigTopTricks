@@ -6,9 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,7 +30,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 
-public class TrickDetail extends AppCompatActivity {
+public class Training extends AppCompatActivity {
 
     public final static String mUnique = "unique_delimiter";
     public static final String ARG_TRICK_OBJECT = "trick_object";
@@ -70,13 +68,11 @@ public class TrickDetail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trick_detail);
+        setContentView(R.layout.activity_training);
 
         // up navigation
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-
 
         mTricks = getIntent().getExtras().getParcelable(ARG_TRICK_OBJECT);
         mName = mTricks.getName();
@@ -169,7 +165,8 @@ public class TrickDetail extends AppCompatActivity {
             // Calculate the total time that this trick has been trained
             long longTimeTrained = Long.parseLong(mTimeTrained);
             final String totalTime = Long.toString(trainingTime + longTimeTrained);
-            Log.d("LOG", "asdf TrainingTime: " + trainingTime + " mTimeTrained: " + longTimeTrained + " totalTime: " + totalTime);
+            Log.d("LOG", "asdf TrainingTime: " + trainingTime + " mTimeTrained (pre training time): " + longTimeTrained + " totalTime (total string): " + totalTime);
+            mTimeTrained = totalTime;
 
             // Create an alert dialog
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -301,8 +298,7 @@ public class TrickDetail extends AppCompatActivity {
             startActivity(toTrickDiscovery);
         }
         if (itemThatWasClickedId == android.R.id.home) {
-            NavUtils.navigateUpTo(this, new Intent(this,
-                    MainActivity.class));
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
