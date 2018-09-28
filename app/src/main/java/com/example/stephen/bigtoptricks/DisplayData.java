@@ -83,10 +83,10 @@ public class DisplayData extends AppCompatActivity implements
     /////////////////////////////////// END CURSOR LOADER METHODS //////////////////////////////////
 
     private void bindView(Cursor data) {
-        ArrayList<Tricks> listTricks = new ArrayList<>();
-        String text = "";
-        String locations = "";
-        String trick_names = "";
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> locations = new ArrayList<>();;
+
+        String completeDb = "Name: ___ Catch Count: ___ Time Trained: ___\n";
         int time_trained = 0;
         for (int i = 0; i < data.getCount(); i++) {
             data.moveToPosition(i);
@@ -97,35 +97,30 @@ public class DisplayData extends AppCompatActivity implements
             String catchCount = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_RECORD));
             String location = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_LOCATION));
 
-            Tricks tricks = new Tricks();
-            tricks.setName(name);
-            tricks.setGoal(goal);
-            tricks.setPr(pr);
-            tricks.setTime_trained(timeTrained);
-            tricks.setLocation(location);
-            listTricks.add(tricks);
+            if(!names.contains(name)) names.add(name);
+            if(!locations.contains(location)) locations.add(location);
 
-            text += name + "\n"
-                    + "    NumCatches: " + catchCount + "\n"
-                    + "    Time Trained: " + timeTrained + "\n"
-                    + "    Location: " + location + "\n\n";
 
-            locations = "\u2022 " + location + ",";
-            trick_names = "\u2022 " + name + ",";
             time_trained = time_trained + Integer.parseInt(timeTrained);
+            completeDb += "\u2022 " + name + " - " + catchCount + " - " + timeTrained + "\n";
+
+            Log.d("LOG", "asdf trick name: " + name + " " + i + " " + catchCount + completeDb.length());
 
         }
-        mTricks = listTricks;
-        //get rid of the ending commas
-        locations = locations.substring(0,locations.length()-1);
-        trick_names = trick_names.substring(0,trick_names.length()-1);
+        String trick_names = "";
+        String trick_locations = "";
+        for (int i = 0; i < names.size(); i++) trick_names += "\u2022 " + names.get(i) + "\n";
+        for (int i = 0; i < locations.size(); i++) trick_locations += "\u2022 " + locations.get(i) + "\n";
+
+        Log.d("LOG", "asdf trick names: " + names.toString());
+        Log.d("LOG", "asdf trick locations: " + locations.toString());
         //create output string to display
         String output = "";
         output = output + "My total training time: " + Integer.toString(time_trained) + "\n\n\n";
-        output = output + "Places I have juggled:\n" + locations + "\n\n\n";
-        output = output + "Tricks I have trained:\n" + trick_names;
+        output = output + "Places I have juggled:\n\n" + trick_locations + "\n\n\n";
+        output = output + "Tricks I have trained:\n\n" + trick_names + "\n\n\n";
+        output = output + "Complete Database:\n\n" + completeDb;
         TextView database_textview = (TextView) findViewById(R.id.database_textview);
         database_textview.setText(output);
-        mText = text;
     }
 }
