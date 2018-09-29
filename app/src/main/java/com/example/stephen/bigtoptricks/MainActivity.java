@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements
 
         mCursor.moveToPosition(position);
 
+        // Create a new trick object based on the item the user clicked on
         String name = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_TRICK_NAME));
         String time_trained = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_TIME_TRAINED));
         String goal = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_GOAL));
@@ -84,9 +85,11 @@ public class MainActivity extends AppCompatActivity implements
 
         Tricks tricks = new Tricks(pr, time_trained, description, name, meta, hit, miss, record, prop_type, goal,
                 siteswap, animation, source, difficulty, capacity, tutorial, id, "no location");
-        Intent toTrickDetail = new Intent(MainActivity.this, Training.class);
-        toTrickDetail.putExtra(ARG_TRICK_OBJECT, tricks);
-        startActivity(toTrickDetail);
+
+        // Package the trick object in an intent and sent it to the Training activity
+        Intent toTraining = new Intent(MainActivity.this, Training.class);
+        toTraining.putExtra(ARG_TRICK_OBJECT, tricks);
+        startActivity(toTraining);
     }
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ END ONCLICK METHOD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -155,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements
     }
     //++++++++++++++++++++++++++++++++ END THREE BUTTONS OPTIONS +++++++++++++++++++++++++++++++++++
 
+    // Code for floating action button
     public void addTrick(View view) {
         Intent toAddFromListActivity = new Intent(this, Library.class);
         startActivity(toAddFromListActivity);

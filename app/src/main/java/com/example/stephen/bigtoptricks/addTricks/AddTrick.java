@@ -8,9 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RemoteViews;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.stephen.bigtoptricks.R;
@@ -26,12 +29,12 @@ import static com.example.stephen.bigtoptricks.Training.ARG_SP_LOG_KEY;
 import static com.example.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
 import static com.example.stephen.bigtoptricks.Training.mUnique;
 
-public class AddTrick extends AppCompatActivity {
+public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private EditText mTrickNameEditText;
     private EditText mTrickDescriptionEditText;
     private EditText mGoalCatchesEditText;
-    private EditText mPropTypeEditText;
+    private Spinner mPropTypeEditText;
     private String mName;
     private String mDescription;
     private String mCapacity;
@@ -39,6 +42,7 @@ public class AddTrick extends AppCompatActivity {
     private String mSource;
     private String mAnimation;
     private String mTutorial;
+    private String mPropFromSpinner;
     private String mDifficulty;
     private Tricks mTricks;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -53,9 +57,21 @@ public class AddTrick extends AppCompatActivity {
         mTrickDescriptionEditText = (EditText) findViewById(R.id.edit_text_trick_description);
         mGoalCatchesEditText = (EditText) findViewById(R.id.edit_text_goal_catches);
         mGoalCatchesEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        mPropTypeEditText = (EditText) findViewById(R.id.edit_text_prop_type);
+        mPropTypeEditText = (Spinner) findViewById(R.id.edit_text_prop_type);
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.prop_types, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        mPropTypeEditText.setAdapter(adapter);
+
+        mPropTypeEditText.setOnItemSelectedListener(this);
 
         if (getIntent().hasExtra(ARG_TRICK_OBJECT)) {
+            // The intent has a trick object extra if the user has picked a trick from the Library
+            // Bind the data from that trick into the text views, and set the class variables
             mTricks = getIntent().getExtras().getParcelable(ARG_TRICK_OBJECT);
             mName = mTricks.getName();
             mSiteswap = mTricks.getSiteswap();
@@ -81,12 +97,26 @@ public class AddTrick extends AppCompatActivity {
         });
     }
 
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        // An item was selected. You can retrieve the selected item using
+        mPropFromSpinner = parent.getItemAtPosition(pos).toString();
+        Log.d("LOG", "asdf " + id + " " + pos + " " + mPropFromSpinner);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+        Log.d("LOG", "asdf nothing selected");
+    }
+
+
     public void add_to_db() {
-        // Get values from
+        // Get values from edit text's
         mName = mTrickNameEditText.getText().toString();
         if (!mUseDefaultDescription) mDescription = mTrickDescriptionEditText.getText().toString();
         String goal = mGoalCatchesEditText.getText().toString();
-        String propType = mPropTypeEditText.getText().toString();
+        //String propType = mPropTypeEditText.getText().toString();
+        String propType = mPropFromSpinner;
 
         // Determine if trick name is already in the db
         boolean is_unique = true;
@@ -126,14 +156,15 @@ public class AddTrick extends AppCompatActivity {
             mTrickNameEditText.setText("");
             mTrickDescriptionEditText.setText("");
             mGoalCatchesEditText.setText("");
-            mPropTypeEditText.setText("");
-            mPropTypeEditText.setHint(R.string.prop_type_hint);
+            //mPropTypeEditText.setText("");
+            //mPropTypeEditText.setHint(R.string.prop_type_hint);
             mTrickNameEditText.setHint(R.string.name_hint);
             mTrickDescriptionEditText.setHint(R.string.description_hint);
             mGoalCatchesEditText.setHint(R.string.goal_hint);
 
             // update list of trick names in shared preferences
             settings.edit().putString(ARG_LIST_KEY, tricks_string + mUnique + mName).commit();
+
             // Obtain the FirebaseAnalytics instance.
             mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
             Bundle bundle = new Bundle();
@@ -145,13 +176,16 @@ public class AddTrick extends AppCompatActivity {
             // Update the widget
             trickNames.add(mName);
             writeToWidget(trickNames);
+
         } else {
+
             // The user is trying to enter a trick name that already exists in the database
             Toast.makeText(this, getString(R.string.already_in_db) +
                     getString(R.string.make_unique_name), Toast.LENGTH_SHORT).show();
         }
     }
 
+    // Update the list of tricks in the widget
     public void writeToWidget(ArrayList<String> names){
         String output = "Big Top Tricks\nTraining Database:\n";
         for (int i = 0; i < names.size(); i++) {

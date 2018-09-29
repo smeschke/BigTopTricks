@@ -17,15 +17,7 @@ import static com.example.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
 public class TrickDiscovery extends AppCompatActivity {
 
     private String mName;
-    private String mPr;
-    private String mGoal;
     private String mDescription;
-    private String mTimeTrained;
-    private String mId;
-    private String mHits;
-    private String mMisses;
-    private String mPropType;
-    private String mRecords;
     private String mCapacity;
     private String mSiteswap;
     private String mSource;
@@ -39,22 +31,15 @@ public class TrickDiscovery extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discovery);
 
+        // Get the trick that the user clicked on in the Library of Tricks
         mTricks = getIntent().getExtras().getParcelable(ARG_TRICK_OBJECT);
         mName = mTricks.getName();
-        mRecords = mTricks.getRecord();
-        mPropType = mTricks.getProp_type();
-        mPr = mTricks.getPr();
-        mMisses = mTricks.getMiss();
-        mGoal = mTricks.getGoal();
-        mTimeTrained = mTricks.getTime_trained();
-        mHits = mTricks.getHit();
         mSiteswap = mTricks.getSiteswap();
         mSource = mTricks.getSource();
         mAnimation = mTricks.getAnimation();
         mTutorial = mTricks.getTutorial();
         mDifficulty = mTricks.getDifficulty();
         mCapacity = mTricks.getCapacity();
-        mId = mTricks.getId();
         mDescription = mTricks.getDescription();
 
         TextView title_text_view = (TextView) findViewById(R.id.discovery_title_text_view);

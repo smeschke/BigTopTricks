@@ -4,23 +4,20 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NavUtils;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
@@ -66,7 +63,8 @@ public class Training extends AppCompatActivity {
     private String mAnimation;
     private String mTutorial;
     private String mDifficulty;
-    private Tricks mTricks;
+    private String mCatchCount;
+    private Tricks mTrick;
     private Chronometer mChronometer;
     private long mStartTime;
     private boolean mTraining;
@@ -90,9 +88,11 @@ public class Training extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training);
 
-        ActivityCompat.requestPermissions(Training.this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                1);
+        // Collecting juggling data is more important than battery life to tele-socialize after training
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        // Request permission for fine location
+        ActivityCompat.requestPermissions(Training.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
         // up navigation
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -103,25 +103,27 @@ public class Training extends AppCompatActivity {
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
+        // This function updates the mLocation global variable
         get_place_and_log();
 
-        mTricks = getIntent().getExtras().getParcelable(ARG_TRICK_OBJECT);
-        mName = mTricks.getName();
-        mRecords = mTricks.getRecord();
-        mPropType = mTricks.getProp_type();
-        mPr = mTricks.getPr();
-        mMisses = mTricks.getMiss();
-        mGoal = mTricks.getGoal();
-        mTimeTrained = mTricks.getTime_trained();
-        mHits = mTricks.getHit();
-        mSiteswap = mTricks.getSiteswap();
-        mSource = mTricks.getSource();
-        mAnimation = mTricks.getAnimation();
-        mTutorial = mTricks.getTutorial();
-        mDifficulty = mTricks.getDifficulty();
-        mCapacity = mTricks.getCapacity();
-        mId = mTricks.getId();
-        mDescription = mTricks.getDescription();
+        // Get the trick that the user clicked on in the main activity from the intent
+        mTrick = getIntent().getExtras().getParcelable(ARG_TRICK_OBJECT);
+        mName = mTrick.getName();
+        mRecords = mTrick.getRecord();
+        mPropType = mTrick.getProp_type();
+        mPr = mTrick.getPr();
+        mMisses = mTrick.getMiss();
+        mGoal = mTrick.getGoal();
+        mTimeTrained = mTrick.getTime_trained();
+        mHits = mTrick.getHit();
+        mSiteswap = mTrick.getSiteswap();
+        mSource = mTrick.getSource();
+        mAnimation = mTrick.getAnimation();
+        mTutorial = mTrick.getTutorial();
+        mDifficulty = mTrick.getDifficulty();
+        mCapacity = mTrick.getCapacity();
+        mId = mTrick.getId();
+        mDescription = mTrick.getDescription();
 
         // Get references to all of the text views
         mTrainingTimeTextView = findViewById(R.id.time_trained_text_view);
@@ -130,6 +132,8 @@ public class Training extends AppCompatActivity {
         ((TextView) findViewById(R.id.trick_name_text_view)).setText(mName + " " + mPropType);
         mPrTextView = (TextView) findViewById(R.id.trick_pr_text_view);
         mPrTextView.setText(getString(R.string.pr) + " " + mPr);
+        mHitMissTextView = (TextView) findViewById(R.id.hitMissTextView);
+        mHitMissTextView.setText(mHits + " / " + mMisses);
 
         // Now the buttons
         mTrainingButton = (Button) findViewById(R.id.start_training_button);
@@ -154,31 +158,17 @@ public class Training extends AppCompatActivity {
             }
         });
 
+        // Create the chronometer
         mChronometer = ((Chronometer) findViewById(R.id.chronometer));
-        mHitMissTextView = (TextView) findViewById(R.id.hitMissTextView);
-        mHitMissTextView.setText(mHits + " / " + mMisses);
+
+        // Create and initialize the graph with the record data
         mGraphView = (GraphView) findViewById(R.id.trick_description_text_view);
-        initGraph(mGraphView, mRecords);
-    }
-
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                } else {
-                    Toast.makeText(this, "Some functionality my be unavilable", Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
+        initGraph(mGraphView, mTrick.getRecord());
     }
 
     public void initGraph(GraphView graph, String records) {
+        // This code was adapted from the GraphView sample code
+        // The records are stored in a list of numbers seperated by a comma, for ex: 10,20,32,42
         String[] items = records.split(",");
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{});
         for (int i = 0; i < items.length; i++) {
@@ -192,147 +182,117 @@ public class Training extends AppCompatActivity {
     }
 
     public void training_button() {
+        // This activity runs in one of two modes, denoted by the boolean mTraining
+        // If mTraining: the chronometer is running and the user is juggling, the button says "stop training"
+        // If !mTraining: the chronometer is at zero and the button stays "start trining"
         if (!mTraining) {
             // User has started juggling
             Toast.makeText(this, R.string.start_juggling, Toast.LENGTH_SHORT).show();
+            // Start the chronometer at the current system time
             mChronometer.setBase(SystemClock.elapsedRealtime());
             mChronometer.start();
+            // Update class variable
             mTraining = true;
+            // Reset the text on the training button from 'start' to 'finished'
             mTrainingButton.setText(R.string.finished_training);
+            // Record the start time of the chronometer
             mStartTime = System.currentTimeMillis();
         } else {
             // User has stopped juggling
             mChronometer.stop();
+            // Reset the chronometer
             mChronometer.setBase(SystemClock.elapsedRealtime());
+            // Update the class variable, and reset the text on the button
             mTraining = false;
             mTrainingButton.setText(R.string.start_juggling);
-
-            // Check to make sure that mLocation actually has a value
-            if (mLocation==null) mLocation = "Location not avaliable.";
-            if (mLocation.length() < 2) mLocation = "Location not avaliable.";
 
             // Calculate training duration
             long trainingTime = (System.currentTimeMillis() - mStartTime) / 1000;
             final String traingTimeString = Long.toString(trainingTime);
-            // Calculate the total time that this trick has been trained
             long longTimeTrained = Long.parseLong(mTimeTrained);
             final String totalTime = Long.toString(trainingTime + longTimeTrained);
-            Log.d("LOG", "asdf TrainingTime: " + trainingTime + " mTimeTrained (pre training time): " + longTimeTrained + " totalTime (total string): " + totalTime);
+            // Update the class variable to reflect new total training time
             mTimeTrained = totalTime;
 
-            // Create an alert dialog
+            // Create an alert dialog asking user if they want to enter a catch count
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.catch_count_question);
-            // Ask the user to enter a goal
+
+            // Create edit text for the number of catches
             final EditText catchCountEditText = new EditText(this);
             catchCountEditText.setHint(R.string.enter_catch_count);
             catchCountEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
             builder.setView(catchCountEditText);
-            // Set up the buttons
+
+            // Set up the 'add' and 'cancel' buttons
             builder.setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
-
-
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    // Get the number of catches that the user entered into the edit text
                     String catchCount = catchCountEditText.getText().toString();
+                    // Update the class variable (needed because here is an inner class)
+                    mCatchCount = catchCount;
                     // Update mRecords to reflect new catch count
                     mRecords = mRecords + "," + catchCount;
-                    // User enters a value and clicks add
-                    // If the catch count is greater than the personal record,
-                    // then update the personal record in the metadata trick.
+                    // If the catch count is greater than the personal record, update the personal record in the metadata trick.
                     if (Integer.parseInt(catchCount) > Integer.parseInt(mPr)) {
+                        // Congratulate the user on a new PR
                         Toast.makeText(getApplicationContext(), R.string.new_pr_message, Toast.LENGTH_SHORT).show();
                         // Update the mPr variable
                         mPr = catchCount;
-                    }
-                    // it is not a pr, but the meta trick still needs to be updated to increase the time and store the record
-                    else
+                    } else {
+                        // It is not a pr, but the meta trick still needs to be updated to increase the time and store the record
                         Toast.makeText(getApplicationContext(), R.string.record_logged, Toast.LENGTH_SHORT).show();
-
-                    // Update metadata trick
-                    update_trick(mId, catchCount, totalTime, mDescription, mName,
-                            mRecords, mGoal, mPropType, mHits, mMisses);
-
-                    // Insert a record of this trick into the data base
-                    insert_trick(mPr, traingTimeString, mDescription, mName,
-                            catchCount, mGoal, mPropType, "no", "no", mLocation);
-
-                    // now that new data has been logged, it's time to update the UI to reflect the NEW PR!
-                    // Update the time trained
-                    mTrainingTimeTextView.setText(getString(R.string.time_spent_training) + " " + totalTime);
-                    // If needed, update the pr
-                    mPrTextView.setText(getString(R.string.pr) + " " + mPr);
-                    // Update the graph
-                    initGraph(mGraphView, mRecords);
+                    }
+                    finished_training(traingTimeString);
                 }
             });
             builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    // user clicks no, so there is not need to check if the catch count is greater
-                    // update the metadata trick
-                    update_trick(mId, mPr, totalTime, mDescription, mName,
-                            mRecords, mGoal, mPropType, mHits, mMisses);
-                    Toast.makeText(getApplicationContext(), R.string.record_logged, Toast.LENGTH_SHORT).show();
-
-                    // than the pr, so just enter a record of training this trick in the db
-                    insert_trick(mPr, traingTimeString, mDescription, mName,
-                            "0", mGoal, mPropType, "no", "no", mLocation);
-
-                    // now that new data has been logged, it's time to update the UI to reflect the NEW PR!
-                    // Update the time trained
-                    mTrainingTimeTextView.setText(getString(R.string.time_spent_training) + totalTime);
-                    // If needed, update the pr
-                    mPrTextView.setText(getString(R.string.pr) + " " + mPr);
-                    // Update the graph
-                    initGraph(mGraphView, mRecords);
-
+                    // User clicks no and does not add a catch count
+                    mCatchCount = "not recorded";
+                    // Close the dialog
                     dialog.cancel();
+                    finished_training(traingTimeString);
                 }
             });
             builder.show();
         }
     }
 
+    // when a user if finished training, data has to be written to the DB, and views have to be updated
+    public void finished_training(String trainingTime){
+        // Update the UI, as the pr may have changed.
+        mPrTextView.setText(getString(R.string.pr) + " " + mPr);
+        // Update the time trained
+        mTrainingTimeTextView.setText(getString(R.string.time_spent_training) + " " + mTimeTrained);
+        // Update the graph
+        initGraph(mGraphView, mRecords);
+        // Add this record to the database
+        insert_trick(trainingTime, mCatchCount, "0", "0");
+        // Update the meta data for this trick
+        update_trick_metadata();
+    }
+
+    //%%%%%%%%%%%%%%%%%%%%% Start hit/miss buttons %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     public void miss_button() {
         mMisses = Integer.toString(Integer.parseInt(mMisses) + 1);
-        update_hits("no", "1");
+        updateHitAndMiss("no", "1");
     }
 
     public void hit_button() {
         mHits = Integer.toString(Integer.parseInt(mHits) + 1);
-        update_hits("1", "no");
+        updateHitAndMiss("1", "no");
     }
 
-    public void update_hits(String hitsVal, String missVal) {
-
-        // Check to make sure that mLocation actually has a value
-        if (mLocation==null) mLocation = "Location not avaliable.";
-        if (mLocation.length() < 2) mLocation = "Location not avaliable.";
-
-
+    public void updateHitAndMiss(String hitsVal, String missVal) {
         mHitMissTextView.setText(mHits + " / " + mMisses);
-        update_trick(mId, mPr, mTimeTrained, mDescription, mName,
-                mRecords, mGoal, mPropType, mHits, mMisses);
-        insert_trick(mPr, "0", mDescription, mName,
-                "0", mGoal, mPropType, hitsVal, missVal, mLocation);
+        update_trick_metadata();
+        insert_trick("0", "0", hitsVal, missVal);
         Toast.makeText(this, R.string.record_logged, Toast.LENGTH_SHORT).show();
     }
-
-    public void update_trick(String id, String pr, String time, String description, String name,
-                             String record, String goal, String propType, String hits, String misses) {
-        Actions.update_trick(this, id, pr, time, description, name, "yes", hits,
-                misses, record, propType, goal, mSiteswap, mAnimation, mSource,
-                mDifficulty, mCapacity, mTutorial, "no location");
-    }
-
-    public void insert_trick(String pr, String time, String description, String name, String record,
-                             String goal, String propType, String hits, String misses, String location) {
-
-        Actions.insert_trick(this, "0", time, description, name, "no",
-                "0", "0", record, propType, goal, mSiteswap, mAnimation,
-                mSource, mDifficulty, mCapacity, mTutorial, location);
-    }
+    //%%%%%%%%%%%%%%%%%%%%% Stop hit/miss buttons %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     //++++++++++++++++++++++++++++++++ START THREE BUTTONS OPTIONS +++++++++++++++++++++++++++++++++
     @Override
@@ -352,7 +312,7 @@ public class Training extends AppCompatActivity {
         }
         if (itemThatWasClickedId == R.id.menu_show_detail) {
             Intent toTrickDiscovery = new Intent(this, TrickDiscovery.class);
-            toTrickDiscovery.putExtra(ARG_TRICK_OBJECT, mTricks);
+            toTrickDiscovery.putExtra(ARG_TRICK_OBJECT, mTrick);
             startActivity(toTrickDiscovery);
         }
         if (itemThatWasClickedId == android.R.id.home) {
@@ -384,16 +344,33 @@ public class Training extends AppCompatActivity {
         // update list of trick names in shared preferences
         settings.edit().putString(ARG_LIST_KEY, output_string).commit();
     }
+
+    public void update_trick_metadata() {
+        update_mLocation();
+        // Update the meta data for the trick that is in the database
+        Actions.update_trick(this, mId, mPr, mTimeTrained, mDescription, mName, "yes", mHits,
+                mMisses, mRecords, mPropType, mGoal, mSiteswap, mAnimation, mSource,
+                mDifficulty, mCapacity, mTutorial, "no location");
+    }
+
+    public void insert_trick(String time, String record, String hits, String misses) {
+        update_mLocation();
+        // Insert the trick into the database
+        Actions.insert_trick(this, "0", time, mDescription, mName, "no",
+                hits, misses, record, mPropType, mGoal, mSiteswap, mAnimation,
+                mSource, mDifficulty, mCapacity, mTutorial, mLocation);
+    }
     //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; END DB METHODS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ START LOCATION METHODS $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     private void get_place_and_log() {
+        // This code is adapted from the sample on the developer website
         @SuppressWarnings("MissingPermission") final Task<PlaceLikelihoodBufferResponse> placeResult =
                 mPlaceDetectionClient.getCurrentPlace(null);
         placeResult.addOnCompleteListener
                 (new OnCompleteListener<PlaceLikelihoodBufferResponse>() {
                     @Override
                     public void onComplete(@NonNull Task<PlaceLikelihoodBufferResponse> task) {
-                        Log.d("LOG", "asdf block commented out");
                         if (task.isSuccessful() && task.getResult() != null) {
                             PlaceLikelihoodBufferResponse likelyPlaces = task.getResult();
                             mLocation = "" + likelyPlaces.get(0).getPlace().getName();
@@ -403,4 +380,10 @@ public class Training extends AppCompatActivity {
                     }
                 });
     }
+    public void update_mLocation() {
+        // Check to make sure that mLocation actually has a value
+        if (mLocation == null) mLocation = "Location not avaliable.";
+        if (mLocation.length() < 2) mLocation = "Location not avaliable.";
+    }
+    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ END LOCATION METHODS $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 }

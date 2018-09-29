@@ -13,7 +13,7 @@ public class TricksWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
+        CharSequence widgetText = context.getString(R.string.app_name);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.tricks_widget);
         views.setTextViewText(R.id.appwidget_text, widgetText);

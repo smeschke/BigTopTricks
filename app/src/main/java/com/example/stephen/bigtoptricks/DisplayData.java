@@ -103,17 +103,12 @@ public class DisplayData extends AppCompatActivity implements
 
             time_trained = time_trained + Integer.parseInt(timeTrained);
             completeDb += "\u2022 " + name + " - " + catchCount + " - " + timeTrained + "\n";
-
-            Log.d("LOG", "asdf trick name: " + name + " " + i + " " + catchCount + completeDb.length());
-
         }
         String trick_names = "";
         String trick_locations = "";
         for (int i = 0; i < names.size(); i++) trick_names += "\u2022 " + names.get(i) + "\n";
         for (int i = 0; i < locations.size(); i++) trick_locations += "\u2022 " + locations.get(i) + "\n";
 
-        Log.d("LOG", "asdf trick names: " + names.toString());
-        Log.d("LOG", "asdf trick locations: " + locations.toString());
         //create output string to display
         String output = "";
         output = output + "My total training time: " + Integer.toString(time_trained) + "\n\n\n";

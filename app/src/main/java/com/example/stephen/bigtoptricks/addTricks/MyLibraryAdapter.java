@@ -26,16 +26,14 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
     //create list of trick objects that will populate the recycler view
     private List<Tricks> mTricks;
 
-
-
-    //get stuff on list from Main Activity
+    // Constructor gets context and click handler
     public MyLibraryAdapter(@NonNull Context context,
                             mAdapterOnClickHandler clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
     }
 
-    //when view holder is created, inflate the views
+    // When view holder is created, inflate the views
     @Override
     public MyLibraryAdapter.mAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         int layoutId = 0;
@@ -67,13 +65,14 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
         String difficulty = tricks.getDifficulty();
         String source = tricks.getSource();
         holder.textView.setText(name);
+        // Create capacity string (one * for every object)
         String capacityStr = "";
         try {
             for (int i = 0; i < Integer.parseInt(capacity); i++) capacityStr += "* ";
         } catch (Exception e) {
             capacityStr = "";
         }
-
+        // Create difficulty string (one + for every difficulty level)
         String difficultyStr = "";
         try {
             for (int i = 0; i < Integer.parseInt(difficulty); i++) difficultyStr += "+ ";
@@ -133,11 +132,8 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
     // TODO (6) create swap cursor method to reset the data
     void swapCursor(String json) throws JSONException {
         mJson = json;
+        // Parse the tricks out of the JSON data
         mTricks = JsonUtils.parseLimitedObjects(json);
-        /*mNames = JsonUtils.getTrickNames(json);
-        mSources = JsonUtils.getTrickSources(json);
-        mDifficulties = JsonUtils.getTrickDifficulties(json);
-        mCapacity = JsonUtils.getTrickCapicities(json);
-        */notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 }

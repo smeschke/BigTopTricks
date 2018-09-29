@@ -15,7 +15,8 @@ import com.example.stephen.bigtoptricks.data.Contract;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO (3) extend RV View Holder (implement onCreate, onBind, and getItemCount)
+// TODO (3) extend RV View Holder (implement onCreate, onBind, and getItemCount)
+// This adapter was used on several previous Udacity projects
 public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapter.ViewHolder> {
 
     private final LayoutInflater mInflater;
