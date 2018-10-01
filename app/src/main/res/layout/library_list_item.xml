@@ -24,23 +24,26 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/siteswap_list_item_textview" />
 
-    <TextView
-        android:id="@+id/siteswap_list_item_capacity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/library_difficulty_image_view"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:src="@drawable/diff0"
         android:layout_marginRight="8dp"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/siteswap_list_item_difficulty"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/siteswap_list_item_difficulty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/siteswap_list_item_capacity" />
+        android:id="@+id/siteswap_list_item_capacity"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="@id/library_difficulty_image_view"
+        app:layout_constraintBottom_toBottomOf="@id/library_difficulty_image_view"
+        app:layout_constraintRight_toRightOf="@id/library_difficulty_image_view"
+        app:layout_constraintTop_toTopOf="@id/library_difficulty_image_view" />
+
 </android.support.constraint.ConstraintLayout>

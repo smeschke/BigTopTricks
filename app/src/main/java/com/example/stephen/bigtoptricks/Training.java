@@ -22,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -108,7 +109,7 @@ public class Training extends AppCompatActivity {
             ActivityCompat.requestPermissions(Training.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     0);
-            
+
         } else {
             // Permission has been granted, proceed with location acquisition
             // Construct clients: GeoDataClient, PlaceDetectionClient, FusedLocationProviderClient
@@ -144,7 +145,7 @@ public class Training extends AppCompatActivity {
         mTrainingTimeTextView = findViewById(R.id.time_trained_text_view);
         mTrainingTimeTextView.setText(getString(R.string.time_spent_training) + " " + mTimeTrained);
         ((TextView) findViewById(R.id.trick_goal_text_view)).setText(getString(R.string.goal) + " " + mGoal);
-        ((TextView) findViewById(R.id.trick_name_text_view)).setText(mName + " " + mPropType);
+        ((TextView) findViewById(R.id.trick_name_text_view)).setText(mName);
         mPrTextView = (TextView) findViewById(R.id.trick_pr_text_view);
         mPrTextView.setText(getString(R.string.pr) + " " + mPr);
         mHitMissTextView = (TextView) findViewById(R.id.hitMissTextView);
@@ -172,6 +173,16 @@ public class Training extends AppCompatActivity {
                 miss_button();
             }
         });
+
+        // Set the prop type image view
+        ImageView propTypeImageView = (ImageView) findViewById(R.id.training_db_prop_type);
+        if (mPropType.equals("Ball")) propTypeImageView.setImageResource(R.drawable.ball);
+        if (mPropType.equals("Club")) propTypeImageView.setImageResource(R.drawable.clubs);
+        if (mPropType.equals("Ring")) propTypeImageView.setImageResource(R.drawable.ring);
+        if (mPropType.equals("Poi")) propTypeImageView.setImageResource(R.drawable.poi);
+        if (mPropType.equals("Knife")) propTypeImageView.setImageResource(R.drawable.knife);
+        if (mPropType.equals("Chainsaw")) propTypeImageView.setImageResource(R.drawable.saw);
+        if (mPropType.equals("Bowling Ball")) propTypeImageView.setImageResource(R.drawable.bowling);
 
         // Create the chronometer
         mChronometer = ((Chronometer) findViewById(R.id.chronometer));

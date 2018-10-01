@@ -1,11 +1,13 @@
 package com.example.stephen.bigtoptricks.addTricks;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.stephen.bigtoptricks.R;
@@ -69,22 +71,25 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
         String difficulty = tricks.getDifficulty();
         String source = tricks.getSource();
         holder.textView.setText(name);
-        // Create capacity string (one * for every object)
-        String capacityStr = "";
+
+        //holder.difficultyImageView.setImageResource(R.drawable.diff1);
+        // Display appropriate image for difficulty
         try {
-            for (int i = 0; i < Integer.parseInt(capacity); i++) capacityStr += "* ";
+            if (difficulty.equals("1")) holder.difficultyImageView.setImageResource(R.drawable.diff1);
+            if (difficulty.equals("2")) holder.difficultyImageView.setImageResource(R.drawable.diff2);
+            if (difficulty.equals("3")) holder.difficultyImageView.setImageResource(R.drawable.diff3);
+            if (difficulty.equals("4")) holder.difficultyImageView.setImageResource(R.drawable.diff4);
+            if (difficulty.equals("5")) holder.difficultyImageView.setImageResource(R.drawable.diff5);
+            if (difficulty.equals("6")) holder.difficultyImageView.setImageResource(R.drawable.diff6);
+            if (difficulty.equals("7")) holder.difficultyImageView.setImageResource(R.drawable.diff7);
+            if (difficulty.equals("8")) holder.difficultyImageView.setImageResource(R.drawable.diff8);
+            if (difficulty.equals("9")) holder.difficultyImageView.setImageResource(R.drawable.diff9);
+            if (difficulty.equals("10")) holder.difficultyImageView.setImageResource(R.drawable.diff10);
         } catch (Exception e) {
-            capacityStr = "";
+            holder.difficultyImageView.setImageResource(R.drawable.diff0);
         }
-        // Create difficulty string (one + for every difficulty level)
-        String difficultyStr = "";
-        try {
-            for (int i = 0; i < Integer.parseInt(difficulty); i++) difficultyStr += "+ ";
-        } catch (Exception e) {
-            difficultyStr = "";
-        }
-        holder.capacityTextView.setText(capacityStr);
-        holder.difficultyTextView.setText(difficultyStr);
+
+        holder.capacityTextView.setText(capacity);
         holder.sourcesTextView.setText(source);
     }
 
@@ -109,7 +114,7 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
         //initialize views
         public final TextView textView;
         public final TextView capacityTextView;
-        public final TextView difficultyTextView;
+        public final ImageView difficultyImageView;
         public final TextView sourcesTextView;
 
         //super the views so that they can be bound - set click listener too
@@ -118,7 +123,7 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
             //image  and text views for tricks
             textView = (TextView) view.findViewById(R.id.siteswap_list_item_textview);
             capacityTextView = (TextView) view.findViewById(R.id.siteswap_list_item_capacity);
-            difficultyTextView = (TextView) view.findViewById(R.id.siteswap_list_item_difficulty);
+            difficultyImageView = (ImageView) view.findViewById(R.id.library_difficulty_image_view);
             sourcesTextView = (TextView) view.findViewById(R.id.siteswap_list_item_source);
             //set on click listener
             itemView.setOnClickListener(this);

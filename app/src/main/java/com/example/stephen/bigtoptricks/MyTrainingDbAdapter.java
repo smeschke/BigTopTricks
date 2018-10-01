@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.stephen.bigtoptricks.data.Contract;
@@ -53,6 +54,16 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
         if (pr!=null) holder.prCatchesTextView.setText("PR: " + pr);
         if (goal!=null) holder.goalCatchesTextView.setText("Goal: " + goal);
         if (timeTrained!=null) holder.timeTrainedTextView.setText("Time Trained: " + timeTrained);
+
+        String propType = mTricks.get(position).getProp_type();
+
+        if (propType.equals("Ball")) holder.propTypeImageView.setImageResource(R.drawable.ball);
+        if (propType.equals("Club")) holder.propTypeImageView.setImageResource(R.drawable.clubs);
+        if (propType.equals("Ring")) holder.propTypeImageView.setImageResource(R.drawable.ring);
+        if (propType.equals("Poi")) holder.propTypeImageView.setImageResource(R.drawable.poi);
+        if (propType.equals("Knife")) holder.propTypeImageView.setImageResource(R.drawable.knife);
+        if (propType.equals("Chainsaw")) holder.propTypeImageView.setImageResource(R.drawable.saw);
+        if (propType.equals("Bowling Ball")) holder.propTypeImageView.setImageResource(R.drawable.bowling);
     }
 
     @Override
@@ -74,11 +85,13 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
             String goal = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_GOAL));
             String pr = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_PERSONAL_RECORD));
             String time_trained = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_TIME_TRAINED));
+            String prop_type = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_PROP_TYPE));
             Tricks tricks = new Tricks();
             tricks.setName(name);
             tricks.setGoal(goal);
             tricks.setPr(pr);
             tricks.setTime_trained(time_trained);
+            tricks.setProp_type(prop_type);
             listTricks.add(tricks);
         }
         mTricks = listTricks;
@@ -100,6 +113,7 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
         final TextView goalCatchesTextView;
         final TextView prCatchesTextView;
         final TextView timeTrainedTextView;
+        final ImageView propTypeImageView;
 
         // Set the click listener to the image view
         // When a user clicks on an image --> something happens based on the image a user clicked.
@@ -109,6 +123,7 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
             trickNameTextView = itemView.findViewById(R.id.text_view_trick_name_list_item);
             goalCatchesTextView = itemView.findViewById(R.id.text_view_goal_catches_list_item);
             prCatchesTextView = itemView.findViewById(R.id.text_view_pr_catches_list_item);
+            propTypeImageView = itemView.findViewById(R.id.training_db_prop_type);
             itemView.setOnClickListener(this);
         }
 
