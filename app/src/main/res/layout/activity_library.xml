@@ -19,7 +19,8 @@
             <ImageView
                 android:id="@+id/photo"
                 android:src="@drawable/siteswap"
-                style="@style/ImageViewStyle"/>
+                style="@style/ImageViewStyle"
+                android:contentDescription="@string/content_description_siteswap_graphic"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"

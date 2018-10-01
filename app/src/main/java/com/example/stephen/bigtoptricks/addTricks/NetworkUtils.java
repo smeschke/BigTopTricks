@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+// This whole class is adapted from ud851-Sunshine
 class NetworkUtils {
     // Use scanner to 'catch' the data.
     public static String getResponseFromHttpUrl(URL url) throws IOException {

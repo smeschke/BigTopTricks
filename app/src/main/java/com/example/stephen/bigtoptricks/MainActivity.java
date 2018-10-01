@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setCancelable(true);
         builder.setMessage(R.string.welcome_message);
-        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.cancel();

@@ -54,9 +54,11 @@ public class Library extends AppCompatActivity
             }
         });
 
+        // Set title on collapsing toolbar
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("Library of Tricks");
+        collapsingToolbar.setTitle(getString(R.string.library_title));
 
+        // Create url to list of tricks
         URL url = null;
         try {
             url = new URL("https://raw.githubusercontent.com/smeschke/juggling/master/tricks.json");
@@ -64,7 +66,7 @@ public class Library extends AppCompatActivity
             e.printStackTrace();
         }
 
-        //code for recycler view
+        // Code for recycler view
         mList = (RecyclerView) findViewById(R.id.recycler_view_siteswap_list);
         mLayoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
@@ -73,7 +75,7 @@ public class Library extends AppCompatActivity
         mSiteswapListAdapter = new MyLibraryAdapter(this, this);
         mList.setAdapter(mSiteswapListAdapter);
 
-        // Get access to the preferences
+        // Start a new fetch task. This fetches data from the internet and displays it on the list
         new fetch().execute(url);
     }
 
@@ -85,6 +87,7 @@ public class Library extends AppCompatActivity
             Intent toAddTrick = new Intent(this, AddTrick.class);
             startActivity(toAddTrick);
         } else {
+            // User wants to look at the details for a trick in the library
             Intent toTrickDiscovery = new Intent(this, TrickDiscovery.class);
             // Parse details about trick from JSON, and put it in the intent
             toTrickDiscovery.putExtra(ARG_TRICK_OBJECT,
@@ -98,7 +101,7 @@ public class Library extends AppCompatActivity
     class fetch extends AsyncTask<URL, Void, String>
 
     {
-        // Do in background gets the json recipe data from internet
+        // Do in background gets the json juggling tricks data from internet
         @Override
         protected String doInBackground(URL... urls) {
             String fetchResults = null;

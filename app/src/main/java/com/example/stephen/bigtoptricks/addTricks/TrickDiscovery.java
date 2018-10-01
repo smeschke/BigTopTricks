@@ -3,6 +3,7 @@ package com.example.stephen.bigtoptricks.addTricks;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.example.stephen.bigtoptricks.R;
 import com.example.stephen.bigtoptricks.Tricks;
 
+import static com.example.stephen.bigtoptricks.Training.ARG_HIDE_ADD_BUTTON;
 import static com.example.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
 
 public class TrickDiscovery extends AppCompatActivity {
@@ -42,6 +44,7 @@ public class TrickDiscovery extends AppCompatActivity {
         mCapacity = mTricks.getCapacity();
         mDescription = mTricks.getDescription();
 
+        // Set text views and web view
         TextView title_text_view = (TextView) findViewById(R.id.discovery_title_text_view);
         title_text_view.setText(mName);
         TextView details_text_view = (TextView) findViewById(R.id.discover_description_text_view);
@@ -49,15 +52,21 @@ public class TrickDiscovery extends AppCompatActivity {
         WebView wv = (WebView) findViewById(R.id.discovery_animation);
         wv.loadUrl(mAnimation);
         TextView siteswap = (TextView) findViewById(R.id.discovery_siteswap_text_view);
-        siteswap.setText("Siteswap: " + mSiteswap);
+        siteswap.setText(getString(R.string.siteswap) + " " + mSiteswap);
         TextView capacity = (TextView) findViewById(R.id.discovery_capacity_text_view);
-        capacity.setText("Capacity: " + mCapacity);
+        capacity.setText(getString(R.string.capacity) + " "  + mCapacity);
         TextView source = (TextView) findViewById(R.id.discovery_source_text_view);
-        source.setText("Source: " + mSource);
+        source.setText(getString(R.string.source) + " "  + mSource);
         TextView tutorial = (TextView) findViewById(R.id.discovery_tutorial_text_view);
-        tutorial.setText("Tutorial: " + mTutorial);
+        tutorial.setText(getString(R.string.tutorial) + " "  + mTutorial);
         TextView difficulty = (TextView) findViewById(R.id.discovery_difficulty_text_view);
-        difficulty.setText("Difficulty: " + mDifficulty);
+        difficulty.setText(getString(R.string.difficulty) + " "  + mDifficulty);
+
+        // Should the add button be hidden?
+        if (getIntent().hasExtra(ARG_HIDE_ADD_BUTTON)) {
+            FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+            floatingActionButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void addTrick(View view){

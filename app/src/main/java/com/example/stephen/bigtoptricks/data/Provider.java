@@ -14,6 +14,7 @@ import static com.example.stephen.bigtoptricks.data.Contract.listEntry.TABLE_NAM
 
 /*
 This is based on S09.05 - The Sunshine database lesson.
+A version of this provider was used in my previous projects 2,3,4, and 6.
 */
 
 // Extend ContentProvider

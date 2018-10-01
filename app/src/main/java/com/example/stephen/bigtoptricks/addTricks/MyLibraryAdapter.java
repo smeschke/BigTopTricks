@@ -57,9 +57,13 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
     //bind data to view holder
     @Override
     public void onBindViewHolder(MyLibraryAdapter.mAdapterViewHolder holder, int position) {
+        // Create a new trick to put in the recycler view item
         Tricks tricks = new Tricks();
-        if (position == 0) tricks.setName("Create Custom Trick");
+        // Use 'create custom trick' for position zero
+        if (position == 0) tricks.setName(mContext.getString(R.string.create_custom_trick));
+        // Use a tricks from the library to make the rest of the list
         else tricks = mTricks.get(position-1);
+
         String name = tricks.getName();
         String capacity = tricks.getCapacity();
         String difficulty = tricks.getDifficulty();

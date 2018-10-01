@@ -5,6 +5,8 @@ import android.content.Context;
 import android.net.Uri;
 
 public class Actions {
+
+    // Insert a trick into the database
     public static void insert_trick(Context context, String pr, String time_trained, String description,
                                     String name, String meta, String hit, String miss, String record,
                                     String prop_type, String goal, String siteswap, String animation,
@@ -32,6 +34,7 @@ public class Actions {
         Uri uri = context.getContentResolver().insert(Contract.listEntry.CONTENT_URI, cv);
     }
 
+    // Insert a trick into the database
     public static void update_trick(Context context, String id, String pr, String time_trained,
                                     String description, String name, String meta, String hit,
                                     String miss, String record, String prop_type, String goal,

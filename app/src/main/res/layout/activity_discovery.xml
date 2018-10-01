@@ -31,7 +31,8 @@
             <WebView
                 android:id="@+id/discovery_animation"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/content_description_juggling_gif"/>
 
 
             <TextView
@@ -92,6 +93,7 @@
         android:onClick="addTrick"
         app:layout_anchor="@id/main"
         app:layout_anchorGravity="bottom|right|end"
-        app:srcCompat="@drawable/add2" />
+        app:srcCompat="@drawable/add2"
+        android:contentDescription="@string/content_description_add"/>
 
 </FrameLayout>

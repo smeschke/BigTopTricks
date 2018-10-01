@@ -4,16 +4,17 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +47,7 @@ public class Training extends AppCompatActivity {
     public final static String mUnique = "unique_delimiter";
     public static final String ARG_TRICK_OBJECT = "trick_object";
     public final static String ARG_LIST_KEY = "list_key";
+    public final static String ARG_HIDE_ADD_BUTTON = "hide_add_button";
     public final static String ARG_SP_LOG_KEY = "log";
     private String mName;
     private String mPr;
@@ -98,13 +100,26 @@ public class Training extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        // Construct clients: GeoDataClient, PlaceDetectionClient, FusedLocationProviderClient
-        mGeoDataClient = Places.getGeoDataClient(this, null);
-        mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        // Check for, and request permissions
+        // Adapted from: https://stackoverflow.com/questions/32942909/provide-custom-text-for-android-m-permission-dialog
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
 
-        // This function updates the mLocation global variable
-        get_place_and_log();
+            ActivityCompat.requestPermissions(Training.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    0);
+            
+        } else {
+            // Permission has been granted, proceed with location acquisition
+            // Construct clients: GeoDataClient, PlaceDetectionClient, FusedLocationProviderClient
+            mGeoDataClient = Places.getGeoDataClient(this, null);
+            mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
+            mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+            // This function updates the mLocation global variable
+            get_place_and_log();
+        }
+
 
         // Get the trick that the user clicked on in the main activity from the intent
         mTrick = getIntent().getExtras().getParcelable(ARG_TRICK_OBJECT);
@@ -251,7 +266,7 @@ public class Training extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     // User clicks no and does not add a catch count
-                    mCatchCount = "not recorded";
+                    mCatchCount = getString(R.string.not_recorded);
                     // Close the dialog
                     dialog.cancel();
                     finished_training(traingTimeString);
@@ -262,7 +277,7 @@ public class Training extends AppCompatActivity {
     }
 
     // when a user if finished training, data has to be written to the DB, and views have to be updated
-    public void finished_training(String trainingTime){
+    public void finished_training(String trainingTime) {
         // Update the UI, as the pr may have changed.
         mPrTextView.setText(getString(R.string.pr) + " " + mPr);
         // Update the time trained
@@ -313,6 +328,8 @@ public class Training extends AppCompatActivity {
         if (itemThatWasClickedId == R.id.menu_show_detail) {
             Intent toTrickDiscovery = new Intent(this, TrickDiscovery.class);
             toTrickDiscovery.putExtra(ARG_TRICK_OBJECT, mTrick);
+            // Hide the add button in the discovery activity
+            toTrickDiscovery.putExtra(ARG_HIDE_ADD_BUTTON, "hide it");
             startActivity(toTrickDiscovery);
         }
         if (itemThatWasClickedId == android.R.id.home) {
@@ -350,7 +367,7 @@ public class Training extends AppCompatActivity {
         // Update the meta data for the trick that is in the database
         Actions.update_trick(this, mId, mPr, mTimeTrained, mDescription, mName, "yes", mHits,
                 mMisses, mRecords, mPropType, mGoal, mSiteswap, mAnimation, mSource,
-                mDifficulty, mCapacity, mTutorial, "no location");
+                mDifficulty, mCapacity, mTutorial, getString(R.string.location_not_avaliable));
     }
 
     public void insert_trick(String time, String record, String hits, String misses) {
@@ -380,10 +397,11 @@ public class Training extends AppCompatActivity {
                     }
                 });
     }
+
     public void update_mLocation() {
         // Check to make sure that mLocation actually has a value
-        if (mLocation == null) mLocation = "Location not avaliable.";
-        if (mLocation.length() < 2) mLocation = "Location not avaliable.";
+        if (mLocation == null) mLocation = getString(R.string.location_not_avaliable);
+        if (mLocation.length() < 2) mLocation = getString(R.string.location_not_avaliable);
     }
     //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ END LOCATION METHODS $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 }

@@ -115,10 +115,10 @@ public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSel
         String propType = mPropFromSpinner;
 
         // Determine if the goal is a valid integer - https://stackoverflow.com/questions/10120212/how-to-determine-if-an-input-in-edittext-is-an-integer
-        boolean goal_is_valid;
+        boolean goal_is_valid = false;
         try {
             int num = Integer.parseInt(goal);
-            goal_is_valid = true;
+            if (num>0) goal_is_valid = true;
         } catch (NumberFormatException e) {
             goal_is_valid = false;
         }
@@ -152,7 +152,7 @@ public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSel
             Actions.insert_trick(this, "0", "0", mDescription,
                     mName, "yes", "0", "0", "0", propType, goal,
                     mSiteswap, mAnimation, mSource, mDifficulty, mCapacity,
-                    mTutorial, getString(R.string.no_location));
+                    mTutorial, getString(R.string.location_not_avaliable));
             // Inform the user that the trick has been added to the DB
             Toast.makeText(this, mName + " " + getString(R.string.into_db),
                     Toast.LENGTH_SHORT).show();
@@ -189,7 +189,7 @@ public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSel
             if (!goal_is_valid && name_is_valid && trick_is_unique)
                 Toast.makeText(this, R.string.fail_goal, Toast.LENGTH_LONG).show();
             // The user is trying to enter a trick name that already exists in the database
-            if (!goal_is_valid && name_is_valid)
+            if (goal_is_valid && name_is_valid)
                 Toast.makeText(this, R.string.fail_unique, Toast.LENGTH_LONG).show();
         }
     }
