@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 public class Tricks implements Parcelable {
 
+    // Created with the help of AndroidProgrammer tutor from Slack
     public static final Parcelable.Creator<Tricks> CREATOR = new Parcelable.Creator<Tricks>() {
         @Override
         public Tricks createFromParcel(Parcel in) {
@@ -67,12 +68,6 @@ public class Tricks implements Parcelable {
     public Tricks() {
     }
 
-    public String getLocation() { return location; }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -98,6 +93,14 @@ public class Tricks implements Parcelable {
         dest.writeString(tutorial);
         dest.writeString(id);
         dest.writeString(location);
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getName() {

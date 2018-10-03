@@ -24,7 +24,7 @@ import static com.example.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
 public class Library extends AppCompatActivity
         implements MyLibraryAdapter.mAdapterOnClickHandler {
 
-    //initialize an adapter and recyclerView
+    // Initialize an adapter and recyclerView
     private MyLibraryAdapter mSiteswapListAdapter;
     private RecyclerView mList;
     private String mJsonString;
@@ -39,7 +39,7 @@ public class Library extends AppCompatActivity
         // https://stackoverflow.com/questions/51318506/up-navigation-in-fragments-toolbar
         AppCompatActivity appCompatActivity = ((AppCompatActivity) this);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.exo_controls_previous);
+        toolbar.setNavigationIcon(R.drawable.back);
         appCompatActivity.setSupportActionBar(toolbar);
         ActionBar actionBar = appCompatActivity.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

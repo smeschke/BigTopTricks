@@ -20,6 +20,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginLeft="8dp"
+        android:contentDescription="@string/content_description_prop_type"
         app:layout_constraintBottom_toBottomOf="@id/trick_name_text_view"
         app:layout_constraintLeft_toRightOf="@id/trick_name_text_view"
         app:layout_constraintRight_toRightOf="parent"

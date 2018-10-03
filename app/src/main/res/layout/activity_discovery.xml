@@ -27,13 +27,11 @@
                 android:textAlignment="center"
                 android:textSize="36sp" />
 
-
             <WebView
                 android:id="@+id/discovery_animation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/content_description_juggling_gif"/>
-
+                android:contentDescription="@string/content_description_juggling_gif" />
 
             <TextView
                 android:id="@+id/discovery_capacity_text_view"
@@ -53,9 +51,9 @@
                 android:id="@+id/discovery_tutorial_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="toUrl"
                 android:layout_marginLeft="24dp"
-                android:layout_marginTop="12dp" />
+                android:layout_marginTop="12dp"
+                android:onClick="toUrl" />
 
             <TextView
                 android:id="@+id/discovery_difficulty_text_view"
@@ -68,9 +66,9 @@
                 android:id="@+id/discovery_source_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
                 android:layout_marginLeft="24dp"
-                android:layout_marginTop="12dp" />
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp" />
 
             <TextView
                 android:id="@+id/discover_description_text_view"
@@ -89,11 +87,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
+        android:contentDescription="@string/content_description_add"
         android:elevation="6dp"
         android:onClick="addTrick"
         app:layout_anchor="@id/main"
         app:layout_anchorGravity="bottom|right|end"
-        app:srcCompat="@drawable/add2"
-        android:contentDescription="@string/content_description_add"/>
+        app:srcCompat="@drawable/add2" />
 
 </FrameLayout>

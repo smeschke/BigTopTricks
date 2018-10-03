@@ -6,20 +6,22 @@
     android:layout_margin="20dp">
 
     <ImageView
+        android:id="@+id/training_db_prop_type"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:id="@+id/training_db_prop_type"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginRight="8dp"
+        android:contentDescription="@string/content_description_prop_type"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/text_view_trick_name_list_item"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/text_view_trick_name_list_item"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_view_trick_name_list_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="32sp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/training_db_prop_type"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,17 +38,16 @@
         android:id="@+id/text_view_goal_catches_list_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/text_view_time_trained"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_view_pr_catches_list_item" />
 
     <TextView
+        android:id="@+id/text_view_time_trained"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/text_view_time_trained"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_view_goal_catches_list_item"/>
-
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_goal_catches_list_item" />
 
 </android.support.constraint.ConstraintLayout>

@@ -26,7 +26,7 @@
     <string name="add_widget">Add widget</string>
     <string name="prop_type_hint">Prop Type (Ball, club, ring, etc...)</string>
     <string name="add_trick_to_database">Add Trick to Database</string>
-    <string name="welcome_message">Welcome to Big Top Tricks...  There is nothing in your training database, you need to add some tricks! Press the \'add\' button in the lower right hand corner to go to the tricks library. Select a trick, and then add it to your training database.  Once you have added a few tricks, train juggling!!!</string>
+    <string name="welcome_message">Welcome to Big Top Tricks! There is nothing in your training database, you need to add some tricks! Press the \'add\' button in the lower right hand corner to go to the tricks library. Select a trick, and then add it to your training database.  Once you have added a few tricks, train juggling!!!</string>
     <string name="none_entered">None Entered</string>
     <string name="widget_title">Big Top Tricks Training Database:</string>
     <string name="fail_goal"><![CDATA[Failure! Trick not entered because goal was invalid. You must enter an integer > 0.]]></string>
@@ -56,6 +56,15 @@
     <string name="content_description_add">Add Button</string>
     <string name="content_description_siteswap_graphic">Description of siteswap graphic.</string>
     <string name="content_description_graph">Graph showing progress in this trick.</string>
+    <string name="content_description_prop_type">Image showing prop type</string>
+    <string name="Ball">Ball</string>
+    <string name="Club">Club</string>
+    <string name="Ring">Ring</string>
+    <string name="Poi">Poi</string>
+    <string name="Knife">Knife</string>
+    <string name="Chainsaw">Chainsaw</string>
+    <string name="Bowling">Bowling Ball</string>
+    <string name="app_name_short">Big Top</string>
     <string-array name="prop_types">
         <item>Ball</item>
         <item>Club</item>

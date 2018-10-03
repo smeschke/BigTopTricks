@@ -30,6 +30,7 @@
         android:layout_height="50dp"
         android:gravity="center_horizontal|center_vertical"
         android:src="@drawable/diff0"
+        android:contentDescription="@string/content_description_prop_type"
         android:layout_marginRight="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"

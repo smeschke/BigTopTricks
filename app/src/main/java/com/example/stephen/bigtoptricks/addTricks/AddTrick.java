@@ -58,7 +58,7 @@ public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSel
         mGoalCatchesEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
         mPropTypeEditText = (Spinner) findViewById(R.id.edit_text_prop_type);
 
-        // Code for the spinner is adapted from the developer website
+        // Code for the spinner is adapted from: https://developer.android.com/guide/topics/ui/controls/spinner
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.prop_types, android.R.layout.simple_spinner_item);
@@ -103,7 +103,7 @@ public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSel
         mPropFromSpinner = parent.getItemAtPosition(pos).toString();
     }
 
-    @Override // Position zero is default
+    @Override // Position zero is default - balls
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
@@ -118,7 +118,7 @@ public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSel
         boolean goal_is_valid = false;
         try {
             int num = Integer.parseInt(goal);
-            if (num>0) goal_is_valid = true;
+            if (num > 0) goal_is_valid = true;
         } catch (NumberFormatException e) {
             goal_is_valid = false;
         }
@@ -136,7 +136,7 @@ public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSel
         if (mCapacity == null) mCapacity = getString(R.string.none_entered);
         if (mAnimation == null) mAnimation = getString(R.string.none_entered);
 
-        // Determine if trick name is already in the db (lines 145 to 155, a rather inelegant solution).
+        // Determine if trick name is already in the db (lines 145 to 155 are a rather inelegant solution).
         boolean trick_is_unique = true;
         // Get access to the preferences for list of trick names
         ArrayList<String> trickNames = new ArrayList<String>();
@@ -147,6 +147,8 @@ public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSel
         for (int i = 0; i < stringLIst.length; i++) trickNames.add(stringLIst[i]);
         if (trickNames.contains(mName)) trick_is_unique = false;
 
+        // If the user's input is good, the trick can be added to the training database.
+        // If the user's input is bad, tell the user what is wrong.
         if (trick_is_unique && goal_is_valid && name_is_valid) {
             // USERS INPUT IS GOOD
             Actions.insert_trick(this, "0", "0", mDescription,
@@ -169,6 +171,7 @@ public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSel
             settings.edit().putString(ARG_LIST_KEY, tricks_string + mUnique + mName).commit();
 
             // Obtain the FirebaseAnalytics instance.
+            // https://firebase.google.com/docs/analytics/android/start/
             mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Add Trick Activity");

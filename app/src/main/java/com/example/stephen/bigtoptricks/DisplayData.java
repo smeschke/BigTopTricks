@@ -62,9 +62,11 @@ public class DisplayData extends AppCompatActivity implements
     /////////////////////////////////// END CURSOR LOADER METHODS //////////////////////////////////
 
     private void bindView(Cursor data) {
+        //Create a list for names and a list for locations
         ArrayList<String> names = new ArrayList<>();
         ArrayList<String> locations = new ArrayList<>();
 
+        // Read all the data from the db
         String completeDb = getString(R.string.complete_db_header) + "\n";
         int time_trained = 0;
         for (int i = 0; i < data.getCount(); i++) {
@@ -89,7 +91,7 @@ public class DisplayData extends AppCompatActivity implements
         for (int i = 0; i < locations.size(); i++)
             trick_locations += "\u2022 " + locations.get(i) + "\n";
 
-        //create output string to display
+        // Create output string to display
         String output = "";
         output = output + getString(R.string.total_training_time) + " " + Integer.toString(time_trained) + "\n\n\n";
         output = output + getString(R.string.juggling_places) + "\n\n" + trick_locations + "\n\n\n";

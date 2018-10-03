@@ -74,15 +74,15 @@ public class Provider extends ContentProvider {
     // Delete - either a single row, or all popular and top rated movies
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
-        int moviesDeleted = 0;
+        int itemsDeleted = 0;
         final SQLiteDatabase db = mTaskDbHelper.getWritableDatabase();
-        String movie_id = uri.getPathSegments().get(1);
-        moviesDeleted = db.delete(TABLE_NAME,
+        String itemId = uri.getPathSegments().get(1);
+        itemsDeleted = db.delete(TABLE_NAME,
                 "_id=?",
-                new String[]{movie_id});
+                new String[]{itemId});
         // Return the number of tasks deleted
         getContext().getContentResolver().notifyChange(uri, null);
-        return moviesDeleted;
+        return itemsDeleted;
     }
 
     // Not used

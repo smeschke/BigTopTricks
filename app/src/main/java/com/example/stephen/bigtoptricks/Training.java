@@ -176,13 +176,13 @@ public class Training extends AppCompatActivity {
 
         // Set the prop type image view
         ImageView propTypeImageView = (ImageView) findViewById(R.id.training_db_prop_type);
-        if (mPropType.equals("Ball")) propTypeImageView.setImageResource(R.drawable.ball);
-        if (mPropType.equals("Club")) propTypeImageView.setImageResource(R.drawable.clubs);
-        if (mPropType.equals("Ring")) propTypeImageView.setImageResource(R.drawable.ring);
-        if (mPropType.equals("Poi")) propTypeImageView.setImageResource(R.drawable.poi);
-        if (mPropType.equals("Knife")) propTypeImageView.setImageResource(R.drawable.knife);
-        if (mPropType.equals("Chainsaw")) propTypeImageView.setImageResource(R.drawable.saw);
-        if (mPropType.equals("Bowling Ball")) propTypeImageView.setImageResource(R.drawable.bowling);
+        if (mPropType.equals(getString(R.string.Ball))) propTypeImageView.setImageResource(R.drawable.ball);
+        if (mPropType.equals(getString(R.string.Club))) propTypeImageView.setImageResource(R.drawable.clubs);
+        if (mPropType.equals(getString(R.string.Ring))) propTypeImageView.setImageResource(R.drawable.ring);
+        if (mPropType.equals(getString(R.string.Poi))) propTypeImageView.setImageResource(R.drawable.poi);
+        if (mPropType.equals(getString(R.string.Knife))) propTypeImageView.setImageResource(R.drawable.knife);
+        if (mPropType.equals(getString(R.string.Chainsaw))) propTypeImageView.setImageResource(R.drawable.saw);
+        if (mPropType.equals(getString(R.string.Bowling))) propTypeImageView.setImageResource(R.drawable.bowling);
 
         // Create the chronometer
         mChronometer = ((Chronometer) findViewById(R.id.chronometer));

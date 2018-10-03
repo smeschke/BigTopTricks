@@ -7,7 +7,6 @@
         android:id="@+id/app_bar_layout"
         style="@style/AppBar"
         android:elevation="4dp"
-        android:text="test1234"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -18,14 +17,13 @@
 
             <ImageView
                 android:id="@+id/photo"
-                android:src="@drawable/siteswap"
                 style="@style/ImageViewStyle"
-                android:contentDescription="@string/content_description_siteswap_graphic"/>
+                android:contentDescription="@string/content_description_siteswap_graphic"
+                android:src="@drawable/siteswap" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 style="@style/ToolBar"
-                android:text="test9876"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 

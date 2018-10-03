@@ -61,9 +61,9 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
     public void onBindViewHolder(MyLibraryAdapter.mAdapterViewHolder holder, int position) {
         // Create a new trick to put in the recycler view item
         Tricks tricks = new Tricks();
-        // Use 'create custom trick' for position zero
+        // IF position is zero, use 'create custom trick' for position zero
         if (position == 0) tricks.setName(mContext.getString(R.string.create_custom_trick));
-        // Use a tricks from the library to make the rest of the list
+        // ELSE, use a tricks from the library to make the rest of the list
         else tricks = mTricks.get(position-1);
 
         String name = tricks.getName();
@@ -71,9 +71,9 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
         String difficulty = tricks.getDifficulty();
         String source = tricks.getSource();
         holder.textView.setText(name);
+        holder.capacityTextView.setText(capacity);
+        holder.sourcesTextView.setText(source);
 
-        //holder.difficultyImageView.setImageResource(R.drawable.diff1);
-        // Display appropriate image for difficulty
         try {
             if (difficulty.equals("1")) holder.difficultyImageView.setImageResource(R.drawable.diff1);
             if (difficulty.equals("2")) holder.difficultyImageView.setImageResource(R.drawable.diff2);
@@ -88,9 +88,6 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
         } catch (Exception e) {
             holder.difficultyImageView.setImageResource(R.drawable.diff0);
         }
-
-        holder.capacityTextView.setText(capacity);
-        holder.sourcesTextView.setText(source);
     }
 
     //How many? The size of the output_list.
