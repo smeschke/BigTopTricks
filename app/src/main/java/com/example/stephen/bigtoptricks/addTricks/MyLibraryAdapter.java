@@ -96,7 +96,7 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
         try {
             return JsonUtils.getNumberOfTricks(mJson);
         } catch (Exception e) {
-            return 0;
+            return 1;
         }
     }
 

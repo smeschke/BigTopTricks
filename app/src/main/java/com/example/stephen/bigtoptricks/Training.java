@@ -85,7 +85,6 @@ public class Training extends AppCompatActivity {
     private Location mLastKnownLocation;
     private String mLocation;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

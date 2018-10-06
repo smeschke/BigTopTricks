@@ -1,6 +1,9 @@
 package com.example.stephen.bigtoptricks.addTricks;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.example.stephen.bigtoptricks.R;
@@ -18,6 +22,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 
 import static com.example.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
 
@@ -29,6 +34,7 @@ public class Library extends AppCompatActivity
     private RecyclerView mList;
     private String mJsonString;
     LinearLayoutManager mLayoutManager;
+    private int mScrollPosition = 0;
 
 
     @Override
@@ -76,7 +82,20 @@ public class Library extends AppCompatActivity
         mList.setAdapter(mSiteswapListAdapter);
 
         // Start a new fetch task. This fetches data from the internet and displays it on the list
-        new fetch().execute(url);
+        if (is_connected()) new fetch().execute(url);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        int scroll_position = mLayoutManager.findFirstVisibleItemPosition();
+        savedInstanceState.putInt("position", scroll_position);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        mScrollPosition = savedInstanceState.getInt("position");
     }
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ START ONCLICK METHOD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -120,10 +139,26 @@ public class Library extends AppCompatActivity
             mJsonString = trick_data;
             try {
                 mSiteswapListAdapter.swapCursor(trick_data);
+                // Preserve scroll position
+                mLayoutManager.scrollToPosition(mScrollPosition);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
     ///////////////////////////////// END RECIPE DATA FETCH TASK ///////////////////////////////////
+    // Is there an internet connection?
+    public boolean is_connected() {
+        //https://stackoverflow.com/questions/5474089/how-to-check-currently-internet-connection-is-available-or-not-in-android
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (Objects.requireNonNull(connectivityManager).getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
+
+
