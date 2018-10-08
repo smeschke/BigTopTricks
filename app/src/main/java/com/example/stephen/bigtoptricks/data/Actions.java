@@ -2,7 +2,6 @@ package com.example.stephen.bigtoptricks.data;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.net.Uri;
 
 public class Actions {
 
@@ -24,14 +23,14 @@ public class Actions {
         cv.put(Contract.listEntry.COLUMN_PROP_TYPE, prop_type);
         cv.put(Contract.listEntry.COLUMN_GOAL, goal);
         cv.put(Contract.listEntry.COLUMN_SITESWAP, siteswap);
-        cv.put(Contract.listEntry.COLUMN_ANIMAION, animation);
+        cv.put(Contract.listEntry.Column_ANIMATION, animation);
         cv.put(Contract.listEntry.COLUMN_SOURCE, source);
         cv.put(Contract.listEntry.COLUMN_DIFFICULTY, difficulty);
         cv.put(Contract.listEntry.COLUMN_CAPACITY, capacity);
         cv.put(Contract.listEntry.COLUMN_TUTORIAL, tutorial);
         cv.put(Contract.listEntry.COLUMN_LOCATION, location);
         // Insert the content values via a ContentResolver
-        Uri uri = context.getContentResolver().insert(Contract.listEntry.CONTENT_URI, cv);
+        context.getContentResolver().insert(Contract.listEntry.CONTENT_URI, cv);
     }
 
     // Insert a trick into the database
@@ -41,8 +40,6 @@ public class Actions {
                                     String siteswap, String animation, String source,
                                     String difficulty, String capacity, String tutorial,
                                     String location){
-        Uri uri = Contract.listEntry.CONTENT_URI;
-        uri = uri.buildUpon().appendPath(id).build();
         ContentValues cv = new ContentValues();
         cv.put(Contract.listEntry.COLUMN_PERSONAL_RECORD, pr);
         cv.put(Contract.listEntry.COLUMN_TIME_TRAINED, time_trained);
@@ -55,7 +52,7 @@ public class Actions {
         cv.put(Contract.listEntry.COLUMN_PROP_TYPE, prop_type);
         cv.put(Contract.listEntry.COLUMN_GOAL, goal);
         cv.put(Contract.listEntry.COLUMN_SITESWAP, siteswap);
-        cv.put(Contract.listEntry.COLUMN_ANIMAION, animation);
+        cv.put(Contract.listEntry.Column_ANIMATION, animation);
         cv.put(Contract.listEntry.COLUMN_SOURCE, source);
         cv.put(Contract.listEntry.COLUMN_DIFFICULTY, difficulty);
         cv.put(Contract.listEntry.COLUMN_CAPACITY, capacity);

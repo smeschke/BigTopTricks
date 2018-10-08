@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -29,9 +28,6 @@ import android.widget.Toast;
 import com.example.stephen.bigtoptricks.addTricks.TrickDiscovery;
 import com.example.stephen.bigtoptricks.data.Actions;
 import com.example.stephen.bigtoptricks.data.Contract;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
 import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse;
 import com.google.android.gms.location.places.Places;
@@ -42,6 +38,8 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class Training extends AppCompatActivity {
 
@@ -67,22 +65,17 @@ public class Training extends AppCompatActivity {
     private String mTutorial;
     private String mDifficulty;
     private String mCatchCount;
-    private Tricks mTrick;
+    private Trick mTrick;
     private Chronometer mChronometer;
     private long mStartTime;
     private boolean mTraining;
     private Button mTrainingButton;
-    private Button mHitButton;
-    private Button mMissButton;
     private TextView mTrainingTimeTextView;
     private TextView mPrTextView;
     private GraphView mGraphView;
     private TextView mHitMissTextView;
 
-    private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
-    private FusedLocationProviderClient mFusedLocationProviderClient;
-    private Location mLastKnownLocation;
     private String mLocation;
 
     @Override
@@ -90,14 +83,14 @@ public class Training extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training);
 
-        // Collecting juggling data is more important than battery life to tele-socialize after training
+        // Keep screen on while in training activity
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         // Request permission for fine location
         ActivityCompat.requestPermissions(Training.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
         // up navigation
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         // Check for, and request permissions
@@ -111,10 +104,7 @@ public class Training extends AppCompatActivity {
 
         } else {
             // Permission has been granted, proceed with location acquisition
-            // Construct clients: GeoDataClient, PlaceDetectionClient, FusedLocationProviderClient
-            mGeoDataClient = Places.getGeoDataClient(this, null);
             mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
-            mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
             // This function updates the mLocation global variable
             get_place_and_log();
@@ -122,8 +112,8 @@ public class Training extends AppCompatActivity {
 
 
         // Get the trick that the user clicked on in the main activity from the intent
-        mTrick = getIntent().getExtras().getParcelable(ARG_TRICK_OBJECT);
-        mName = mTrick.getName();
+        mTrick = Objects.requireNonNull(getIntent().getExtras()).getParcelable(ARG_TRICK_OBJECT);
+        mName = Objects.requireNonNull(mTrick).getName();
         mRecords = mTrick.getRecord();
         mPropType = mTrick.getProp_type();
         mPr = mTrick.getPr();
@@ -145,27 +135,27 @@ public class Training extends AppCompatActivity {
         mTrainingTimeTextView.setText(getString(R.string.time_spent_training) + " " + mTimeTrained);
         ((TextView) findViewById(R.id.trick_goal_text_view)).setText(getString(R.string.goal) + " " + mGoal);
         ((TextView) findViewById(R.id.trick_name_text_view)).setText(mName);
-        mPrTextView = (TextView) findViewById(R.id.trick_pr_text_view);
+        mPrTextView = findViewById(R.id.trick_pr_text_view);
         mPrTextView.setText(getString(R.string.pr) + " " + mPr);
-        mHitMissTextView = (TextView) findViewById(R.id.hitMissTextView);
+        mHitMissTextView = findViewById(R.id.hitMissTextView);
         mHitMissTextView.setText(mHits + " / " + mMisses);
 
         // Now the buttons
-        mTrainingButton = (Button) findViewById(R.id.start_training_button);
+        mTrainingButton = findViewById(R.id.start_training_button);
         mTrainingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 training_button();
             }
         });
-        mHitButton = (Button) findViewById(R.id.hit_button);
+        Button mHitButton = findViewById(R.id.hit_button);
         mHitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hit_button();
             }
         });
-        mMissButton = (Button) findViewById(R.id.miss_button);
+        Button mMissButton = findViewById(R.id.miss_button);
         mMissButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,7 +164,7 @@ public class Training extends AppCompatActivity {
         });
 
         // Set the prop type image view
-        ImageView propTypeImageView = (ImageView) findViewById(R.id.training_db_prop_type);
+        ImageView propTypeImageView = findViewById(R.id.training_db_prop_type);
         if (mPropType.equals(getString(R.string.Ball))) propTypeImageView.setImageResource(R.drawable.ball);
         if (mPropType.equals(getString(R.string.Club))) propTypeImageView.setImageResource(R.drawable.clubs);
         if (mPropType.equals(getString(R.string.Ring))) propTypeImageView.setImageResource(R.drawable.ring);
@@ -184,16 +174,16 @@ public class Training extends AppCompatActivity {
         if (mPropType.equals(getString(R.string.Bowling))) propTypeImageView.setImageResource(R.drawable.bowling);
 
         // Create the chronometer
-        mChronometer = ((Chronometer) findViewById(R.id.chronometer));
+        mChronometer = findViewById(R.id.chronometer);
 
         // Create and initialize the graph with the record data
-        mGraphView = (GraphView) findViewById(R.id.trick_description_text_view);
+        mGraphView = findViewById(R.id.trick_description_text_view);
         initGraph(mGraphView, mTrick.getRecord());
     }
 
-    public void initGraph(GraphView graph, String records) {
+    private void initGraph(GraphView graph, String records) {
         // This code was adapted from the GraphView sample code
-        // The records are stored in a list of numbers seperated by a comma, for ex: 10,20,32,42
+        // The records are stored in a list of numbers separated by a comma, for ex: 10,20,32,42
         String[] items = records.split(",");
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{});
         for (int i = 0; i < items.length; i++) {
@@ -206,10 +196,10 @@ public class Training extends AppCompatActivity {
         graph.getViewport().setXAxisBoundsManual(true);
     }
 
-    public void training_button() {
+    private void training_button() {
         // This activity runs in one of two modes, denoted by the boolean mTraining
         // If mTraining: the chronometer is running and the user is juggling, the button says "stop training"
-        // If !mTraining: the chronometer is at zero and the button stays "start trining"
+        // If !mTraining: the chronometer is at zero and the button stays "start training"
         if (!mTraining) {
             // User has started juggling
             Toast.makeText(this, R.string.start_juggling, Toast.LENGTH_SHORT).show();
@@ -233,11 +223,10 @@ public class Training extends AppCompatActivity {
 
             // Calculate training duration
             long trainingTime = (System.currentTimeMillis() - mStartTime) / 1000;
-            final String traingTimeString = Long.toString(trainingTime);
+            final String trainingTimeString = Long.toString(trainingTime);
             long longTimeTrained = Long.parseLong(mTimeTrained);
-            final String totalTime = Long.toString(trainingTime + longTimeTrained);
             // Update the class variable to reflect new total training time
-            mTimeTrained = totalTime;
+            mTimeTrained = Long.toString(trainingTime + longTimeTrained);
 
             // Create an alert dialog asking user if they want to enter a catch count
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -269,7 +258,7 @@ public class Training extends AppCompatActivity {
                         // It is not a pr, but the meta trick still needs to be updated to increase the time and store the record
                         Toast.makeText(getApplicationContext(), R.string.record_logged, Toast.LENGTH_SHORT).show();
                     }
-                    finished_training(traingTimeString);
+                    finished_training(trainingTimeString);
                 }
             });
             builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -279,7 +268,7 @@ public class Training extends AppCompatActivity {
                     mCatchCount = getString(R.string.not_recorded);
                     // Close the dialog
                     dialog.cancel();
-                    finished_training(traingTimeString);
+                    finished_training(trainingTimeString);
                 }
             });
             builder.show();
@@ -287,7 +276,7 @@ public class Training extends AppCompatActivity {
     }
 
     // when a user if finished training, data has to be written to the DB, and views have to be updated
-    public void finished_training(String trainingTime) {
+    private void finished_training(String trainingTime) {
         // Update the UI, as the pr may have changed.
         mPrTextView.setText(getString(R.string.pr) + " " + mPr);
         // Update the time trained
@@ -301,17 +290,17 @@ public class Training extends AppCompatActivity {
     }
 
     //%%%%%%%%%%%%%%%%%%%%% Start hit/miss buttons %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    public void miss_button() {
+    private void miss_button() {
         mMisses = Integer.toString(Integer.parseInt(mMisses) + 1);
         updateHitAndMiss("no", "1");
     }
 
-    public void hit_button() {
+    private void hit_button() {
         mHits = Integer.toString(Integer.parseInt(mHits) + 1);
         updateHitAndMiss("1", "no");
     }
 
-    public void updateHitAndMiss(String hitsVal, String missVal) {
+    private void updateHitAndMiss(String hitsVal, String missVal) {
         mHitMissTextView.setText(mHits + " / " + mMisses);
         update_trick_metadata();
         insert_trick("0", "0", hitsVal, missVal);
@@ -351,36 +340,35 @@ public class Training extends AppCompatActivity {
     //++++++++++++++++++++++++++++++++ END THREE BUTTONS OPTIONS +++++++++++++++++++++++++++++++++++
 
     //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; START DB METHODS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    public void remove_trick(int id) {
+    private void remove_trick(int id) {
         // Build uri with the movie json that needs to be deleted
         Uri uri = Contract.listEntry.CONTENT_URI;
         uri = uri.buildUpon().appendPath(Integer.toString(id)).build();
         // Delete single row
-        int test = getContentResolver().delete(uri, null, null);
+        getContentResolver().delete(uri, null, null);
         // Get access to the preferences
         SharedPreferences settings = getApplicationContext().getSharedPreferences(ARG_SP_LOG_KEY, 0);
         String[] stringLIst = settings.getString(ARG_LIST_KEY, "").split(mUnique);
         // get list of trick names
-        ArrayList<String> mTrickNames = new ArrayList<String>();
-        for (int i = 0; i < stringLIst.length; i++) mTrickNames.add(stringLIst[i]);
+        ArrayList<String> mTrickNames = new ArrayList<>(Arrays.asList(stringLIst));
         // remove this trick from list of trick names
         mTrickNames.remove(mName);
         // create new list of strings that does not contain the removed trick
-        String output_string = "";
-        for (int i = 0; i < mTrickNames.size(); i++) output_string += mTrickNames.get(i) + mUnique;
+        StringBuilder output_string = new StringBuilder();
+        for (int i = 0; i < mTrickNames.size(); i++) output_string.append(mTrickNames.get(i)).append(mUnique);
         // update list of trick names in shared preferences
-        settings.edit().putString(ARG_LIST_KEY, output_string).commit();
+        settings.edit().putString(ARG_LIST_KEY, output_string.toString()).commit();
     }
 
-    public void update_trick_metadata() {
+    private void update_trick_metadata() {
         update_mLocation();
         // Update the meta data for the trick that is in the database
         Actions.update_trick(this, mId, mPr, mTimeTrained, mDescription, mName, "yes", mHits,
                 mMisses, mRecords, mPropType, mGoal, mSiteswap, mAnimation, mSource,
-                mDifficulty, mCapacity, mTutorial, getString(R.string.location_not_avaliable));
+                mDifficulty, mCapacity, mTutorial, getString(R.string.location_not_available));
     }
 
-    public void insert_trick(String time, String record, String hits, String misses) {
+    private void insert_trick(String time, String record, String hits, String misses) {
         update_mLocation();
         // Insert the trick into the database
         Actions.insert_trick(this, "0", time, mDescription, mName, "no",
@@ -408,10 +396,10 @@ public class Training extends AppCompatActivity {
                 });
     }
 
-    public void update_mLocation() {
+    private void update_mLocation() {
         // Check to make sure that mLocation actually has a value
-        if (mLocation == null) mLocation = getString(R.string.location_not_avaliable);
-        if (mLocation.length() < 2) mLocation = getString(R.string.location_not_avaliable);
+        if (mLocation == null) mLocation = getString(R.string.location_not_available);
+        if (mLocation.length() < 2) mLocation = getString(R.string.location_not_available);
     }
     //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ END LOCATION METHODS $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 }

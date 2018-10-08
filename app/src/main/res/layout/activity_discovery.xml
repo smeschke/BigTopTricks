@@ -37,21 +37,21 @@
                 android:id="@+id/discovery_capacity_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="12dp" />
 
             <TextView
                 android:id="@+id/discovery_siteswap_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="12dp" />
 
             <TextView
                 android:id="@+id/discovery_tutorial_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="12dp"
                 android:onClick="toUrl" />
 
@@ -59,14 +59,14 @@
                 android:id="@+id/discovery_difficulty_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="12dp" />
 
             <TextView
                 android:id="@+id/discovery_source_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp" />
 
@@ -85,7 +85,7 @@
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="@string/content_description_add"
         android:elevation="6dp"

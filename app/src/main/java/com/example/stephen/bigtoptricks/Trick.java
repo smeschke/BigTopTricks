@@ -3,27 +3,27 @@ package com.example.stephen.bigtoptricks;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Tricks implements Parcelable {
+public class Trick implements Parcelable {
 
     // Created with the help of AndroidProgrammer tutor from Slack
-    public static final Parcelable.Creator<Tricks> CREATOR = new Parcelable.Creator<Tricks>() {
+    public static final Parcelable.Creator<Trick> CREATOR = new Parcelable.Creator<Trick>() {
         @Override
-        public Tricks createFromParcel(Parcel in) {
-            return new Tricks(in);
+        public Trick createFromParcel(Parcel in) {
+            return new Trick(in);
         }
 
         @Override
-        public Tricks[] newArray(int size) {
-            return new Tricks[size];
+        public Trick[] newArray(int size) {
+            return new Trick[size];
         }
     };
     private String pr, time_trained, description, name, meta, hit, miss, record, prop_type, goal,
             siteswap, animation, source, difficulty, capacity, tutorial, id, location;
 
-    public Tricks(String pr, String time_trained, String description, String name, String meta,
-                  String hit, String miss, String record, String prop_type, String goal,
-                  String siteswap, String animation, String source, String difficulty, String capacity,
-                  String tutorial, String id, String location) {
+    public Trick(String pr, String time_trained, String description, String name, String meta,
+                 String hit, String miss, String record, String prop_type, String goal,
+                 String siteswap, String animation, String source, String difficulty, String capacity,
+                 String tutorial, String id, String location) {
         this.animation = animation;
         this.capacity = capacity;
         this.description = description;
@@ -44,7 +44,7 @@ public class Tricks implements Parcelable {
         this.location = location;
     }
 
-    protected Tricks(Parcel in) {
+    private Trick(Parcel in) {
         pr = in.readString();
         time_trained = in.readString();
         description = in.readString();
@@ -65,7 +65,7 @@ public class Tricks implements Parcelable {
         location = in.readString();
     }
 
-    public Tricks() {
+    public Trick() {
     }
 
     @Override
@@ -93,14 +93,6 @@ public class Tricks implements Parcelable {
         dest.writeString(tutorial);
         dest.writeString(id);
         dest.writeString(location);
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getName() {
@@ -135,36 +127,16 @@ public class Tricks implements Parcelable {
         this.description = description;
     }
 
-    public String getMeta() {
-        return meta;
-    }
-
-    public void setMeta(String meta) {
-        this.meta = meta;
-    }
-
     public String getHit() {
         return hit;
-    }
-
-    public void setHit(String hit) {
-        this.hit = hit;
     }
 
     public String getMiss() {
         return miss;
     }
 
-    public void setMiss(String miss) {
-        this.miss = miss;
-    }
-
     public String getRecord() {
         return record;
-    }
-
-    public void setRecord(String record) {
-        this.record = record;
     }
 
     public String getProp_type() {
@@ -235,7 +207,4 @@ public class Tricks implements Parcelable {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 }

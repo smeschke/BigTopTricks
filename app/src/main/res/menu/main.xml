@@ -5,5 +5,5 @@
         android:id="@+id/menu_show_db"
         android:orderInCategory="1"
         app:showAsAction="never"
-        android:title="Training DB"/>
+        android:title="@string/training_db"/>
 </menu>

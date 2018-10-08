@@ -1,14 +1,11 @@
 package com.example.stephen.bigtoptricks;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -19,8 +16,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.stephen.bigtoptricks.addTricks.Library;
 import com.example.stephen.bigtoptricks.data.Contract;
@@ -32,10 +27,7 @@ public class MainActivity extends AppCompatActivity implements
         MyTrainingDbAdapter.ItemClickListener {
 
     private MyTrainingDbAdapter mAdapter;
-    private RecyclerView mRecyclerView;
     private Cursor mCursor;
-    private final int LOADER_ID = 42;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +35,9 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         // Create layout manager and bind it to the recycler view
-        mRecyclerView = findViewById(R.id.my_recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,
+        RecyclerView mRecyclerView = findViewById(R.id.my_recycler_view);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
-        mLayoutManager = layoutManager;
         mRecyclerView.setLayoutManager(mLayoutManager);
         // Initialize the adapter and attach it to the RecyclerView
         mAdapter = new MyTrainingDbAdapter(this);
@@ -55,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements
         // Set adapter to mRecyclerView
         mRecyclerView.setAdapter(mAdapter);
         // Initialize loader
+        int LOADER_ID = 42;
         getSupportLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
@@ -75,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements
         String record = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_RECORD));
         String hit = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_HIT));
         String miss = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_MISS));
-        String animation = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_ANIMAION));
+        String animation = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.Column_ANIMATION));
         String siteswap = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_SITESWAP));
         String source = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_SOURCE));
         String difficulty = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_DIFFICULTY));
@@ -83,12 +75,12 @@ public class MainActivity extends AppCompatActivity implements
         String tutorial = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_TUTORIAL));
         String meta = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_IS_META));
 
-        Tricks tricks = new Tricks(pr, time_trained, description, name, meta, hit, miss, record, prop_type, goal,
+        Trick trick = new Trick(pr, time_trained, description, name, meta, hit, miss, record, prop_type, goal,
                 siteswap, animation, source, difficulty, capacity, tutorial, id, "no location");
 
         // Package the trick object in an intent and sent it to the Training activity
         Intent toTraining = new Intent(MainActivity.this, Training.class);
-        toTraining.putExtra(ARG_TRICK_OBJECT, tricks);
+        toTraining.putExtra(ARG_TRICK_OBJECT, trick);
         startActivity(toTraining);
     }
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ END ONCLICK METHOD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -113,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements
         mAdapter.swapCursor(data);
     }
 
-    public void showStartMessage() {
+    private void showStartMessage() {
         //show a dialog that gives the user information about how to use app
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setCancelable(true);

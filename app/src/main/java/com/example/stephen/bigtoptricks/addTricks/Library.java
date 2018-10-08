@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.example.stephen.bigtoptricks.R;
@@ -31,9 +30,8 @@ public class Library extends AppCompatActivity
 
     // Initialize an adapter and recyclerView
     private MyLibraryAdapter mSiteswapListAdapter;
-    private RecyclerView mList;
     private String mJsonString;
-    LinearLayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
     private int mScrollPosition = 0;
 
 
@@ -43,12 +41,12 @@ public class Library extends AppCompatActivity
         setContentView(R.layout.activity_library);
 
         // https://stackoverflow.com/questions/51318506/up-navigation-in-fragments-toolbar
-        AppCompatActivity appCompatActivity = ((AppCompatActivity) this);
+        AppCompatActivity appCompatActivity = this;
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.back);
         appCompatActivity.setSupportActionBar(toolbar);
         ActionBar actionBar = appCompatActivity.getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         // Custom setting for the up navigation
         // Must do this to preserve scroll position in ArticleListActivity
@@ -61,7 +59,7 @@ public class Library extends AppCompatActivity
         });
 
         // Set title on collapsing toolbar
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(getString(R.string.library_title));
 
         // Create url to list of tricks
@@ -73,7 +71,7 @@ public class Library extends AppCompatActivity
         }
 
         // Code for recycler view
-        mList = (RecyclerView) findViewById(R.id.recycler_view_siteswap_list);
+        RecyclerView mList = findViewById(R.id.recycler_view_siteswap_list);
         mLayoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
         mList.setLayoutManager(mLayoutManager);
@@ -81,8 +79,8 @@ public class Library extends AppCompatActivity
         mSiteswapListAdapter = new MyLibraryAdapter(this, this);
         mList.setAdapter(mSiteswapListAdapter);
 
-        // Start a new fetch task. This fetches data from the internet and displays it on the list
-        if (is_connected()) new fetch().execute(url);
+        // Start a new FetchTricksFromInternet task. This fetches data from the internet and displays it on the list
+        if (is_connected()) new FetchTricksFromInternet().execute(url);
     }
 
     @Override
@@ -110,14 +108,14 @@ public class Library extends AppCompatActivity
             Intent toTrickDiscovery = new Intent(this, TrickDiscovery.class);
             // Parse details about trick from JSON, and put it in the intent
             toTrickDiscovery.putExtra(ARG_TRICK_OBJECT,
-                    JsonUtils.parseIndividualTrickToOBject(mJsonString, position-1));
+                    JsonUtils.parseIndividualTrickToObject(mJsonString, position-1));
             startActivity(toTrickDiscovery);
         }
     }
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ END ONCLICK METHOD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-    ///////////////////////////////// START RECIPE DATA FETCH TASK /////////////////////////////////
-    class fetch extends AsyncTask<URL, Void, String>
+    ///////////////////////////////// START TRICKS DATA FETCH TASK /////////////////////////////////
+    class FetchTricksFromInternet extends AsyncTask<URL, Void, String>
 
     {
         // Do in background gets the json juggling tricks data from internet
@@ -148,16 +146,12 @@ public class Library extends AppCompatActivity
     }
     ///////////////////////////////// END RECIPE DATA FETCH TASK ///////////////////////////////////
     // Is there an internet connection?
-    public boolean is_connected() {
+    private boolean is_connected() {
         //https://stackoverflow.com/questions/5474089/how-to-check-currently-internet-connection-is-available-or-not-in-android
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (Objects.requireNonNull(connectivityManager).getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-            return true;
-        } else {
-            return false;
-        }
+        return Objects.requireNonNull(connectivityManager).getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 }
 

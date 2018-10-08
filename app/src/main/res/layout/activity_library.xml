@@ -4,7 +4,6 @@
     style="@style/Coordinator">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar_layout"
         style="@style/AppBar"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -16,7 +15,6 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
-                android:id="@+id/photo"
                 style="@style/ImageViewStyle"
                 android:contentDescription="@string/content_description_siteswap_graphic"
                 android:src="@drawable/siteswap" />

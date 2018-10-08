@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
     //TODO (4b) Create ItemClickListener
     private ItemClickListener mClickListener;
     //TODO (2) get data from constructor
-    private List<Tricks> mTricks;
+    private List<Trick> mTricks;
 
     // Create MyRecyclerViewAdapter
     MyTrainingDbAdapter(Context context) {
@@ -51,9 +50,9 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
         String goal = mTricks.get(position).getGoal();
         String timeTrained = mTricks.get(position).getTime_trained();
         holder.trickNameTextView.setText(name);
-        if (pr!=null) holder.prCatchesTextView.setText("PR: " + pr);
-        if (goal!=null) holder.goalCatchesTextView.setText("Goal: " + goal);
-        if (timeTrained!=null) holder.timeTrainedTextView.setText("Time Trained: " + timeTrained);
+        if (pr!=null) holder.prCatchesTextView.setText(mContext.getString(R.string.pr) + " " + pr);
+        if (goal!=null) holder.goalCatchesTextView.setText(mContext.getString(R.string.goal) + " " + goal);
+        if (timeTrained!=null) holder.timeTrainedTextView.setText(mContext.getString(R.string.time_trained) + " " + timeTrained);
 
         String propType = mTricks.get(position).getProp_type();
 
@@ -78,7 +77,7 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
 
     // TODO (6) create swap cursor method to reset the data
     void swapCursor(Cursor data) {
-        ArrayList<Tricks> listTricks = new ArrayList<>();
+        ArrayList<Trick> listTricks = new ArrayList<>();
         for (int i = 0; i < data.getCount(); i++) {
             data.moveToPosition(i);
             String name = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_TRICK_NAME));
@@ -86,13 +85,13 @@ public class MyTrainingDbAdapter extends RecyclerView.Adapter<MyTrainingDbAdapte
             String pr = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_PERSONAL_RECORD));
             String time_trained = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_TIME_TRAINED));
             String prop_type = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_PROP_TYPE));
-            Tricks tricks = new Tricks();
-            tricks.setName(name);
-            tricks.setGoal(goal);
-            tricks.setPr(pr);
-            tricks.setTime_trained(time_trained);
-            tricks.setProp_type(prop_type);
-            listTricks.add(tricks);
+            Trick trick = new Trick();
+            trick.setName(name);
+            trick.setGoal(goal);
+            trick.setPr(pr);
+            trick.setTime_trained(time_trained);
+            trick.setProp_type(prop_type);
+            listTricks.add(trick);
         }
         mTricks = listTricks;
         notifyDataSetChanged();

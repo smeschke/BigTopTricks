@@ -8,7 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
+import java.util.Objects;
 
 import static com.example.stephen.bigtoptricks.data.Contract.listEntry.TABLE_NAME;
 
@@ -47,7 +48,7 @@ public class Provider extends ContentProvider {
             throw new android.database.SQLException("Failed to insert row into " + uri);
         }
         // Notify
-        getContext().getContentResolver().notifyChange(uri, null);
+        Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri, null);
         // Return uri that points to newly inserted row
         return returnUri;
     }
@@ -66,7 +67,7 @@ public class Provider extends ContentProvider {
                 null,
                 sortOrder);
         // Notify - not sure what/who/why I am notifying here.
-        retCursor.setNotificationUri(getContext().getContentResolver(), uri);
+        retCursor.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(), uri);
         // Return cursor
         return retCursor;
     }
@@ -74,14 +75,14 @@ public class Provider extends ContentProvider {
     // Delete - either a single row, or all popular and top rated movies
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
-        int itemsDeleted = 0;
+        int itemsDeleted;
         final SQLiteDatabase db = mTaskDbHelper.getWritableDatabase();
         String itemId = uri.getPathSegments().get(1);
         itemsDeleted = db.delete(TABLE_NAME,
                 "_id=?",
                 new String[]{itemId});
         // Return the number of tasks deleted
-        getContext().getContentResolver().notifyChange(uri, null);
+        Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri, null);
         return itemsDeleted;
     }
 
@@ -90,8 +91,7 @@ public class Provider extends ContentProvider {
     public int update(@NonNull Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         final SQLiteDatabase db = mTaskDbHelper.getWritableDatabase();
-        int testVal = db.update(TABLE_NAME, values, "_id="+selection, null);
-        return testVal;
+        return db.update(TABLE_NAME, values, "_id="+selection, null);
     }
 
     // Not used

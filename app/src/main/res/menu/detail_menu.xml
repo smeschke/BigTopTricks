@@ -5,10 +5,10 @@
         android:id="@+id/menu_show_detail"
         android:orderInCategory="1"
         app:showAsAction="never"
-        android:title="Show Trick Details"/>
+        android:title="@string/show_trick_details"/>
     <item
         android:id="@+id/menu_remove_trick"
         android:orderInCategory="2"
         app:showAsAction="never"
-        android:title="Remove trick from DB"/>
+        android:title="@string/remove_trick_from_db"/>
 </menu>

@@ -17,6 +17,7 @@
         android:id="@+id/floatingActionButton"
         style="@style/FloatingActionButton"
         android:elevation="6dp"
+        android:contentDescription="@string/add_trick_to_database"
         app:srcCompat="@drawable/add2"
         android:onClick="addTrick"/>
 

@@ -6,11 +6,11 @@ import android.provider.BaseColumns;
 public class Contract {
 
     // Authority --> Which Content Provider to access?
-    public static final String AUTHORITY = "com.example.stephen.bigtoptricks";
+    private static final String AUTHORITY = "com.example.stephen.bigtoptricks";
     // Base content URI
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
     // Paths for accessing data
-    public static final String PATH_MOVIES = "tricks";
+    private static final String PATH_MOVIES = "tricks";
 
     public static final class listEntry implements BaseColumns {
 
@@ -33,7 +33,7 @@ public class Contract {
         public static final String COLUMN_SOURCE = "source";
         public static final String COLUMN_TUTORIAL = "tutorial";
         public static final String COLUMN_DIFFICULTY = "difficulty";
-        public static final String COLUMN_ANIMAION = "animation";
+        public static final String Column_ANIMATION = "animation";
         public static final String COLUMN_LOCATION = "location";
     }
 }

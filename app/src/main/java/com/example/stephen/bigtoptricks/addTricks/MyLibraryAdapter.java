@@ -1,7 +1,6 @@
 package com.example.stephen.bigtoptricks.addTricks;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.stephen.bigtoptricks.R;
-import com.example.stephen.bigtoptricks.Tricks;
+import com.example.stephen.bigtoptricks.Trick;
 
 import org.json.JSONException;
 
@@ -26,7 +25,7 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
     //create string for output list
     private String mJson;
     //create list of trick objects that will populate the recycler view
-    private List<Tricks> mTricks;
+    private List<Trick> mTricks;
 
     // Constructor gets context and click handler
     public MyLibraryAdapter(@NonNull Context context,
@@ -36,8 +35,9 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
     }
 
     // When view holder is created, inflate the views
+    @NonNull
     @Override
-    public MyLibraryAdapter.mAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyLibraryAdapter.mAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         int layoutId = 0;
         if (viewType == 0) layoutId = R.layout.library_list_item_custom;
         if (viewType == 1) layoutId = R.layout.library_list_item;
@@ -58,18 +58,18 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
 
     //bind data to view holder
     @Override
-    public void onBindViewHolder(MyLibraryAdapter.mAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyLibraryAdapter.mAdapterViewHolder holder, int position) {
         // Create a new trick to put in the recycler view item
-        Tricks tricks = new Tricks();
+        Trick trick = new Trick();
         // IF position is zero, use 'create custom trick' for position zero
-        if (position == 0) tricks.setName(mContext.getString(R.string.create_custom_trick));
-        // ELSE, use a tricks from the library to make the rest of the list
-        else tricks = mTricks.get(position-1);
+        if (position == 0) trick.setName(mContext.getString(R.string.create_custom_trick));
+        // ELSE, use a trick from the library to make the rest of the list
+        else trick = mTricks.get(position-1);
 
-        String name = tricks.getName();
-        String capacity = tricks.getCapacity();
-        String difficulty = tricks.getDifficulty();
-        String source = tricks.getSource();
+        String name = trick.getName();
+        String capacity = trick.getCapacity();
+        String difficulty = trick.getDifficulty();
+        String source = trick.getSource();
         holder.textView.setText(name);
         holder.capacityTextView.setText(capacity);
         holder.sourcesTextView.setText(source);
@@ -109,19 +109,19 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
     class mAdapterViewHolder extends RecyclerView.ViewHolder implements
             View.OnClickListener {
         //initialize views
-        public final TextView textView;
-        public final TextView capacityTextView;
-        public final ImageView difficultyImageView;
-        public final TextView sourcesTextView;
+        final TextView textView;
+        final TextView capacityTextView;
+        final ImageView difficultyImageView;
+        final TextView sourcesTextView;
 
         //super the views so that they can be bound - set click listener too
         mAdapterViewHolder(View view) {
             super(view);
             //image  and text views for tricks
-            textView = (TextView) view.findViewById(R.id.siteswap_list_item_textview);
-            capacityTextView = (TextView) view.findViewById(R.id.siteswap_list_item_capacity);
-            difficultyImageView = (ImageView) view.findViewById(R.id.library_difficulty_image_view);
-            sourcesTextView = (TextView) view.findViewById(R.id.siteswap_list_item_source);
+            textView = view.findViewById(R.id.siteswap_list_item_textview);
+            capacityTextView = view.findViewById(R.id.siteswap_list_item_capacity);
+            difficultyImageView = view.findViewById(R.id.library_difficulty_image_view);
+            sourcesTextView = view.findViewById(R.id.siteswap_list_item_source);
             //set on click listener
             itemView.setOnClickListener(this);
         }
