@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
+    android:layout_marginLeft="16dp"
     android:layout_marginTop="16dp"
     android:layout_marginBottom="4dp">
 
@@ -31,7 +31,7 @@
         android:id="@+id/siteswap_list_item_capacity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +42,7 @@
         android:id="@+id/library_difficulty_image_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:scaleType="fitXY"
         android:src="@drawable/diff0"
         android:contentDescription="@string/content_description_prop_type"

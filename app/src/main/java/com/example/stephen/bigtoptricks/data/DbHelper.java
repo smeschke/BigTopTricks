@@ -38,7 +38,6 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.listEntry.Column_ANIMATION + " TEXT NOT NULL, " +
                         Contract.listEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                         "); ";
-
         db.execSQL(create_table);
     }
 

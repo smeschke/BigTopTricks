@@ -29,8 +29,8 @@ public class TrickDiscovery extends AppCompatActivity {
         setContentView(R.layout.activity_discovery);
 
         // Get the trick that the user clicked on in the Library of Trick
-        mTrick = Objects.requireNonNull(getIntent().getExtras()).getParcelable(ARG_TRICK_OBJECT);
-        String mName = Objects.requireNonNull(mTrick).getName();
+        mTrick = (getIntent().getExtras()).getParcelable(ARG_TRICK_OBJECT);
+        String mName = (mTrick).getName();
         String mSiteswap = mTrick.getSiteswap();
         String mSource = mTrick.getSource();
         String mAnimation = mTrick.getAnimation();

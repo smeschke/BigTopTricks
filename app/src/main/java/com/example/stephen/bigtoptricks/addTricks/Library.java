@@ -12,13 +12,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.example.stephen.bigtoptricks.R;
 
 import org.json.JSONException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
@@ -79,19 +86,19 @@ public class Library extends AppCompatActivity
         mSiteswapListAdapter = new MyLibraryAdapter(this, this);
         mList.setAdapter(mSiteswapListAdapter);
 
-        // Start a new FetchTricksFromInternet task. This fetches data from the internet and displays it on the list
-        if (is_connected()) new FetchTricksFromInternet().execute(url);
+        // Start a new FetchTricksFromJson task. This fetches data from the internet and displays it on the list
+        new FetchTricksFromJson().execute(url);
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
+    public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         int scroll_position = mLayoutManager.findFirstVisibleItemPosition();
         savedInstanceState.putInt("position", scroll_position);
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState){
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mScrollPosition = savedInstanceState.getInt("position");
     }
@@ -108,25 +115,42 @@ public class Library extends AppCompatActivity
             Intent toTrickDiscovery = new Intent(this, TrickDiscovery.class);
             // Parse details about trick from JSON, and put it in the intent
             toTrickDiscovery.putExtra(ARG_TRICK_OBJECT,
-                    JsonUtils.parseIndividualTrickToObject(mJsonString, position-1));
+                    JsonUtils.parseIndividualTrickToObject(mJsonString, position - 1));
             startActivity(toTrickDiscovery);
         }
     }
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ END ONCLICK METHOD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     ///////////////////////////////// START TRICKS DATA FETCH TASK /////////////////////////////////
-    class FetchTricksFromInternet extends AsyncTask<URL, Void, String>
+    class FetchTricksFromJson extends AsyncTask<URL, Void, String>
 
     {
         // Do in background gets the json juggling tricks data from internet
         @Override
         protected String doInBackground(URL... urls) {
+            Log.d("LOG", "myLogs do in background");
             String fetchResults = null;
+            InputStream is = getResources().openRawResource(R.raw.tricks);
+            Writer writer = new StringWriter();
+            char[] buffer = new char[1024];
             try {
-                fetchResults = NetworkUtils.getResponseFromHttpUrl(urls[0]);
-            } catch (IOException e) {
+                Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                int n;
+                while ((n = reader.read(buffer)) != -1) {
+                    writer.write(buffer, 0, n);
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+
+            fetchResults = writer.toString();
+
             // Return the results to the onPostExecute method
             return fetchResults;
         }
@@ -135,23 +159,15 @@ public class Library extends AppCompatActivity
         @Override
         protected void onPostExecute(String trick_data) {
             mJsonString = trick_data;
-            try {
+            try {Log.d("LOG", "myLogs end onPostExecute Library start");
                 mSiteswapListAdapter.swapCursor(trick_data);
                 // Preserve scroll position
                 mLayoutManager.scrollToPosition(mScrollPosition);
+                Log.d("LOG", "myLogs end onPostExecute Library end");
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.d("LOG", "myLogs end onPostExecute Library json exception");
             }
         }
-    }
-    ///////////////////////////////// END RECIPE DATA FETCH TASK ///////////////////////////////////
-    // Is there an internet connection?
-    private boolean is_connected() {
-        //https://stackoverflow.com/questions/5474089/how-to-check-currently-internet-connection-is-available-or-not-in-android
-        ConnectivityManager connectivityManager =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        return Objects.requireNonNull(connectivityManager).getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 }
 

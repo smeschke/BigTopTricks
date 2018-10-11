@@ -90,7 +90,7 @@ public class Training extends AppCompatActivity {
         ActivityCompat.requestPermissions(Training.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
         // up navigation
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         // Check for, and request permissions
@@ -112,8 +112,8 @@ public class Training extends AppCompatActivity {
 
 
         // Get the trick that the user clicked on in the main activity from the intent
-        mTrick = Objects.requireNonNull(getIntent().getExtras()).getParcelable(ARG_TRICK_OBJECT);
-        mName = Objects.requireNonNull(mTrick).getName();
+        mTrick = getIntent().getExtras().getParcelable(ARG_TRICK_OBJECT);
+        mName = mTrick.getName();
         mRecords = mTrick.getRecord();
         mPropType = mTrick.getProp_type();
         mPr = mTrick.getPr();

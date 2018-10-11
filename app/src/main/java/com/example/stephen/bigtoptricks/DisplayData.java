@@ -24,7 +24,7 @@ public class DisplayData extends AppCompatActivity implements
         setContentView(R.layout.activity_display_data);
 
         // Support up navigation
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        (getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         // Initialize the loader to get data and then display it

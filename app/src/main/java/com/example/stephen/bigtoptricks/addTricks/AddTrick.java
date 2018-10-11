@@ -20,11 +20,9 @@ import com.example.stephen.bigtoptricks.R;
 import com.example.stephen.bigtoptricks.Trick;
 import com.example.stephen.bigtoptricks.TricksWidget;
 import com.example.stephen.bigtoptricks.data.Actions;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
 import static com.example.stephen.bigtoptricks.Training.ARG_LIST_KEY;
 import static com.example.stephen.bigtoptricks.Training.ARG_SP_LOG_KEY;
@@ -71,8 +69,8 @@ public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSel
         if (getIntent().hasExtra(ARG_TRICK_OBJECT)) {
             // The intent has a trick object extra if the user has picked a trick from the Library
             // Bind the data from that trick into the text views, and set the class variables
-            Trick mTrick = Objects.requireNonNull(getIntent().getExtras()).getParcelable(ARG_TRICK_OBJECT);
-            mName = Objects.requireNonNull(mTrick).getName();
+            Trick mTrick = (getIntent().getExtras()).getParcelable(ARG_TRICK_OBJECT);
+            mName = (mTrick).getName();
             mSiteswap = mTrick.getSiteswap();
             mSource = mTrick.getSource();
             mAnimation = mTrick.getAnimation();
@@ -168,15 +166,6 @@ public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSel
             // update list of trick names in shared preferences
             settings.edit().putString(ARG_LIST_KEY, tricks_string + mUnique + mName).commit();
 
-            // Obtain the FirebaseAnalytics instance.
-            // https://firebase.google.com/docs/analytics/android/start/
-            FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-            Bundle bundle = new Bundle();
-            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Add Trick Activity");
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Trick Name: " + mName);
-            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
-            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-
             // Update the widget
             trickNames.add(mName);
             writeToWidget(trickNames);
@@ -201,7 +190,8 @@ public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSel
         StringBuilder output = new StringBuilder(getString(R.string.widget_title));
         // Add each trick name on a new line (u2022 is a bullet point)
         for (int i = 0; i < names.size(); i++) {
-            if (names.get(i).length() > 0) output.append("\u2022 ").append(names.get(i)).append("\n");
+            if (names.get(i).length() > 0)
+                output.append("\u2022 ").append(names.get(i)).append("\n");
         }
         // Get app widget manager
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);

@@ -48,7 +48,7 @@ public class Provider extends ContentProvider {
             throw new android.database.SQLException("Failed to insert row into " + uri);
         }
         // Notify
-        Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri, null);
+        (getContext()).getContentResolver().notifyChange(uri, null);
         // Return uri that points to newly inserted row
         return returnUri;
     }
