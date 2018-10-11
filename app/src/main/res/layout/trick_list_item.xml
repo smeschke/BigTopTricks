@@ -20,7 +20,7 @@
         android:id="@+id/text_view_trick_name_list_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="32sp"
+        android:textSize="26sp"
         android:layout_marginLeft="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/training_db_prop_type"

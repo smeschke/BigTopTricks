@@ -1,6 +1,7 @@
 package com.example.stephen.bigtoptricks.addTricks;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,9 +12,9 @@ import android.widget.TextView;
 
 import com.example.stephen.bigtoptricks.R;
 import com.example.stephen.bigtoptricks.Trick;
+import com.example.stephen.bigtoptricks.data.Contract;
 
-import org.json.JSONException;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAdapterViewHolder> {
@@ -62,29 +63,45 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
         // Create a new trick to put in the recycler view item
         Trick trick = new Trick();
         // IF position is zero, use 'create custom trick' for position zero
-        if (position == 0) trick.setName(mContext.getString(R.string.create_custom_trick));
+        if (position == 0) {
+            if (position == 0 && getItemCount() == 1) trick.setName("Loading: Please wait up to one minute");
+            else {
+                trick.setName(mContext.getString(R.string.create_custom_trick));
+            }
+        }
         // ELSE, use a trick from the library to make the rest of the list
-        else trick = mTricks.get(position-1);
+        else trick = mTricks.get(position - 1);
 
         String name = trick.getName();
         String capacity = trick.getCapacity();
         String difficulty = trick.getDifficulty();
         String source = trick.getSource();
+
         holder.textView.setText(name);
         holder.capacityTextView.setText(capacity);
         holder.sourcesTextView.setText(source);
 
         try {
-            if (difficulty.equals("1")) holder.difficultyImageView.setImageResource(R.drawable.diff1);
-            if (difficulty.equals("2")) holder.difficultyImageView.setImageResource(R.drawable.diff2);
-            if (difficulty.equals("3")) holder.difficultyImageView.setImageResource(R.drawable.diff3);
-            if (difficulty.equals("4")) holder.difficultyImageView.setImageResource(R.drawable.diff4);
-            if (difficulty.equals("5")) holder.difficultyImageView.setImageResource(R.drawable.diff5);
-            if (difficulty.equals("6")) holder.difficultyImageView.setImageResource(R.drawable.diff6);
-            if (difficulty.equals("7")) holder.difficultyImageView.setImageResource(R.drawable.diff7);
-            if (difficulty.equals("8")) holder.difficultyImageView.setImageResource(R.drawable.diff8);
-            if (difficulty.equals("9")) holder.difficultyImageView.setImageResource(R.drawable.diff9);
-            if (difficulty.equals("10")) holder.difficultyImageView.setImageResource(R.drawable.diff10);
+            if (difficulty.equals("1"))
+                holder.difficultyImageView.setImageResource(R.drawable.diff1);
+            if (difficulty.equals("2"))
+                holder.difficultyImageView.setImageResource(R.drawable.diff2);
+            if (difficulty.equals("3"))
+                holder.difficultyImageView.setImageResource(R.drawable.diff3);
+            if (difficulty.equals("4"))
+                holder.difficultyImageView.setImageResource(R.drawable.diff4);
+            if (difficulty.equals("5"))
+                holder.difficultyImageView.setImageResource(R.drawable.diff5);
+            if (difficulty.equals("6"))
+                holder.difficultyImageView.setImageResource(R.drawable.diff6);
+            if (difficulty.equals("7"))
+                holder.difficultyImageView.setImageResource(R.drawable.diff7);
+            if (difficulty.equals("8"))
+                holder.difficultyImageView.setImageResource(R.drawable.diff8);
+            if (difficulty.equals("9"))
+                holder.difficultyImageView.setImageResource(R.drawable.diff9);
+            if (difficulty.equals("10"))
+                holder.difficultyImageView.setImageResource(R.drawable.diff10);
         } catch (Exception e) {
             holder.difficultyImageView.setImageResource(R.drawable.diff0);
         }
@@ -94,7 +111,7 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
     @Override
     public int getItemCount() {
         try {
-            return JsonUtils.getNumberOfTricks(mJson);
+            return mTricks.size() + 1;
         } catch (Exception e) {
             return 1;
         }
@@ -136,10 +153,29 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
     }
 
     // TODO (6) create swap cursor method to reset the data
-    void swapCursor(String json) throws JSONException {
-        mJson = json;
+    void swapCursor(Cursor data) {
+        /*mJson = json;
         // Parse the tricks out of the JSON data
         mTricks = JsonUtils.parseLimitedObjects(json);
+        notifyDataSetChanged();*/
+
+        ArrayList<Trick> listTricks = new ArrayList<>();
+        for (int i = 0; i < data.getCount(); i++) {
+            data.moveToPosition(i);
+            String name = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_TRICK_NAME));
+            String capacity = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_CAPACITY));
+            String difficulty = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_DIFFICULTY));
+            String source = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_SOURCE));
+            String siteswap = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_SITESWAP));
+            Trick trick = new Trick();
+            trick.setName(name);
+            trick.setCapacity(capacity);
+            trick.setDifficulty(difficulty);
+            trick.setSource(source);
+            trick.setSiteswap(siteswap);
+            listTricks.add(trick);
+        }
+        mTricks = listTricks;
         notifyDataSetChanged();
     }
 }
