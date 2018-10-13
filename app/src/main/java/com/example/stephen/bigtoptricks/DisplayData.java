@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.example.stephen.bigtoptricks.data.Contract;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class DisplayData extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -74,11 +73,15 @@ public class DisplayData extends AppCompatActivity implements
 
 
             time_trained = time_trained + Integer.parseInt(timeTrained);
-            completeDb.append("\u2022 ").append(name).append(" - ").append(catchCount).append(" - ").append(timeTrained).append("\n");
+
+            if (!data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_IS_META)).equals("library")) {
+                completeDb.append("\u2022 ").append(name).append(" - ").append(catchCount).append(" - ").append(timeTrained).append("\n");
+            }
         }
         StringBuilder trick_names = new StringBuilder();
         StringBuilder trick_locations = new StringBuilder();
-        for (int i = 0; i < names.size(); i++) trick_names.append("\u2022 ").append(names.get(i)).append("\n");
+        for (int i = 0; i < names.size(); i++)
+            trick_names.append("\u2022 ").append(names.get(i)).append("\n");
         for (int i = 0; i < locations.size(); i++)
             trick_locations.append("\u2022 ").append(locations.get(i)).append("\n");
 

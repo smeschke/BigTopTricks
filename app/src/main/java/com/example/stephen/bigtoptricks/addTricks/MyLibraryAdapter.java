@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +79,14 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
         String source = trick.getSource();
 
         holder.textView.setText(name);
-        holder.capacityTextView.setText(capacity);
+        // Determine if the goal is a valid integer - https://stackoverflow.com/questions/10120212/how-to-determine-if-an-input-in-edittext-is-an-integer
+        boolean goal_is_valid = false;
+        try {
+            int num = Integer.parseInt(capacity);
+            if (num > 0) holder.capacityTextView.setText(capacity);
+        } catch (NumberFormatException e) {
+            Log.d("LOG", "myLogs goal is not valid");
+        }
         holder.sourcesTextView.setText(source);
 
         try {
