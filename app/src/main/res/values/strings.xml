@@ -68,14 +68,11 @@
     <string name="chronometer">chronometer</string>
     <string name="button_to_record_hits">button to record hits</string>
     <string name="button_to_record_misses">button to record misses</string>
+    <string name="video">Video:</string>
     <string-array name="prop_types">
         <item>Ball</item>
         <item>Club</item>
         <item>Ring</item>
-        <item>Poi</item>
-        <item>Knife</item>
-        <item>Chainsaw</item>
-        <item>Bowling Ball</item>
     </string-array>
 
 </resources>

@@ -48,12 +48,40 @@
                 android:layout_marginTop="12dp" />
 
             <TextView
-                android:id="@+id/discovery_tutorial_text_view"
+                android:id="@+id/discovery_tutorial_text_view1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
                 android:layout_marginTop="12dp"
-                android:onClick="toUrl" />
+                android:onClick="toUrl1"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/discovery_tutorial_text_view2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="12dp"
+                android:onClick="toUrl2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/discovery_tutorial_text_view3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="12dp"
+                android:onClick="toUrl3"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/discovery_tutorial_text_view4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="12dp"
+                android:onClick="toUrl4"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/discovery_difficulty_text_view"

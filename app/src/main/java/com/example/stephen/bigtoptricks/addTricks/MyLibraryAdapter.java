@@ -87,7 +87,6 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
         } catch (NumberFormatException e) {
             Log.d("LOG", "myLogs goal is not valid");
         }
-        holder.sourcesTextView.setText(source);
 
         try {
             if (difficulty.equals("1"))
@@ -137,7 +136,6 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
         final TextView textView;
         final TextView capacityTextView;
         final ImageView difficultyImageView;
-        final TextView sourcesTextView;
 
         //super the views so that they can be bound - set click listener too
         mAdapterViewHolder(View view) {
@@ -146,7 +144,6 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
             textView = view.findViewById(R.id.siteswap_list_item_textview);
             capacityTextView = view.findViewById(R.id.siteswap_list_item_capacity);
             difficultyImageView = view.findViewById(R.id.library_difficulty_image_view);
-            sourcesTextView = view.findViewById(R.id.siteswap_list_item_source);
             //set on click listener
             itemView.setOnClickListener(this);
         }
@@ -173,13 +170,11 @@ public class MyLibraryAdapter extends RecyclerView.Adapter<MyLibraryAdapter.mAda
             String name = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_TRICK_NAME));
             String capacity = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_CAPACITY));
             String difficulty = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_DIFFICULTY));
-            String source = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_SOURCE));
             String siteswap = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_SITESWAP));
             Trick trick = new Trick();
             trick.setName(name);
             trick.setCapacity(capacity);
             trick.setDifficulty(difficulty);
-            trick.setSource(source);
             trick.setSiteswap(siteswap);
             listTricks.add(trick);
         }
