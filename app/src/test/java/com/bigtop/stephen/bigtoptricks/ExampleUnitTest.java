@@ -1,4 +1,4 @@
-package com.example.stephen.bigtoptricks;
+package com.bigtop.stephen.bigtoptricks;
 
 import org.junit.Test;
 

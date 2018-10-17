@@ -1,4 +1,4 @@
-package com.example.stephen.bigtoptricks.addTricks;
+package com.bigtop.stephen.bigtoptricks.addTricks;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,10 +18,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import com.example.stephen.bigtoptricks.R;
-import com.example.stephen.bigtoptricks.Trick;
-import com.example.stephen.bigtoptricks.data.Actions;
-import com.example.stephen.bigtoptricks.data.Contract;
+import com.bigtop.stephen.bigtoptricks.R;
+import com.bigtop.stephen.bigtoptricks.Trick;
+import com.bigtop.stephen.bigtoptricks.data.Actions;
+import com.bigtop.stephen.bigtoptricks.data.Contract;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,7 +34,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
 
-import static com.example.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
+import static com.bigtop.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
 
 public class Library extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,
@@ -116,7 +116,6 @@ public class Library extends AppCompatActivity implements
             // User wants to look at the details for a trick in the library
             Intent toTrickDiscovery = new Intent(this, TrickDiscovery.class);
             // Parse details about trick from JSON, and put it in the intent
-
             mCursor.moveToPosition(position - 1);
 
             String name = mCursor.getString(mCursor.getColumnIndex(Contract.listEntry.COLUMN_TRICK_NAME));
@@ -190,7 +189,7 @@ public class Library extends AppCompatActivity implements
                     Actions.insert_trick(getApplicationContext(), "0", "0", trick.getDescription(),
                             trick.getName(), "library", "0", "0", "0", "0", "0",
                             trick.getSiteswap(), trick.getAnimation(), trick.getSource(), trick.getDifficulty(),
-                            trick.getCapacity(), trick.getTutorial(), "0");
+                            trick.getCapacity(), trick.getTutorial());
                 }
 
                 // Tell the application that the db has been read

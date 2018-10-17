@@ -1,16 +1,13 @@
-package com.example.stephen.bigtoptricks;
+package com.bigtop.stephen.bigtoptricks;
 
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -25,21 +22,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.stephen.bigtoptricks.addTricks.TrickDiscovery;
-import com.example.stephen.bigtoptricks.data.Actions;
-import com.example.stephen.bigtoptricks.data.Contract;
-import com.google.android.gms.location.places.PlaceDetectionClient;
-import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse;
-import com.google.android.gms.location.places.Places;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.bigtop.stephen.bigtoptricks.addTricks.TrickDiscovery;
+import com.bigtop.stephen.bigtoptricks.data.Actions;
+import com.bigtop.stephen.bigtoptricks.data.Contract;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class Training extends AppCompatActivity {
 
@@ -75,9 +66,6 @@ public class Training extends AppCompatActivity {
     private GraphView mGraphView;
     private TextView mHitMissTextView;
 
-    private PlaceDetectionClient mPlaceDetectionClient;
-    private String mLocation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,24 +80,6 @@ public class Training extends AppCompatActivity {
         // up navigation
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        // Check for, and request permissions
-        // Adapted from: https://stackoverflow.com/questions/32942909/provide-custom-text-for-android-m-permission-dialog
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(Training.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    0);
-
-        } else {
-            // Permission has been granted, proceed with location acquisition
-            mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
-
-            // This function updates the mLocation global variable
-            get_place_and_log();
-        }
-
 
         // Get the trick that the user clicked on in the main activity from the intent
         mTrick = getIntent().getExtras().getParcelable(ARG_TRICK_OBJECT);
@@ -165,13 +135,20 @@ public class Training extends AppCompatActivity {
 
         // Set the prop type image view
         ImageView propTypeImageView = findViewById(R.id.training_db_prop_type);
-        if (mPropType.equals(getString(R.string.Ball))) propTypeImageView.setImageResource(R.drawable.ball);
-        if (mPropType.equals(getString(R.string.Club))) propTypeImageView.setImageResource(R.drawable.clubs);
-        if (mPropType.equals(getString(R.string.Ring))) propTypeImageView.setImageResource(R.drawable.ring);
-        if (mPropType.equals(getString(R.string.Poi))) propTypeImageView.setImageResource(R.drawable.poi);
-        if (mPropType.equals(getString(R.string.Knife))) propTypeImageView.setImageResource(R.drawable.knife);
-        if (mPropType.equals(getString(R.string.Chainsaw))) propTypeImageView.setImageResource(R.drawable.saw);
-        if (mPropType.equals(getString(R.string.Bowling))) propTypeImageView.setImageResource(R.drawable.bowling);
+        if (mPropType.equals(getString(R.string.Ball)))
+            propTypeImageView.setImageResource(R.drawable.ball);
+        if (mPropType.equals(getString(R.string.Club)))
+            propTypeImageView.setImageResource(R.drawable.clubs);
+        if (mPropType.equals(getString(R.string.Ring)))
+            propTypeImageView.setImageResource(R.drawable.ring);
+        if (mPropType.equals(getString(R.string.Poi)))
+            propTypeImageView.setImageResource(R.drawable.poi);
+        if (mPropType.equals(getString(R.string.Knife)))
+            propTypeImageView.setImageResource(R.drawable.knife);
+        if (mPropType.equals(getString(R.string.Chainsaw)))
+            propTypeImageView.setImageResource(R.drawable.saw);
+        if (mPropType.equals(getString(R.string.Bowling)))
+            propTypeImageView.setImageResource(R.drawable.bowling);
 
         // Create the chronometer
         mChronometer = findViewById(R.id.chronometer);
@@ -355,51 +332,24 @@ public class Training extends AppCompatActivity {
         mTrickNames.remove(mName);
         // create new list of strings that does not contain the removed trick
         StringBuilder output_string = new StringBuilder();
-        for (int i = 0; i < mTrickNames.size(); i++) output_string.append(mTrickNames.get(i)).append(mUnique);
+        for (int i = 0; i < mTrickNames.size(); i++)
+            output_string.append(mTrickNames.get(i)).append(mUnique);
         // update list of trick names in shared preferences
         settings.edit().putString(ARG_LIST_KEY, output_string.toString()).commit();
     }
 
     private void update_trick_metadata() {
-        update_mLocation();
         // Update the meta data for the trick that is in the database
         Actions.update_trick(this, mId, mPr, mTimeTrained, mDescription, mName, "yes", mHits,
                 mMisses, mRecords, mPropType, mGoal, mSiteswap, mAnimation, mSource,
-                mDifficulty, mCapacity, mTutorial, getString(R.string.location_not_available));
+                mDifficulty, mCapacity, mTutorial);
     }
 
     private void insert_trick(String time, String record, String hits, String misses) {
-        update_mLocation();
         // Insert the trick into the database
         Actions.insert_trick(this, "0", time, mDescription, mName, "no",
                 hits, misses, record, mPropType, mGoal, mSiteswap, mAnimation,
-                mSource, mDifficulty, mCapacity, mTutorial, mLocation);
+                mSource, mDifficulty, mCapacity, mTutorial);
     }
     //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; END DB METHODS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ START LOCATION METHODS $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-    private void get_place_and_log() {
-        // This code is adapted from the sample on the developer website
-        @SuppressWarnings("MissingPermission") final Task<PlaceLikelihoodBufferResponse> placeResult =
-                mPlaceDetectionClient.getCurrentPlace(null);
-        placeResult.addOnCompleteListener
-                (new OnCompleteListener<PlaceLikelihoodBufferResponse>() {
-                    @Override
-                    public void onComplete(@NonNull Task<PlaceLikelihoodBufferResponse> task) {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            PlaceLikelihoodBufferResponse likelyPlaces = task.getResult();
-                            mLocation = "" + likelyPlaces.get(0).getPlace().getName();
-                            // Release the place likelihood buffer, to avoid memory leaks.
-                            likelyPlaces.release();
-                        }
-                    }
-                });
-    }
-
-    private void update_mLocation() {
-        // Check to make sure that mLocation actually has a value
-        if (mLocation == null) mLocation = getString(R.string.location_not_available);
-        if (mLocation.length() < 2) mLocation = getString(R.string.location_not_available);
-    }
-    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ END LOCATION METHODS $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 }

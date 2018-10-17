@@ -1,4 +1,4 @@
-package com.example.stephen.bigtoptricks.addTricks;
+package com.bigtop.stephen.bigtoptricks.addTricks;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -16,18 +16,18 @@ import android.widget.RemoteViews;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.stephen.bigtoptricks.R;
-import com.example.stephen.bigtoptricks.Trick;
-import com.example.stephen.bigtoptricks.TricksWidget;
-import com.example.stephen.bigtoptricks.data.Actions;
+import com.bigtop.stephen.bigtoptricks.R;
+import com.bigtop.stephen.bigtoptricks.Trick;
+import com.bigtop.stephen.bigtoptricks.TricksWidget;
+import com.bigtop.stephen.bigtoptricks.data.Actions;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static com.example.stephen.bigtoptricks.Training.ARG_LIST_KEY;
-import static com.example.stephen.bigtoptricks.Training.ARG_SP_LOG_KEY;
-import static com.example.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
-import static com.example.stephen.bigtoptricks.Training.mUnique;
+import static com.bigtop.stephen.bigtoptricks.Training.ARG_LIST_KEY;
+import static com.bigtop.stephen.bigtoptricks.Training.ARG_SP_LOG_KEY;
+import static com.bigtop.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
+import static com.bigtop.stephen.bigtoptricks.Training.mUnique;
 
 public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -150,7 +150,7 @@ public class AddTrick extends AppCompatActivity implements AdapterView.OnItemSel
             Actions.insert_trick(this, "0", "0", mDescription,
                     mName, "yes", "0", "0", "0", mPropFromSpinner, goal,
                     mSiteswap, mAnimation, mSource, mDifficulty, mCapacity,
-                    mTutorial, getString(R.string.location_not_available));
+                    mTutorial);
             // Inform the user that the trick has been added to the DB
             Toast.makeText(this, mName + " " + getString(R.string.into_db),
                     Toast.LENGTH_SHORT).show();

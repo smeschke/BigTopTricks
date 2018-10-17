@@ -1,4 +1,4 @@
-package com.example.stephen.bigtoptricks.data;
+package com.bigtop.stephen.bigtoptricks.data;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -6,7 +6,7 @@ import android.provider.BaseColumns;
 public class Contract {
 
     // Authority --> Which Content Provider to access?
-    private static final String AUTHORITY = "com.example.stephen.bigtoptricks";
+    private static final String AUTHORITY = "com.bigtop.stephen.bigtoptricks";
     // Base content URI
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
     // Paths for accessing data
@@ -34,6 +34,5 @@ public class Contract {
         public static final String COLUMN_TUTORIAL = "tutorial";
         public static final String COLUMN_DIFFICULTY = "difficulty";
         public static final String Column_ANIMATION = "animation";
-        public static final String COLUMN_LOCATION = "location";
     }
 }

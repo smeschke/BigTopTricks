@@ -1,4 +1,4 @@
-package com.example.stephen.bigtoptricks;
+package com.bigtop.stephen.bigtoptricks;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,10 +17,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.stephen.bigtoptricks.addTricks.Library;
-import com.example.stephen.bigtoptricks.data.Contract;
+import com.bigtop.stephen.bigtoptricks.addTricks.Library;
+import com.bigtop.stephen.bigtoptricks.data.Contract;
 
-import static com.example.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
+import static com.bigtop.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
 
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,

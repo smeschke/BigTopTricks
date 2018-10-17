@@ -1,4 +1,4 @@
-package com.example.stephen.bigtoptricks;
+package com.bigtop.stephen.bigtoptricks;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.example.stephen.bigtoptricks.data.Contract;
+import com.bigtop.stephen.bigtoptricks.data.Contract;
 
 import java.util.ArrayList;
 
@@ -56,39 +56,30 @@ public class DisplayData extends AppCompatActivity implements
     private void bindView(Cursor data) {
         //Create a list for names and a list for locations
         ArrayList<String> names = new ArrayList<>();
-        ArrayList<String> locations = new ArrayList<>();
 
         // Read all the data from the db
         StringBuilder completeDb = new StringBuilder(getString(R.string.complete_db_header) + "\n");
+        StringBuilder trick_names = new StringBuilder();
         int time_trained = 0;
         for (int i = 0; i < data.getCount(); i++) {
             data.moveToPosition(i);
             String name = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_TRICK_NAME));
             String timeTrained = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_TIME_TRAINED));
             String catchCount = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_RECORD));
-            String location = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_LOCATION));
 
             if (!names.contains(name)) names.add(name);
-            if (!locations.contains(location)) locations.add(location);
-
 
             time_trained = time_trained + Integer.parseInt(timeTrained);
 
-            if (!data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_IS_META)).equals("library")) {
+            if (data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_IS_META)).equals("no")) {
                 completeDb.append("\u2022 ").append(name).append(" - ").append(catchCount).append(" - ").append(timeTrained).append("\n");
+                trick_names.append("\u2022 ").append(name).append("\n");
             }
         }
-        StringBuilder trick_names = new StringBuilder();
-        StringBuilder trick_locations = new StringBuilder();
-        for (int i = 0; i < names.size(); i++)
-            trick_names.append("\u2022 ").append(names.get(i)).append("\n");
-        for (int i = 0; i < locations.size(); i++)
-            trick_locations.append("\u2022 ").append(locations.get(i)).append("\n");
 
         // Create output string to display
         String output = "";
         output = output + getString(R.string.total_training_time) + " " + Integer.toString(time_trained) + "\n\n\n";
-        output = output + getString(R.string.juggling_places) + "\n\n" + trick_locations + "\n\n\n";
         output = output + getString(R.string.tricks_i_have_trained) + "\n\n" + trick_names + "\n\n\n";
         output = output + getString(R.string.complete_database) + "\n\n" + completeDb;
         TextView database_textview = findViewById(R.id.database_textview);

@@ -1,4 +1,4 @@
-package com.example.stephen.bigtoptricks.data;
+package com.bigtop.stephen.bigtoptricks.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 
 import java.util.Objects;
 
-import static com.example.stephen.bigtoptricks.data.Contract.listEntry.TABLE_NAME;
+import static com.bigtop.stephen.bigtoptricks.data.Contract.listEntry.TABLE_NAME;
 
 /*
 This is based on S09.05 - The Sunshine database lesson.

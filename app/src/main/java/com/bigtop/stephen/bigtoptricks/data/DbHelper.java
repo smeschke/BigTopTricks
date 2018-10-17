@@ -1,4 +1,4 @@
-package com.example.stephen.bigtoptricks.data;
+package com.bigtop.stephen.bigtoptricks.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,7 +8,7 @@ class DbHelper extends SQLiteOpenHelper {
 
     // Some of the code (like the onUpgrade method) is adapted from lesson T07.06 (guest list)
     private static final String DATABASE_NAME = "mydb.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,7 +34,6 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.listEntry.COLUMN_SOURCE + " TEXT NOT NULL, " +
                         Contract.listEntry.COLUMN_TUTORIAL + " TEXT NOT NULL, " +
                         Contract.listEntry.COLUMN_DIFFICULTY + " TEXT NOT NULL, " +
-                        Contract.listEntry.COLUMN_LOCATION + " TEXT NOT NULL, " +
                         Contract.listEntry.Column_ANIMATION + " TEXT NOT NULL, " +
                         Contract.listEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                         "); ";

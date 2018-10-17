@@ -1,4 +1,4 @@
-package com.example.stephen.bigtoptricks.addTricks;
+package com.bigtop.stephen.bigtoptricks.addTricks;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.stephen.bigtoptricks.R;
-import com.example.stephen.bigtoptricks.Trick;
-import com.example.stephen.bigtoptricks.data.Contract;
+import com.bigtop.stephen.bigtoptricks.R;
+import com.bigtop.stephen.bigtoptricks.Trick;
+import com.bigtop.stephen.bigtoptricks.data.Contract;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.stephen.bigtoptricks.addTricks;
+package com.bigtop.stephen.bigtoptricks.addTricks;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,11 +10,11 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.example.stephen.bigtoptricks.R;
-import com.example.stephen.bigtoptricks.Trick;
+import com.bigtop.stephen.bigtoptricks.R;
+import com.bigtop.stephen.bigtoptricks.Trick;
 
-import static com.example.stephen.bigtoptricks.Training.ARG_HIDE_ADD_BUTTON;
-import static com.example.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
+import static com.bigtop.stephen.bigtoptricks.Training.ARG_HIDE_ADD_BUTTON;
+import static com.bigtop.stephen.bigtoptricks.Training.ARG_TRICK_OBJECT;
 
 public class TrickDiscovery extends AppCompatActivity {
 

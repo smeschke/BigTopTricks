@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.stephen.bigtoptricks">
+    package="com.bigtop.stephen.bigtoptricks">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -13,17 +11,8 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-        <!--
-             The API key for Google Maps-based APIs.
-        -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCAZ_Nvi_ARh2cbms0y6SmHFsd0yHrYwk0" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.bigtop.stephen.bigtoptricks.MainActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,25 +21,25 @@
         </activity>
 
         <provider
-            android:name=".data.Provider"
-            android:authorities="com.example.stephen.bigtoptricks"
+            android:name="com.bigtop.stephen.bigtoptricks.data.Provider"
+            android:authorities="com.bigtop.stephen.bigtoptricks"
             android:exported="false" />
 
-        <activity android:name=".addTricks.AddTrick"
-            android:parentActivityName=".MainActivity"/>
+        <activity android:name="com.bigtop.stephen.bigtoptricks.addTricks.AddTrick"
+            android:parentActivityName="com.bigtop.stephen.bigtoptricks.MainActivity"/>
         <activity
-            android:name=".Training"
+            android:name="com.bigtop.stephen.bigtoptricks.Training"
             android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".DisplayData"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName="com.bigtop.stephen.bigtoptricks.MainActivity" />
+        <activity android:name="com.bigtop.stephen.bigtoptricks.DisplayData"
+            android:parentActivityName="com.bigtop.stephen.bigtoptricks.MainActivity"/>
         <activity
-            android:name=".addTricks.Library"
+            android:name="com.bigtop.stephen.bigtoptricks.addTricks.Library"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".addTricks.TrickDiscovery"
-            android:parentActivityName=".addTricks.Library"/>
-        <receiver android:name=".TricksWidget">
+            android:parentActivityName="com.bigtop.stephen.bigtoptricks.MainActivity"/>
+        <activity android:name="com.bigtop.stephen.bigtoptricks.addTricks.TrickDiscovery"
+            android:parentActivityName="com.bigtop.stephen.bigtoptricks.addTricks.Library"/>
+        <receiver android:name="com.bigtop.stephen.bigtoptricks.TricksWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

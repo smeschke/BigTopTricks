@@ -1,9 +1,9 @@
-package com.example.stephen.bigtoptricks.addTricks;
+package com.bigtop.stephen.bigtoptricks.addTricks;
 
 
 import android.util.Log;
 
-import com.example.stephen.bigtoptricks.Trick;
+import com.bigtop.stephen.bigtoptricks.Trick;
 
 import org.json.JSONArray;
 import org.json.JSONException;
