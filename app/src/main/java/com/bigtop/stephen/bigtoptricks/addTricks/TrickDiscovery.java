@@ -27,6 +27,8 @@ public class TrickDiscovery extends AppCompatActivity {
     private String mTutorial3;
     private String mTutorial4;
     private Trick mTrick;
+    private VideoView mAnimationVideoView;
+    private String mAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class TrickDiscovery extends AppCompatActivity {
         String mName = (mTrick).getName();
         String mSiteswap = mTrick.getSiteswap();
         String mSource = mTrick.getSource();
-        String mAnimation = mTrick.getAnimation();
+        mAnimation = mTrick.getAnimation();
         String tutorials = mTrick.getTutorial();
         String mDifficulty = mTrick.getDifficulty();
         String mCapacity = mTrick.getCapacity();
@@ -85,9 +87,6 @@ public class TrickDiscovery extends AppCompatActivity {
         TextView source = findViewById(R.id.discovery_source_text_view);
         source.setText(getString(R.string.source) + " " + mSource);
 
-
-
-
         TextView difficulty = findViewById(R.id.discovery_difficulty_text_view);
         difficulty.setText(getString(R.string.difficulty) + " " + mDifficulty);
 
@@ -97,13 +96,13 @@ public class TrickDiscovery extends AppCompatActivity {
             floatingActionButton.setVisibility(View.INVISIBLE);
         }
 
-        VideoView videoView = (VideoView) findViewById(R.id.discovery_animation);
+        mAnimationVideoView = (VideoView) findViewById(R.id.discovery_animation);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
-        videoView.getLayoutParams().width = width;
-        videoView.getLayoutParams().height = height;
+        mAnimationVideoView.getLayoutParams().width = width;
+        mAnimationVideoView.getLayoutParams().height = height;
 
         Log.d("LOG", "asdf resource id: " + R.raw.animation3_200);
 
@@ -114,9 +113,30 @@ public class TrickDiscovery extends AppCompatActivity {
         mAnimation = "animation" + mAnimation;
 
         Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + mAnimation);
-        videoView.setVideoURI(uri);
-        videoView.start();
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        mAnimationVideoView.setVideoURI(uri);
+        mAnimationVideoView.start();
+        mAnimationVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.setLooping(true);
+            }
+        });
+    }
+
+    // Restart the video if the user has come back from the 'add trick activivity'
+    @Override
+    public void onResume(){
+        super.onResume();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+        mAnimationVideoView.getLayoutParams().width = width;
+        mAnimationVideoView.getLayoutParams().height = height;
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + mAnimation);
+        mAnimationVideoView.setVideoURI(uri);
+        mAnimationVideoView.start();
+        mAnimationVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
                 mediaPlayer.setLooping(true);
