@@ -1,14 +1,18 @@
 package com.bigtop.stephen.bigtoptricks.addTricks;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.bigtop.stephen.bigtoptricks.R;
 import com.bigtop.stephen.bigtoptricks.Trick;
@@ -72,8 +76,8 @@ public class TrickDiscovery extends AppCompatActivity {
         title_text_view.setText(mName);
         TextView details_text_view = findViewById(R.id.discover_description_text_view);
         details_text_view.setText(Html.fromHtml(mDescription));
-        WebView wv = findViewById(R.id.discovery_animation);
-        wv.loadUrl(mAnimation);
+        //#WebView wv = findViewById(R.id.discovery_animation);
+        //#wv.loadUrl(mAnimation);
         TextView siteswap = findViewById(R.id.discovery_siteswap_text_view);
         siteswap.setText(getString(R.string.siteswap) + " " + mSiteswap);
         TextView capacity = findViewById(R.id.discovery_capacity_text_view);
@@ -92,6 +96,32 @@ public class TrickDiscovery extends AppCompatActivity {
             FloatingActionButton floatingActionButton = findViewById(R.id.floatingActionButton);
             floatingActionButton.setVisibility(View.INVISIBLE);
         }
+
+        VideoView videoView = (VideoView) findViewById(R.id.discovery_animation);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+        videoView.getLayoutParams().width = width;
+        videoView.getLayoutParams().height = height;
+
+        Log.d("LOG", "asdf resource id: " + R.raw.animation3_200);
+
+        mAnimation = mAnimation.substring(mAnimation.lastIndexOf("/")+1);
+        mAnimation = mAnimation.substring(0, mAnimation.length()-4);
+        mAnimation = mAnimation.toLowerCase();
+        mAnimation = mAnimation.replace("'", "");
+        mAnimation = "animation" + mAnimation;
+
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + mAnimation);
+        videoView.setVideoURI(uri);
+        videoView.start();
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.setLooping(true);
+            }
+        });
     }
 
     public void addTrick(View view) {
