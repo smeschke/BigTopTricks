@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -26,6 +24,7 @@ public class TrickDiscovery extends AppCompatActivity {
     private String mTutorial2;
     private String mTutorial3;
     private String mTutorial4;
+    private String mSource;
     private Trick mTrick;
     private VideoView mAnimationVideoView;
     private String mAnimation;
@@ -39,7 +38,7 @@ public class TrickDiscovery extends AppCompatActivity {
         mTrick = (getIntent().getExtras()).getParcelable(ARG_TRICK_OBJECT);
         String mName = (mTrick).getName();
         String mSiteswap = mTrick.getSiteswap();
-        String mSource = mTrick.getSource();
+        mSource = mTrick.getSource();
         mAnimation = mTrick.getAnimation();
         String tutorials = mTrick.getTutorial();
         String mDifficulty = mTrick.getDifficulty();
@@ -49,43 +48,42 @@ public class TrickDiscovery extends AppCompatActivity {
         // Parse the list of tutorials in to a list
         String[] tutorials_list = tutorials.split(",,,");
         if (tutorials_list.length > 0) {
+
             mTutorial1 = tutorials_list[0];
-            TextView tutorial1 = findViewById(R.id.discovery_tutorial_text_view1);
-            tutorial1.setVisibility(View.VISIBLE);
-            tutorial1.setText(getString(R.string.video) + " " + mTutorial1);
+            Log.d("LOG", "asdf tutorial: " + mTutorial1);
+            if (mTutorial1.length() > 3) {
+                TextView tutorial1 = findViewById(R.id.discovery_tutorial_text_view1);
+                tutorial1.setVisibility(View.VISIBLE);
+            }
         }
         if (tutorials_list.length > 1) {
             mTutorial2 = tutorials_list[1];
             TextView tutorial2 = findViewById(R.id.discovery_tutorial_text_view2);
             tutorial2.setVisibility(View.VISIBLE);
-            tutorial2.setText(mTutorial2);
+            //tutorial2.setText(mTutorial2);
         }
         if (tutorials_list.length > 2) {
             mTutorial3 = tutorials_list[2];
             TextView tutorial3 = findViewById(R.id.discovery_tutorial_text_view3);
             tutorial3.setVisibility(View.VISIBLE);
-            tutorial3.setText(mTutorial3);
         }
         if (tutorials_list.length > 3) {
             mTutorial4 = tutorials_list[3];
             TextView tutorial4 = findViewById(R.id.discovery_tutorial_text_view4);
             tutorial4.setVisibility(View.VISIBLE);
-            tutorial4.setText(mTutorial4);
         }
 
         // Set text views and web view
         TextView title_text_view = findViewById(R.id.discovery_title_text_view);
         title_text_view.setText(mName);
         TextView details_text_view = findViewById(R.id.discover_description_text_view);
-        details_text_view.setText(Html.fromHtml(mDescription));
+        details_text_view.setText(mDescription);
         //#WebView wv = findViewById(R.id.discovery_animation);
         //#wv.loadUrl(mAnimation);
         TextView siteswap = findViewById(R.id.discovery_siteswap_text_view);
         siteswap.setText(getString(R.string.siteswap) + " " + mSiteswap);
         TextView capacity = findViewById(R.id.discovery_capacity_text_view);
         capacity.setText(getString(R.string.capacity) + " " + mCapacity);
-        TextView source = findViewById(R.id.discovery_source_text_view);
-        source.setText(getString(R.string.source) + " " + mSource);
 
         TextView difficulty = findViewById(R.id.discovery_difficulty_text_view);
         difficulty.setText(getString(R.string.difficulty) + " " + mDifficulty);
@@ -97,20 +95,15 @@ public class TrickDiscovery extends AppCompatActivity {
         }
 
         mAnimationVideoView = (VideoView) findViewById(R.id.discovery_animation);
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
-        mAnimationVideoView.getLayoutParams().width = width;
-        mAnimationVideoView.getLayoutParams().height = height;
 
-        Log.d("LOG", "asdf resource id: " + R.raw.animation3_200);
-
-        mAnimation = mAnimation.substring(mAnimation.lastIndexOf("/")+1);
-        mAnimation = mAnimation.substring(0, mAnimation.length()-4);
+        // Parse the correct name of the .gif that is stored in /res/raw/
+        mAnimation = mAnimation.substring(mAnimation.lastIndexOf("/") + 1);
+        mAnimation = mAnimation.substring(0, mAnimation.length() - 4);
         mAnimation = mAnimation.toLowerCase();
         mAnimation = mAnimation.replace("'", "");
         mAnimation = "animation" + mAnimation;
+
+        Log.d("LOG", "asdf resource id: " + mAnimation);
 
         Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + mAnimation);
         mAnimationVideoView.setVideoURI(uri);
@@ -125,14 +118,8 @@ public class TrickDiscovery extends AppCompatActivity {
 
     // Restart the video if the user has come back from the 'add trick activivity'
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
-        mAnimationVideoView.getLayoutParams().width = width;
-        mAnimationVideoView.getLayoutParams().height = height;
         Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + mAnimation);
         mAnimationVideoView.setVideoURI(uri);
         mAnimationVideoView.start();
@@ -167,6 +154,11 @@ public class TrickDiscovery extends AppCompatActivity {
 
     public void toUrl4(View view) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mTutorial4));
+        startActivity(browserIntent);
+    }
+
+    public void toSource(View view) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mSource));
         startActivity(browserIntent);
     }
 }

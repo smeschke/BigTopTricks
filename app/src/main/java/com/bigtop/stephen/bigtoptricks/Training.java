@@ -74,9 +74,6 @@ public class Training extends AppCompatActivity {
         // Keep screen on while in training activity
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        // Request permission for fine location
-        ActivityCompat.requestPermissions(Training.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-
         // up navigation
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

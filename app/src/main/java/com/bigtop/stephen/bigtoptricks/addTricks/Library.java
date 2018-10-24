@@ -80,7 +80,7 @@ public class Library extends AppCompatActivity implements
         // Create url to list of tricks
         URL url = null;
         try {
-            url = new URL("https://raw.githubusercontent.com/smeschke/juggling/master/tricks.json");
+            url = new URL("deprecated");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

@@ -67,13 +67,14 @@ public class DisplayData extends AppCompatActivity implements
             String timeTrained = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_TIME_TRAINED));
             String catchCount = data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_RECORD));
 
-            if (!names.contains(name)) names.add(name);
-
             time_trained = time_trained + Integer.parseInt(timeTrained);
 
             if (data.getString(data.getColumnIndex(Contract.listEntry.COLUMN_IS_META)).equals("no")) {
                 completeDb.append("\u2022 ").append(name).append(" - ").append(catchCount).append(" - ").append(timeTrained).append("\n");
-                trick_names.append("\u2022 ").append(name).append("\n");
+                if (!names.contains(name)) {
+                    names.add(name);
+                    trick_names.append("\u2022 ").append(name).append("\n");
+                }
             }
         }
 
@@ -81,7 +82,7 @@ public class DisplayData extends AppCompatActivity implements
         String output = "";
         output = output + getString(R.string.total_training_time) + " " + Integer.toString(time_trained) + "\n\n\n";
         output = output + getString(R.string.tricks_i_have_trained) + "\n\n" + trick_names + "\n\n\n";
-        output = output + getString(R.string.complete_database) + "\n\n" + completeDb;
+        //output = output + getString(R.string.complete_database) + "\n\n" + completeDb;
         TextView database_textview = findViewById(R.id.database_textview);
         database_textview.setText(output);
     }
